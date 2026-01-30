@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import CRMSystem from '@/components/crm/CRMSystem';
@@ -33,45 +33,176 @@ import {
 const mockMonthlyTarget = {
   target: 5000000,
   completed: 3800000,
+  predicted: 4500000,
   gap: 1200000,
+  predictedGap: 500000,
   progress: 76
 };
 
 const mockYTDTarget = {
   target: 35000000,
   completed: 28000000,
+  predicted: 32000000,
   gap: 7000000,
+  predictedGap: 3000000,
   progress: 80
 };
 
-const mockChannelStats = {
-  totalChannels: 45,
-  activeChannels: 38,
-  newChannels: 7,
-  targetChannels: 50
+const mockCustomerStats = {
+  totalCustomers: 120,
+  activeCustomers: 95,
+  newCustomers: 18,
+  targetCustomers: 150
 };
 
-const mockTopChannels = [
-  { name: '南京雪濠洋环保科技有限公司', revenue: 850000, rank: 1 },
-  { name: '上海智慧园区科技有限公司', revenue: 720000, rank: 2 },
-  { name: '北京医疗器械有限公司', revenue: 580000, rank: 3 },
-  { name: '杭州智能制造科技有限公司', revenue: 450000, rank: 4 },
-  { name: '苏州环保工程有限公司', revenue: 380000, rank: 5 }
+const mockTopCustomers = [
+  { name: '南京雪濠洋环保科技有限公司', industry: '环保工程', amount: 850000, growth: 15 },
+  { name: '上海智慧园区科技有限公司', industry: '智慧园区', amount: 720000, growth: 22 },
+  { name: '北京医疗器械有限公司', industry: '医疗系统', amount: 580000, growth: 18 },
+  { name: '杭州智能制造科技有限公司', industry: '制造业', amount: 450000, growth: 12 },
+  { name: '苏州环保工程有限公司', industry: '环保工程', amount: 380000, growth: 8 }
 ];
 
 const mockSalesTrend = [
-  { month: '1月', target: 500, actual: 480 },
-  { month: '2月', target: 520, actual: 490 },
-  { month: '3月', target: 550, actual: 520 },
-  { month: '4月', target: 580, actual: 0 },
-  { month: '5月', target: 600, actual: 0 },
-  { month: '6月', target: 620, actual: 0 },
-  { month: '7月', target: 580, actual: 0 },
-  { month: '8月', target: 560, actual: 0 },
-  { month: '9月', target: 600, actual: 0 },
-  { month: '10月', target: 620, actual: 0 },
-  { month: '11月', target: 650, actual: 0 },
-  { month: '12月', target: 700, actual: 0 }
+  { month: '1月', target: 500, actual: 480, predicted: 490 },
+  { month: '2月', target: 520, actual: 490, predicted: 510 },
+  { month: '3月', target: 550, actual: 520, predicted: 540 },
+  { month: '4月', target: 580, actual: 0, predicted: 560 },
+  { month: '5月', target: 600, actual: 0, predicted: 580 },
+  { month: '6月', target: 620, actual: 0, predicted: 600 },
+  { month: '7月', target: 580, actual: 0, predicted: 560 },
+  { month: '8月', target: 560, actual: 0, predicted: 540 },
+  { month: '9月', target: 600, actual: 0, predicted: 580 },
+  { month: '10月', target: 620, actual: 0, predicted: 600 },
+  { month: '11月', target: 650, actual: 0, predicted: 630 },
+  { month: '12月', target: 700, actual: 0, predicted: 680 }
+];
+
+// 行业分布对比数据
+const mockIndustryAnalysis = [
+  {
+    industry: '制造业',
+    myValue: 29,
+    avgValue: 25,
+    diff: 4
+  },
+  {
+    industry: '医疗系统',
+    myValue: 21,
+    avgValue: 18,
+    diff: 3
+  },
+  {
+    industry: '教育机构',
+    myValue: 17,
+    avgValue: 15,
+    diff: 2
+  },
+  {
+    industry: '政府机关',
+    myValue: 12,
+    avgValue: 12,
+    diff: 0
+  },
+  {
+    industry: '园区运营',
+    myValue: 12,
+    avgValue: 14,
+    diff: -2
+  },
+  {
+    industry: '其他',
+    myValue: 8,
+    avgValue: 16,
+    diff: -8
+  }
+];
+
+// 项目预测分析数据
+const mockProjectForecast = [
+  {
+    period: '本月预测',
+    forecastAmount: 1500000,
+    confirmedAmount: 1200000,
+    pendingAmount: 300000,
+    projectCount: 5,
+    status: '进行中'
+  },
+  {
+    period: '下月预测',
+    forecastAmount: 2200000,
+    confirmedAmount: 1800000,
+    pendingAmount: 400000,
+    projectCount: 7,
+    status: '预测中'
+  },
+  {
+    period: '第三月预测',
+    forecastAmount: 2800000,
+    confirmedAmount: 2000000,
+    pendingAmount: 800000,
+    projectCount: 9,
+    status: '预测中'
+  }
+];
+
+// 当月预测项目清单
+const mockForecastProjects = [
+  {
+    id: 'PRJ202501001',
+    name: '某大型制造企业智能化改造项目',
+    customerName: '南京智能制造科技有限公司',
+    contactPerson: '张总',
+    phone: '138****1234',
+    forecastAmount: 500000,
+    probability: 85,
+    estimatedOrderDate: '2025-02-15',
+    status: '高概率'
+  },
+  {
+    id: 'PRJ202501002',
+    name: '医院信息化升级项目',
+    customerName: '北京医疗器械有限公司',
+    contactPerson: '李经理',
+    phone: '139****5678',
+    forecastAmount: 400000,
+    probability: 70,
+    estimatedOrderDate: '2025-02-20',
+    status: '中概率'
+  },
+  {
+    id: 'PRJ202501003',
+    name: '智慧园区能源管理系统',
+    customerName: '上海智慧园区科技有限公司',
+    contactPerson: '王总',
+    phone: '137****9012',
+    forecastAmount: 300000,
+    probability: 60,
+    estimatedOrderDate: '2025-02-25',
+    status: '中概率'
+  },
+  {
+    id: 'PRJ202501004',
+    name: '高校实验室设备采购',
+    customerName: '杭州师范大学',
+    contactPerson: '赵主任',
+    phone: '136****3456',
+    forecastAmount: 200000,
+    probability: 50,
+    estimatedOrderDate: '2025-02-28',
+    status: '低概率'
+  },
+  {
+    id: 'PRJ202501005',
+    name: '政府机关直饮水系统',
+    customerName: '南京市机关事务管理局',
+    contactPerson: '孙科长',
+    phone: '135****7890',
+    forecastAmount: 100000,
+    probability: 40,
+    estimatedOrderDate: '2025-03-05',
+    status: '低概率'
+  }
 ];
 
 export default function AOSPortal() {
@@ -244,7 +375,7 @@ export default function AOSPortal() {
                           {new Date().getFullYear()}年{new Date().getMonth() + 1}月
                         </h3>
                       </div>
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-slate-600 dark:text-slate-400">目标金额</span>
                           <span className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -258,9 +389,21 @@ export default function AOSPortal() {
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
+                          <span className="text-slate-600 dark:text-slate-400">预测</span>
+                          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                            ¥{(mockMonthlyTarget.predicted / 10000).toFixed(0)}万
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
                           <span className="text-slate-600 dark:text-slate-400">缺口</span>
                           <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
                             ¥{(mockMonthlyTarget.gap / 10000).toFixed(0)}万
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-600 dark:text-slate-400">预测缺口</span>
+                          <span className="text-2xl font-bold text-red-600 dark:text-red-400">
+                            ¥{(mockMonthlyTarget.predictedGap / 10000).toFixed(0)}万
                           </span>
                         </div>
                         <div className="pt-4 border-t border-purple-200 dark:border-purple-700">
@@ -297,7 +440,7 @@ export default function AOSPortal() {
                           {new Date().getFullYear()}年累计
                         </h3>
                       </div>
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-slate-600 dark:text-slate-400">目标金额</span>
                           <span className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -311,9 +454,21 @@ export default function AOSPortal() {
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
+                          <span className="text-slate-600 dark:text-slate-400">预测</span>
+                          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                            ¥{(mockYTDTarget.predicted / 10000).toFixed(0)}万
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
                           <span className="text-slate-600 dark:text-slate-400">缺口</span>
                           <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
                             ¥{(mockYTDTarget.gap / 10000).toFixed(0)}万
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-600 dark:text-slate-400">预测缺口</span>
+                          <span className="text-2xl font-bold text-red-600 dark:text-red-400">
+                            ¥{(mockYTDTarget.predictedGap / 10000).toFixed(0)}万
                           </span>
                         </div>
                         <div className="pt-4 border-t border-purple-200 dark:border-purple-700">
@@ -336,47 +491,47 @@ export default function AOSPortal() {
                 </Card>
               </div>
 
-              {/* 渠道统计 */}
+              {/* 客户开发情况 */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-purple-600" />
-                    渠道开发情况
+                    客户开发情况
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4 md:grid-cols-4">
                     <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-slate-600 dark:text-slate-400">总渠道数</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400">总客户数</span>
                         <Users className="h-4 w-4 text-slate-400" />
                       </div>
                       <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {mockChannelStats.totalChannels}
+                        {mockCustomerStats.totalCustomers}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        目标: {mockChannelStats.targetChannels}
+                        目标: {mockCustomerStats.targetCustomers}
                       </div>
                     </div>
                     <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-slate-600 dark:text-slate-400">活跃渠道</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400">活跃客户</span>
                         <CheckCircle2 className="h-4 w-4 text-green-500" />
                       </div>
                       <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                        {mockChannelStats.activeChannels}
+                        {mockCustomerStats.activeCustomers}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        活跃率: {((mockChannelStats.activeChannels / mockChannelStats.totalChannels) * 100).toFixed(0)}%
+                        活跃率: {((mockCustomerStats.activeCustomers / mockCustomerStats.totalCustomers) * 100).toFixed(0)}%
                       </div>
                     </div>
                     <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-slate-600 dark:text-slate-400">新增渠道</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400">新增客户</span>
                         <TrendingUp className="h-4 w-4 text-blue-500" />
                       </div>
                       <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        {mockChannelStats.newChannels}
+                        {mockCustomerStats.newCustomers}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         本月新增
@@ -388,7 +543,7 @@ export default function AOSPortal() {
                         <Target className="h-4 w-4 text-purple-500" />
                       </div>
                       <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                        {((mockChannelStats.totalChannels / mockChannelStats.targetChannels) * 100).toFixed(0)}%
+                        {((mockCustomerStats.totalCustomers / mockCustomerStats.targetCustomers) * 100).toFixed(0)}%
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         进度
@@ -454,6 +609,17 @@ export default function AOSPortal() {
                           return `${index * 66 + 33},${y}`;
                         }).join(' ')}
                       />
+                      {/* 预测线 */}
+                      <polyline
+                        fill="none"
+                        className="stroke-blue-500"
+                        strokeWidth="2"
+                        strokeDasharray="8,4"
+                        points={mockSalesTrend.map((item, index) => {
+                          const y = 200 - (item.predicted / 700) * 160;
+                          return `${index * 66 + 33},${y}`;
+                        }).join(' ')}
+                      />
                       {/* 数据点 */}
                       {mockSalesTrend.map((item, index) => {
                         if (item.actual > 0) {
@@ -470,6 +636,22 @@ export default function AOSPortal() {
                         }
                         return null;
                       })}
+                      {/* 预测数据点 */}
+                      {mockSalesTrend.map((item, index) => {
+                        if (item.predicted > 0) {
+                          const y = 200 - (item.predicted / 700) * 160;
+                          return (
+                            <circle
+                              key={`pred-${index}`}
+                              cx={index * 66 + 33}
+                              cy={y}
+                              r="4"
+                              className="fill-blue-500"
+                            />
+                          );
+                        }
+                        return null;
+                      })}
                     </svg>
                   </div>
                   <div className="flex items-center justify-center gap-6 mt-4 text-sm">
@@ -481,40 +663,231 @@ export default function AOSPortal() {
                       <div className="w-4 h-0.5 bg-purple-600" />
                       <span className="text-slate-600 dark:text-slate-400">实际</span>
                     </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-0.5 bg-blue-500" />
+                      <span className="text-slate-600 dark:text-slate-400">预测</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* 优质渠道排行 */}
+              {/* 优质客户排行榜 */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Trophy className="h-5 w-5 text-purple-600" />
-                    优质渠道排行榜
+                    优质客户排行榜
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {mockTopChannels.map((channel) => (
+                    {mockTopCustomers.map((customer, index) => (
                       <div
-                        key={channel.rank}
+                        key={index}
                         className="flex items-center gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow"
                       >
                         <div className={`
                           flex items-center justify-center w-8 h-8 rounded-full font-bold text-white
-                          ${channel.rank <= 3 ? 'bg-purple-600' : 'bg-slate-400'}
+                          ${index < 3 ? 'bg-purple-600' : 'bg-slate-400'}
                         `}>
-                          {channel.rank}
+                          {index + 1}
                         </div>
                         <div className="flex-1">
                           <div className="font-semibold text-slate-900 dark:text-white">
-                            {channel.name}
+                            {customer.name}
+                          </div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                            {customer.industry}
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
-                            ¥{(channel.revenue / 10000).toFixed(0)}万
+                            ¥{(customer.amount / 10000).toFixed(0)}万
                           </div>
+                          <div className="text-xs text-green-600 dark:text-green-400">
+                            +{customer.growth}%
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* 新增模块区域 */}
+            <div className="grid gap-6 lg:grid-cols-3">
+              {/* 行业分布对比 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <PieChart className="h-5 w-5 text-purple-600" />
+                    行业分布对比
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    与同区域平均值对比
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {mockIndustryAnalysis.map((item, index) => (
+                      <div key={index}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-slate-900 dark:text-white">
+                            {item.industry}
+                          </span>
+                          <span className={`text-sm font-semibold ${
+                            item.diff >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                          }`}>
+                            {item.diff >= 0 ? '+' : ''}{item.diff.toFixed(1)}%
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-600 dark:text-slate-400 w-12">我的</span>
+                            <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-purple-600 rounded-full"
+                                style={{ width: `${item.myValue}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-slate-600 dark:text-slate-400 w-10 text-right">
+                              {item.myValue}%
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-600 dark:text-slate-400 w-12">平均</span>
+                            <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-slate-400 rounded-full"
+                                style={{ width: `${item.avgValue}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-slate-600 dark:text-slate-400 w-10 text-right">
+                              {item.avgValue}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 项目预测分析 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-purple-600" />
+                    项目预测分析
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    当月及未来三个月预测
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {mockProjectForecast.map((item, index) => (
+                      <div
+                        key={index}
+                        className="rounded-lg border border-slate-200 dark:border-slate-700 p-4 hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-semibold text-slate-900 dark:text-white">
+                            {item.period}
+                          </h4>
+                          <span className={`text-sm font-bold ${
+                            item.period === '本月' ? 'text-purple-600 dark:text-purple-400' : 'text-slate-600 dark:text-slate-400'
+                          }`}>
+                            ¥{(item.forecastAmount / 10000).toFixed(0)}万
+                          </span>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-600 dark:text-slate-400">已确认</span>
+                            <span className="font-semibold text-green-600 dark:text-green-400">
+                              ¥{(item.confirmedAmount / 10000).toFixed(0)}万
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-600 dark:text-slate-400">待确认</span>
+                            <span className="font-semibold text-orange-600 dark:text-orange-400">
+                              ¥{(item.pendingAmount / 10000).toFixed(0)}万
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-600 dark:text-slate-400">项目数</span>
+                            <span className="font-semibold text-slate-900 dark:text-white">
+                              {item.projectCount}个
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 当月预测项目清单 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-purple-600" />
+                    当月预测项目清单
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    高概率项目预计下单
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {mockForecastProjects.map((project) => (
+                      <div
+                        key={project.id}
+                        className="rounded-lg border border-slate-200 dark:border-slate-700 p-4 hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-sm text-slate-900 dark:text-white mb-1">
+                              {project.name}
+                            </h4>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">
+                              {project.customerName}
+                            </div>
+                          </div>
+                          <div className="text-right ml-2">
+                            <div className="text-sm font-bold text-purple-600 dark:text-purple-400">
+                              ¥{(project.forecastAmount / 10000).toFixed(0)}万
+                            </div>
+                            <div className="text-xs text-slate-500 dark:text-slate-400">
+                              {project.estimatedOrderDate}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                          <div className="flex items-center gap-4 text-xs">
+                            <span className="text-slate-600 dark:text-slate-400">
+                              <span className="font-medium">{project.contactPerson}</span>
+                              <span className="mx-1">|</span>
+                              {project.phone}
+                            </span>
+                            <span className={`font-semibold ${
+                              project.probability >= 70 ? 'text-green-600 dark:text-green-400' :
+                              project.probability >= 50 ? 'text-orange-600 dark:text-orange-400' :
+                              'text-red-600 dark:text-red-400'
+                            }`}>
+                              {project.probability}%概率
+                            </span>
+                          </div>
+                          <button
+                            className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white text-xs font-medium rounded-md transition-colors"
+                            onClick={() => {
+                              // 一键联系功能
+                              window.open(`tel:${project.phone.replace(/\*/g, '')}`);
+                            }}
+                          >
+                            一键联系
+                          </button>
                         </div>
                       </div>
                     ))}
