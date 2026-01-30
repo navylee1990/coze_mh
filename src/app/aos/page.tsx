@@ -36,6 +36,7 @@ const mockMonthlyTarget = {
   predicted: 4500000,
   gap: 1200000,
   predictedGap: 500000,
+  pending: 700000, // 待完成：预测 - 已完成
   progress: 76
 };
 
@@ -61,6 +62,16 @@ const mockRegionalCustomerAvg = {
   activeCustomers: 108,
   newCustomers: 22,
   targetCustomers: 150
+};
+
+// 订单状态数据
+const mockOrderStatus = {
+  pendingReview: 5,      // 待审核
+  reviewing: 3,          // 审核中
+  approved: 12,          // 已审核
+  ordered: 8,            // 已下单
+  delivered: 6,          // 已交付
+  total: 34
 };
 
 const mockTopCustomers = [
@@ -443,7 +454,7 @@ export default function AOSPortal() {
                       </div>
 
                       {/* 指标数据 */}
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-3 gap-3">
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
                           <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">目标</div>
                           <div className="text-lg font-bold text-slate-900 dark:text-white">
@@ -463,6 +474,12 @@ export default function AOSPortal() {
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">待完成</div>
+                          <div className="text-lg font-bold text-orange-600 dark:text-orange-400">
+                            ¥{(mockMonthlyTarget.pending / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="col-span-2 text-center p-3 rounded-lg bg-red-50 dark:bg-red-900/20">
                           <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">预测缺口</div>
                           <div className="text-lg font-bold text-red-600 dark:text-red-400">
                             ¥{(mockMonthlyTarget.predictedGap / 10000).toFixed(0)}万
@@ -572,6 +589,117 @@ export default function AOSPortal() {
                   </CardContent>
                 </Card>
               </div>
+
+              {/* 订单状态情况 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ShoppingCart className="h-5 w-5 text-purple-600" />
+                    订单状态情况
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+                    <div className="rounded-lg bg-orange-50 dark:bg-orange-900/20 p-4 border border-orange-200 dark:border-orange-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-slate-600 dark:text-slate-400">待审核</span>
+                        <Badge className="bg-orange-600 text-white">紧急</Badge>
+                      </div>
+                      <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                        {mockOrderStatus.pendingReview}
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="mt-2 w-full text-xs"
+                        onClick={() => console.log('查看待审核订单明细')}
+                      >
+                        查明细
+                      </Button>
+                    </div>
+                    <div className="rounded-lg bg-blue-50 dark:bg-blue-900/20 p-4 border border-blue-200 dark:border-blue-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-slate-600 dark:text-slate-400">审核中</span>
+                        <Badge variant="outline" className="border-blue-300 text-blue-600 text-xs">进行中</Badge>
+                      </div>
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        {mockOrderStatus.reviewing}
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="mt-2 w-full text-xs"
+                        onClick={() => console.log('查看审核中订单明细')}
+                      >
+                        查明细
+                      </Button>
+                    </div>
+                    <div className="rounded-lg bg-green-50 dark:bg-green-900/20 p-4 border border-green-200 dark:border-green-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-slate-600 dark:text-slate-400">已审核</span>
+                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        {mockOrderStatus.approved}
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="mt-2 w-full text-xs"
+                        onClick={() => console.log('查看已审核订单明细')}
+                      >
+                        查明细
+                      </Button>
+                    </div>
+                    <div className="rounded-lg bg-purple-50 dark:bg-purple-900/20 p-4 border border-purple-200 dark:border-purple-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-slate-600 dark:text-slate-400">已下单</span>
+                        <DollarSign className="h-4 w-4 text-purple-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                        {mockOrderStatus.ordered}
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="mt-2 w-full text-xs"
+                        onClick={() => console.log('查看已下单订单明细')}
+                      >
+                        查明细
+                      </Button>
+                    </div>
+                    <div className="rounded-lg bg-teal-50 dark:bg-teal-900/20 p-4 border border-teal-200 dark:border-teal-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-slate-600 dark:text-slate-400">已交付</span>
+                        <CheckCircle2 className="h-4 w-4 text-teal-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                        {mockOrderStatus.delivered}
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="mt-2 w-full text-xs"
+                        onClick={() => console.log('查看已交付订单明细')}
+                      >
+                        查明细
+                      </Button>
+                    </div>
+                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-slate-600 dark:text-slate-400">总计</span>
+                        <ShoppingCart className="h-4 w-4 text-slate-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                        {mockOrderStatus.total}
+                      </div>
+                      <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 text-center">
+                        本月订单总数
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* 客户开发情况 */}
               <Card>
