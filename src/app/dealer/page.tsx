@@ -31,7 +31,8 @@ import {
   PieChart,
   Package,
   Building,
-  Trophy
+  Trophy,
+  User
 } from 'lucide-react';
 
 // 模拟数据
@@ -39,6 +40,12 @@ const mockMonthlyTarget = {
   target: 2000000,
   completed: 1250000,
   gap: 750000
+};
+
+const mockYTDTarget = {
+  target: 15000000,
+  completed: 8750000,
+  gap: 6250000
 };
 
 const mockReserveHealth = {
@@ -175,26 +182,26 @@ const mockExtensionQuota = {
 };
 
 const mockTopProducts = [
-  { rank: 1, name: '智能交互平板', sales: 128, revenue: 2560000, growth: '+23%' },
-  { rank: 2, name: '录播系统', sales: 96, revenue: 1920000, growth: '+18%' },
-  { rank: 3, name: '校园广播系统', sales: 85, revenue: 1275000, growth: '+15%' },
-  { rank: 4, name: '数字标牌', sales: 72, revenue: 1440000, growth: '+12%' },
-  { rank: 5, name: '智慧教室解决方案', sales: 64, revenue: 1920000, growth: '+28%' }
+  { rank: 1, name: 'AR75-E1', sales: 156, revenue: 3120000, growth: '+28%' },
+  { rank: 2, name: 'AR75-G1', sales: 134, revenue: 2680000, growth: '+24%' },
+  { rank: 3, name: 'BR75-EH5', sales: 118, revenue: 1770000, growth: '+19%' },
+  { rank: 4, name: 'BZR100-A102', sales: 95, revenue: 2850000, growth: '+16%' },
+  { rank: 5, name: 'BZR100-A3301', sales: 82, revenue: 2460000, growth: '+22%' }
 ];
 
 const mockIndustryAnalysis = [
-  { name: '幼教', count: 12, percentage: 14, color: 'bg-pink-500' },
-  { name: 'K12(小中高)', count: 28, percentage: 33, color: 'bg-blue-500' },
-  { name: '大中专院校', count: 18, percentage: 21, color: 'bg-indigo-500' },
-  { name: '医疗系统', count: 8, percentage: 9, color: 'bg-green-500' },
-  { name: '金融系统', count: 5, percentage: 6, color: 'bg-yellow-500' },
-  { name: '政府机关/事业单位', count: 6, percentage: 7, color: 'bg-purple-500' },
-  { name: '国央企业', count: 4, percentage: 5, color: 'bg-red-500' },
-  { name: '外资企业', count: 2, percentage: 2, color: 'bg-orange-500' },
-  { name: '民营企业', count: 8, percentage: 9, color: 'bg-teal-500' },
-  { name: '个人家用', count: 3, percentage: 4, color: 'bg-cyan-500' },
-  { name: '楼宇BOT', count: 2, percentage: 2, color: 'bg-violet-500' },
-  { name: '校园BOT', count: 4, percentage: 5, color: 'bg-rose-500' }
+  { name: '幼教', dealerCount: 12, dealerPercentage: 14, avgPercentage: 18, gap: -4, color: 'bg-pink-500' },
+  { name: 'K12(小中高)', dealerCount: 28, dealerPercentage: 33, avgPercentage: 28, gap: 5, color: 'bg-blue-500' },
+  { name: '大中专院校', dealerCount: 18, dealerPercentage: 21, avgPercentage: 22, gap: -1, color: 'bg-indigo-500' },
+  { name: '医疗系统', dealerCount: 8, dealerPercentage: 9, avgPercentage: 12, gap: -3, color: 'bg-green-500' },
+  { name: '金融系统', dealerCount: 5, dealerPercentage: 6, avgPercentage: 8, gap: -2, color: 'bg-yellow-500' },
+  { name: '政府机关/事业单位', dealerCount: 6, dealerPercentage: 7, avgPercentage: 9, gap: -2, color: 'bg-purple-500' },
+  { name: '国央企业', dealerCount: 4, dealerPercentage: 5, avgPercentage: 6, gap: -1, color: 'bg-red-500' },
+  { name: '外资企业', dealerCount: 2, dealerPercentage: 2, avgPercentage: 3, gap: -1, color: 'bg-orange-500' },
+  { name: '民营企业', dealerCount: 8, dealerPercentage: 9, avgPercentage: 15, gap: -6, color: 'bg-teal-500' },
+  { name: '个人家用', dealerCount: 3, dealerPercentage: 4, avgPercentage: 2, gap: 2, color: 'bg-cyan-500' },
+  { name: '楼宇BOT', dealerCount: 2, dealerPercentage: 2, avgPercentage: 4, gap: -2, color: 'bg-violet-500' },
+  { name: '校园BOT', dealerCount: 4, dealerPercentage: 5, avgPercentage: 7, gap: -2, color: 'bg-rose-500' }
 ];
 
 export default function DealerPortal() {
@@ -238,7 +245,9 @@ export default function DealerPortal() {
                 </div>
                 <div>
                   <h1 className="text-lg font-bold text-slate-900 dark:text-white">经销商门户</h1>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">北京科技有限公司</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    欢迎您 季晓东 · 南京雪濠洋环保科技有限公司（ZLX0008）
+                  </p>
                 </div>
               </div>
             </div>
@@ -248,7 +257,7 @@ export default function DealerPortal() {
                 3条新消息
               </Badge>
               <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-medium">
-                经
+                季
               </div>
             </div>
           </div>
@@ -352,6 +361,76 @@ export default function DealerPortal() {
                     </div>
                     <Progress
                       value={(mockMonthlyTarget.completed / mockMonthlyTarget.target) * 100}
+                      className="h-3"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* YTD目标完成情况 */}
+              <Card className="border-2 border-indigo-200 dark:border-indigo-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-indigo-600" />
+                    YTD目标完成情况
+                    <Badge variant="outline" className="ml-2">
+                      {new Date().getFullYear()}年度
+                    </Badge>
+                  </CardTitle>
+                  <CardDescription>年初至今累计销售目标完成进度</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6 md:grid-cols-3">
+                    {/* YTD目标 */}
+                    <div className="rounded-lg bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 dark:from-indigo-950 dark:to-indigo-900">
+                      <div className="mb-2 flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
+                          <Target className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">YTD目标</span>
+                      </div>
+                      <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                        ¥{(mockYTDTarget.target / 10000).toFixed(0)}万
+                      </p>
+                    </div>
+
+                    {/* YTD已完成 */}
+                    <div className="rounded-lg bg-gradient-to-br from-teal-50 to-teal-100 p-6 dark:from-teal-950 dark:to-teal-900">
+                      <div className="mb-2 flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600">
+                          <CheckCircle2 className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">YTD已完成</span>
+                      </div>
+                      <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                        ¥{(mockYTDTarget.completed / 10000).toFixed(0)}万
+                      </p>
+                    </div>
+
+                    {/* YTD缺口 */}
+                    <div className="rounded-lg bg-gradient-to-br from-amber-50 to-amber-100 p-6 dark:from-amber-950 dark:to-amber-900">
+                      <div className="mb-2 flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-600">
+                          <AlertCircle className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">YTD缺口</span>
+                      </div>
+                      <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                        ¥{(mockYTDTarget.gap / 10000).toFixed(0)}万
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 进度条 */}
+                  <div className="mt-6">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">完成进度</span>
+                      <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
+                        {Math.round((mockYTDTarget.completed / mockYTDTarget.target) * 100)}%
+                      </span>
+                    </div>
+                    <Progress
+                      value={(mockYTDTarget.completed / mockYTDTarget.target) * 100}
                       className="h-3"
                     />
                   </div>
@@ -540,42 +619,91 @@ export default function DealerPortal() {
                   </CardContent>
                 </Card>
 
-                {/* 行业分析 */}
+                {/* 行业分析 - 对比图表 */}
                 <Card className="border-2 border-indigo-200 dark:border-indigo-800">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <PieChart className="h-5 w-5 text-indigo-600" />
-                      行业分析
+                      行业分析对比
                     </CardTitle>
-                    <CardDescription>各行业项目分布统计</CardDescription>
+                    <CardDescription>经销商数据 vs 同规模经销商平均值</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                      {mockIndustryAnalysis.map((industry) => (
-                        <div
-                          key={industry.name}
-                          className="rounded-lg bg-slate-50 p-3 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                        >
-                          <div className="mb-2 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className={`h-3 w-3 rounded-full ${industry.color}`} />
-                              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                {industry.name}
-                              </span>
+                    <div className="space-y-3">
+                      {mockIndustryAnalysis.map((industry) => {
+                        const isAboveAvg = industry.gap >= 0;
+                        return (
+                          <div
+                            key={industry.name}
+                            className="rounded-lg bg-slate-50 p-4 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                          >
+                            <div className="mb-3 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className={`h-3 w-3 rounded-full ${industry.color}`} />
+                                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                  {industry.name}
+                                </span>
+                              </div>
+                              <Badge
+                                variant={isAboveAvg ? 'default' : 'secondary'}
+                                className={
+                                  isAboveAvg
+                                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                                    : 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
+                                }
+                              >
+                                {isAboveAvg ? '+' : ''}{industry.gap}%
+                              </Badge>
                             </div>
-                            <Badge variant="outline" className="text-xs">
-                              {industry.percentage}%
-                            </Badge>
+                            {/* 经销商数据条 */}
+                            <div className="mb-2">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-xs text-slate-600 dark:text-slate-400">
+                                  您的占比
+                                </span>
+                                <span className="text-xs font-bold text-slate-900 dark:text-white">
+                                  {industry.dealerPercentage}%
+                                </span>
+                              </div>
+                              <div className="h-3 rounded-full bg-slate-200 dark:bg-slate-700">
+                                <div
+                                  className={`h-3 rounded-full ${industry.color}`}
+                                  style={{ width: `${industry.dealerPercentage}%` }}
+                                />
+                              </div>
+                            </div>
+                            {/* 行业平均值条 */}
+                            <div>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-xs text-slate-600 dark:text-slate-400">
+                                  同规模经销商平均值
+                                </span>
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                                  {industry.avgPercentage}%
+                                </span>
+                              </div>
+                              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700">
+                                <div
+                                  className="h-2 rounded-full bg-slate-400 dark:bg-slate-600"
+                                  style={{ width: `${industry.avgPercentage}%` }}
+                                />
+                              </div>
+                            </div>
+                            {/* 努力空间提示 */}
+                            {!isAboveAvg && (
+                              <div className="mt-2 text-xs text-orange-600 dark:text-orange-400">
+                                💡 还有提升空间，建议加强{industry.name}行业拓展
+                              </div>
+                            )}
                           </div>
-                          <p className="text-lg font-bold text-slate-900 dark:text-white">{industry.count}个</p>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </CardContent>
                 </Card>
               </div>
 
-              {/* 近一月即将到期项目清单和待申请订单 */}
+              {/* 近一月即将到期项目清单和待申请订单项目 */}
               <div className="grid gap-6 lg:grid-cols-2">
                 {/* 近一月即将到期项目清单 */}
                 <Card>
@@ -632,12 +760,12 @@ export default function DealerPortal() {
                   </CardContent>
                 </Card>
 
-                {/* 待申请订单 */}
+                {/* 待申请订单项目 */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Package className="h-5 w-5 text-blue-600" />
-                      待申请订单
+                      待申请订单项目
                     </CardTitle>
                     <CardDescription>本月预测将下订单的项目清单</CardDescription>
                   </CardHeader>
@@ -828,7 +956,7 @@ function ExpiringProjectItem({
   );
 }
 
-// 待申请订单项组件
+// 待申请订单项目项组件
 function PendingOrderItem({ order }: { order: typeof mockPendingOrders[0] }) {
   return (
     <div className="flex items-center justify-between rounded-lg border p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
@@ -859,7 +987,7 @@ function PendingOrderItem({ order }: { order: typeof mockPendingOrders[0] }) {
         </div>
         <Button size="sm" variant="outline" className="gap-1">
           <Package className="h-3 w-3 mr-1" />
-          申请订单
+          去下单
         </Button>
       </div>
     </div>
