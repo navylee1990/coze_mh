@@ -10,6 +10,12 @@ import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
 import CRMSystem from '@/components/crm/CRMSystem';
 import {
+  CompanyInfoTab,
+  OperationGuideTab,
+  MarketInsightsTab,
+  RiskAnalysisTab
+} from '@/components/dealer/AdditionalTabs';
+import {
   Building2,
   ArrowLeft,
   Plus,
@@ -35,7 +41,10 @@ import {
   Trophy,
   User,
   LineChart as LineChartIcon,
-  Circle
+  Circle,
+  Newspaper,
+  BookOpen,
+  ShieldAlert
 } from 'lucide-react';
 
 // 模拟数据
@@ -288,6 +297,22 @@ export default function DealerPortal() {
             </TabsTrigger>
             <TabsTrigger value="crm" className="text-base px-6">
               商净CRM
+            </TabsTrigger>
+            <TabsTrigger value="company" className="text-base px-6">
+              <Newspaper className="mr-2 h-4 w-4" />
+              公司资讯
+            </TabsTrigger>
+            <TabsTrigger value="operation" className="text-base px-6">
+              <BookOpen className="mr-2 h-4 w-4" />
+              运营指南
+            </TabsTrigger>
+            <TabsTrigger value="market" className="text-base px-6">
+              <TrendingUp className="mr-2 h-4 w-4" />
+              市场洞察
+            </TabsTrigger>
+            <TabsTrigger value="risk" className="text-base px-6">
+              <ShieldAlert className="mr-2 h-4 w-4" />
+              风险分析
             </TabsTrigger>
           </TabsList>
 
@@ -820,6 +845,26 @@ export default function DealerPortal() {
           {/* 商净CRM */}
           <TabsContent value="crm">
             <CRMSystem showHeader={false} />
+          </TabsContent>
+
+          {/* 公司资讯 */}
+          <TabsContent value="company">
+            <CompanyInfoTab />
+          </TabsContent>
+
+          {/* 运营指南 */}
+          <TabsContent value="operation">
+            <OperationGuideTab />
+          </TabsContent>
+
+          {/* 市场洞察 */}
+          <TabsContent value="market">
+            <MarketInsightsTab />
+          </TabsContent>
+
+          {/* 风险分析 */}
+          <TabsContent value="risk">
+            <RiskAnalysisTab />
           </TabsContent>
         </Tabs>
       </main>
