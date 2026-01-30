@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -229,6 +229,54 @@ export default function DealerPortal() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedProjects, setSelectedProjects] = useState<Set<string>>(new Set());
 
+  // TAB配置
+  const tabs = [
+    {
+      value: 'dashboard',
+      number: 1,
+      title: '经营驾驶舱',
+      icon: BarChart3,
+      description: '数据看板与分析'
+    },
+    {
+      value: 'crm',
+      number: 2,
+      title: '商净CRM',
+      icon: FileText,
+      description: '客户关系管理'
+    },
+    {
+      value: 'company',
+      number: 3,
+      title: '公司资讯',
+      icon: Newspaper,
+      description: '新闻与案例'
+    },
+    {
+      value: 'operation',
+      number: 4,
+      title: '运营指南',
+      icon: BookOpen,
+      description: '政策与流程'
+    },
+    {
+      value: 'market',
+      number: 5,
+      title: '市场洞察',
+      icon: TrendingUp,
+      description: '趋势与机会'
+    },
+    {
+      value: 'risk',
+      number: 6,
+      title: '风险分析',
+      icon: ShieldAlert,
+      description: '风险监控'
+    }
+  ];
+
+  const currentTabIndex = tabs.findIndex(tab => tab.value === activeTab);
+
   const toggleProjectSelection = (projectId: string) => {
     const newSelected = new Set(selectedProjects);
     if (newSelected.has(projectId)) {
@@ -289,32 +337,84 @@ export default function DealerPortal() {
 
       {/* 主要内容 */}
       <main className="container mx-auto px-6 py-8">
-        {/* 标签页切换 */}
+        {/* 页面标题和导航 */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                {tabs[currentTabIndex]?.title}
+              </h1>
+              <p className="text-slate-600 dark:text-slate-400">
+                {tabs[currentTabIndex]?.description}
+              </p>
+            </div>
+            {/* 页面进度指示器 */}
+            <div className="flex items-center gap-3">
+              <div className="text-sm text-slate-500 dark:text-slate-400">
+                第 {currentTabIndex + 1} 页，共 {tabs.length} 页
+              </div>
+              <div className="flex gap-1">
+                {tabs.map((tab, index) => (
+                  <button
+                    key={tab.value}
+                    onClick={() => setActiveTab(tab.value)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === currentTabIndex
+                        ? 'bg-blue-600 w-6'
+                        : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 门户风格TAB导航 */}
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 p-2">
+            <div className="grid gap-2 md:grid-cols-3 lg:grid-cols-6">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.value;
+                return (
+                  <button
+                    key={tab.value}
+                    onClick={() => setActiveTab(tab.value)}
+                    className={`
+                      relative flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                      ${isActive
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
+                        : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }
+                    `}
+                  >
+                    {/* 数字标记 */}
+                    <span className={`
+                      flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold
+                      ${isActive
+                        ? 'bg-white/20 text-white'
+                        : 'bg-slate-200 dark:bg-slate-600 text-slate-600 dark:text-slate-300'
+                      }
+                    `}>
+                      {tab.number}
+                    </span>
+                    {/* 图标和标题 */}
+                    <Icon className="h-4 w-4 flex-shrink-0" />
+                    <span className="text-sm font-medium truncate">{tab.title}</span>
+                    {/* 激活状态指示器 */}
+                    {isActive && (
+                      <div className="absolute left-1/2 -translate-x-1/2 -bottom-2">
+                        <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* 标签页内容 */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-6 h-12">
-            <TabsTrigger value="dashboard" className="text-base px-6">
-              经营驾驶舱
-            </TabsTrigger>
-            <TabsTrigger value="crm" className="text-base px-6">
-              商净CRM
-            </TabsTrigger>
-            <TabsTrigger value="company" className="text-base px-6">
-              <Newspaper className="mr-2 h-4 w-4" />
-              公司资讯
-            </TabsTrigger>
-            <TabsTrigger value="operation" className="text-base px-6">
-              <BookOpen className="mr-2 h-4 w-4" />
-              运营指南
-            </TabsTrigger>
-            <TabsTrigger value="market" className="text-base px-6">
-              <TrendingUp className="mr-2 h-4 w-4" />
-              市场洞察
-            </TabsTrigger>
-            <TabsTrigger value="risk" className="text-base px-6">
-              <ShieldAlert className="mr-2 h-4 w-4" />
-              风险分析
-            </TabsTrigger>
-          </TabsList>
 
           {/* 经营驾驶舱 */}
           <TabsContent value="dashboard">
