@@ -119,7 +119,7 @@ export default function Home() {
 
               {/* 进入按钮 */}
               <Button
-                onClick={() => router.push('/aos-sales')}
+                onClick={() => router.push('/aos')}
                 className="w-full gap-2 bg-purple-600 hover:bg-purple-700"
                 size="lg"
               >
