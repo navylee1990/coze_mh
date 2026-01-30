@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import {
   Building2,
   ArrowLeft,
@@ -20,28 +21,58 @@ import {
   AlertCircle,
   DollarSign,
   ShoppingCart,
-  Upload
+  Upload,
+  Calendar,
+  Timer,
+  Zap,
+  ArrowUpRight,
+  Circle,
+  HelpCircle
 } from 'lucide-react';
 
 // 模拟数据
-const mockDashboard = {
-  totalProjects: 48,
-  activeProjects: 12,
-  pendingApprovals: 3,
-  totalRevenue: 2850000,
-  monthRevenue: 485000,
-  conversionRate: 35
+const mockMonthlyTarget = {
+  target: 2000000,
+  completed: 1250000,
+  gap: 750000
 };
 
-const mockProjects = [
+const mockReserveHealth = {
+  reserveTarget: 50,
+  reserveCompleted: 42,
+  reserveProgress: 84,
+  health: '良好',
+  expiredCount: 3,
+  expiringSoonCount: 5
+};
+
+const mockProjectDistribution = {
+  within3Months: 12,
+  months2To6: 15,
+  months6To12: 18,
+  months12To24: 8,
+  over24Months: 5
+};
+
+const mockSalesFunnel = [
+  { stage: '报备', count: 45, percentage: 100, color: 'bg-blue-500' },
+  { stage: '跟进中', count: 32, percentage: 71, color: 'bg-indigo-500' },
+  { stage: '报价中', count: 22, percentage: 49, color: 'bg-purple-500' },
+  { stage: '谈判中', count: 15, percentage: 33, color: 'bg-pink-500' },
+  { stage: '赢单', count: 8, percentage: 18, color: 'bg-green-500' }
+];
+
+const mockExpiringProjects = [
   {
     id: 'PRJ001',
     name: '某大型制造企业智能化改造项目',
-    stage: '跟进中',
-    probability: 60,
+    stage: '谈判中',
+    probability: 85,
     value: 850000,
-    createdAt: '2025-01-15',
-    aosManager: '张经理'
+    expiryDate: '2025-02-15',
+    daysRemaining: 16,
+    aosManager: '张经理',
+    hasExtension: false
   },
   {
     id: 'PRJ002',
@@ -49,26 +80,43 @@ const mockProjects = [
     stage: '报价中',
     probability: 75,
     value: 1200000,
-    createdAt: '2025-01-10',
-    aosManager: '李经理'
+    expiryDate: '2025-02-08',
+    daysRemaining: 9,
+    aosManager: '李经理',
+    hasExtension: true
   },
   {
     id: 'PRJ003',
     name: '医院信息化升级项目',
-    stage: '待审批',
-    probability: 40,
+    stage: '跟进中',
+    probability: 60,
     value: 650000,
-    createdAt: '2025-01-08',
-    aosManager: '王经理'
+    expiryDate: '2025-02-03',
+    daysRemaining: 4,
+    aosManager: '王经理',
+    hasExtension: false
   },
   {
     id: 'PRJ004',
     name: '高校实验室设备采购',
     stage: '谈判中',
-    probability: 85,
+    probability: 80,
     value: 420000,
-    createdAt: '2025-01-05',
-    aosManager: '赵经理'
+    expiryDate: '2025-01-31',
+    daysRemaining: 1,
+    aosManager: '赵经理',
+    hasExtension: false
+  },
+  {
+    id: 'PRJ005',
+    name: '金融中心安防系统',
+    stage: '报价中',
+    probability: 65,
+    value: 580000,
+    expiryDate: '2025-01-29',
+    daysRemaining: -1,
+    aosManager: '刘经理',
+    hasExtension: false
   }
 ];
 
@@ -90,6 +138,12 @@ const mockRequests = [
     amount: '¥1,200,000'
   }
 ];
+
+const mockExtensionQuota = {
+  totalQuota: 5000000,
+  usedQuota: 2800000,
+  availableQuota: 2200000
+};
 
 export default function DealerPortal() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -118,6 +172,27 @@ export default function DealerPortal() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              {/* 延期额度显示 */}
+              <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950 dark:to-blue-950 border-purple-200 dark:border-purple-800">
+                <CardContent className="px-4 py-2">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">延期额度</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-slate-500 dark:text-slate-500">
+                          额度池: ¥{(mockExtensionQuota.totalQuota / 10000).toFixed(0)}万
+                        </span>
+                        <span className="text-xs text-purple-600 dark:text-purple-400">
+                          / 已占用: ¥{(mockExtensionQuota.usedQuota / 10000).toFixed(0)}万
+                        </span>
+                      </div>
+                    </div>
+                    <Button size="sm" variant="outline" className="h-7 text-xs">
+                      申请延期
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
               <Badge variant="outline" className="gap-1">
                 <MessageSquare className="h-3 w-3" />
                 3条新消息
@@ -163,53 +238,226 @@ export default function DealerPortal() {
           {/* 数据看板 */}
           <TabsContent value="dashboard">
             <div className="grid gap-6">
-              {/* 统计卡片 */}
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <StatCard
-                  icon={<Target className="h-4 w-4" />}
-                  title="项目总数"
-                  value={mockDashboard.totalProjects}
-                  change="+12%"
-                  color="blue"
-                />
-                <StatCard
-                  icon={<Clock className="h-4 w-4" />}
-                  title="进行中项目"
-                  value={mockDashboard.activeProjects}
-                  change="+5%"
-                  color="purple"
-                />
-                <StatCard
-                  icon={<AlertCircle className="h-4 w-4" />}
-                  title="待审批"
-                  value={mockDashboard.pendingApprovals}
-                  change="0"
-                  color="orange"
-                />
-                <StatCard
-                  icon={<DollarSign className="h-4 w-4" />}
-                  title="本月营收"
-                  value={`¥${(mockDashboard.monthRevenue / 10000).toFixed(0)}万`}
-                  change="+23%"
-                  color="green"
-                />
-              </div>
+              {/* 当月任务完成情况仪表盘 */}
+              <Card className="border-2 border-blue-200 dark:border-blue-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="h-5 w-5 text-blue-600" />
+                    当月任务完成情况
+                    <Badge variant="outline" className="ml-2">
+                      {new Date().getFullYear()}年{new Date().getMonth() + 1}月
+                    </Badge>
+                  </CardTitle>
+                  <CardDescription>本月销售目标完成进度</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6 md:grid-cols-3">
+                    {/* 当月目标 */}
+                    <div className="rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 p-6 dark:from-blue-950 dark:to-blue-900">
+                      <div className="mb-2 flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
+                          <Target className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">当月目标</span>
+                      </div>
+                      <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                        ¥{(mockMonthlyTarget.target / 10000).toFixed(0)}万
+                      </p>
+                    </div>
 
-              {/* 最近项目和待处理申请 */}
+                    {/* 当月已完成 */}
+                    <div className="rounded-lg bg-gradient-to-br from-green-50 to-green-100 p-6 dark:from-green-950 dark:to-green-900">
+                      <div className="mb-2 flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600">
+                          <CheckCircle2 className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">当月已完成</span>
+                      </div>
+                      <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                        ¥{(mockMonthlyTarget.completed / 10000).toFixed(0)}万
+                      </p>
+                    </div>
+
+                    {/* 当月缺口 */}
+                    <div className="rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 p-6 dark:from-orange-950 dark:to-orange-900">
+                      <div className="mb-2 flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-600">
+                          <AlertCircle className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">当月缺口</span>
+                      </div>
+                      <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                        ¥{(mockMonthlyTarget.gap / 10000).toFixed(0)}万
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 进度条 */}
+                  <div className="mt-6">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">完成进度</span>
+                      <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                        {Math.round((mockMonthlyTarget.completed / mockMonthlyTarget.target) * 100)}%
+                      </span>
+                    </div>
+                    <Progress
+                      value={(mockMonthlyTarget.completed / mockMonthlyTarget.target) * 100}
+                      className="h-3"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 项目储备健康度 */}
+              <Card className="border-2 border-purple-200 dark:border-purple-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-purple-600" />
+                    项目储备健康度
+                  </CardTitle>
+                  <CardDescription>项目储备和周期分布分析</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-6 lg:grid-cols-3">
+                    {/* 汇总信息 */}
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                          <Zap className="h-4 w-4" />
+                          汇总信息
+                        </h4>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <span className="text-sm text-slate-600 dark:text-slate-400">储备目标数</span>
+                            <span className="text-lg font-bold text-slate-900 dark:text-white">
+                              {mockReserveHealth.reserveTarget}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <span className="text-sm text-slate-600 dark:text-slate-400">已储备数</span>
+                            <span className="text-lg font-bold text-slate-900 dark:text-white">
+                              {mockReserveHealth.reserveCompleted}
+                            </span>
+                          </div>
+                          <div className="rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <div className="mb-2 flex items-center justify-between">
+                              <span className="text-sm text-slate-600 dark:text-slate-400">储备完成进度</span>
+                              <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
+                                {mockReserveHealth.reserveProgress}%
+                              </span>
+                            </div>
+                            <Progress value={mockReserveHealth.reserveProgress} className="h-2" />
+                          </div>
+                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <span className="text-sm text-slate-600 dark:text-slate-400">健康度</span>
+                            <Badge
+                              variant={mockReserveHealth.health === '良好' ? 'default' : 'secondary'}
+                              className={
+                                mockReserveHealth.health === '良好'
+                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                                  : ''
+                              }
+                            >
+                              {mockReserveHealth.health}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <span className="text-sm text-slate-600 dark:text-slate-400">已到期项目</span>
+                            <span className="text-lg font-bold text-red-600 dark:text-red-400">
+                              {mockReserveHealth.expiredCount}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <span className="text-sm text-slate-600 dark:text-slate-400">即将到期（7日内）</span>
+                            <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
+                              {mockReserveHealth.expiringSoonCount}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 项目周期分布 */}
+                    <div>
+                      <h4 className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <Clock className="h-4 w-4" />
+                        项目周期分布
+                      </h4>
+                      <div className="space-y-3">
+                        {[
+                          { label: '3个月内', value: mockProjectDistribution.within3Months, color: 'bg-blue-500' },
+                          { label: '2-6个月', value: mockProjectDistribution.months2To6, color: 'bg-indigo-500' },
+                          { label: '6-12个月', value: mockProjectDistribution.months6To12, color: 'bg-purple-500' },
+                          { label: '12个月以上', value: mockProjectDistribution.months12To24, color: 'bg-pink-500' },
+                          { label: '24个月以上', value: mockProjectDistribution.over24Months, color: 'bg-slate-500' }
+                        ].map((item) => (
+                          <div key={item.label} className="rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <div className="mb-2 flex items-center justify-between">
+                              <span className="text-sm text-slate-600 dark:text-slate-400">{item.label}</span>
+                              <span className="text-sm font-bold text-slate-900 dark:text-white">{item.value}</span>
+                            </div>
+                            <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700">
+                              <div
+                                className={`h-2 rounded-full ${item.color}`}
+                                style={{
+                                  width: `${(item.value / mockReserveHealth.reserveCompleted) * 100}%`
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 销售漏斗 */}
+                    <div>
+                      <h4 className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <TrendingUp className="h-4 w-4" />
+                        销售漏斗
+                      </h4>
+                      <div className="space-y-3">
+                        {mockSalesFunnel.map((item, index) => (
+                          <div key={item.stage} className="rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
+                            <div className="mb-2 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className={`h-3 w-3 rounded-full ${item.color}`} />
+                                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                  {item.stage}
+                                </span>
+                              </div>
+                              <span className="text-sm font-bold text-slate-900 dark:text-white">
+                                {item.count} ({item.percentage}%)
+                              </span>
+                            </div>
+                            <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700">
+                              <div
+                                className={`h-2 rounded-full ${item.color}`}
+                                style={{ width: `${item.percentage}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 近一月即将到期项目清单和待处理申请 */}
               <div className="grid gap-6 lg:grid-cols-2">
-                {/* 最近项目 */}
+                {/* 近一月即将到期项目清单 */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
-                      最近项目
+                      <Calendar className="h-5 w-5 text-red-600" />
+                      近一月即将到期项目清单
                     </CardTitle>
-                    <CardDescription>您最近跟进的项目线索</CardDescription>
+                    <CardDescription>需要及时跟进即将到期的项目</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      {mockProjects.slice(0, 3).map((project) => (
-                        <ProjectItem key={project.id} project={project} />
+                    <div className="space-y-3">
+                      {mockExpiringProjects.map((project) => (
+                        <ExpiringProjectItem key={project.id} project={project} />
                       ))}
                     </div>
                   </CardContent>
@@ -233,25 +481,6 @@ export default function DealerPortal() {
                   </CardContent>
                 </Card>
               </div>
-
-              {/* 业绩趋势 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5" />
-                    业绩趋势
-                  </CardTitle>
-                  <CardDescription>近6个月的销售业绩变化</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex h-64 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                    <div className="text-center">
-                      <BarChart3 className="mx-auto h-12 w-12 mb-2 opacity-50" />
-                      <p className="text-sm">图表组件待集成</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </TabsContent>
 
@@ -272,7 +501,7 @@ export default function DealerPortal() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockProjects.map((project) => (
+                  {mockExpiringProjects.slice(0, 4).map((project) => (
                     <ProjectItem key={project.id} project={project} />
                   ))}
                 </div>
@@ -360,49 +589,68 @@ export default function DealerPortal() {
   );
 }
 
-// 统计卡片组件
-function StatCard({
-  icon,
-  title,
-  value,
-  change,
-  color
-}: {
-  icon: React.ReactNode;
-  title: string;
-  value: string | number;
-  change: string;
-  color: 'blue' | 'purple' | 'orange' | 'green';
-}) {
-  const colorClasses = {
-    blue: 'bg-blue-600',
-    purple: 'bg-purple-600',
-    orange: 'bg-orange-600',
-    green: 'bg-green-600'
-  };
+// 即将到期项目项组件
+function ExpiringProjectItem({ project }: { project: typeof mockExpiringProjects[0] }) {
+  const isExpired = project.daysRemaining <= 0;
+  const isUrgent = project.daysRemaining > 0 && project.daysRemaining <= 7;
 
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">{title}</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
-            {change !== '0' && (
-              <p className="mt-1 text-xs text-green-600 dark:text-green-400">{change} 较上月</p>
-            )}
-          </div>
-          <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${colorClasses[color]}`}>
-            <span className="text-white">{icon}</span>
-          </div>
+    <div className={`flex items-center justify-between rounded-lg border p-4 transition-colors ${
+      isExpired
+        ? 'border-red-300 bg-red-50 hover:bg-red-100 dark:border-red-900 dark:bg-red-950/50 dark:hover:bg-red-950'
+        : isUrgent
+        ? 'border-orange-300 bg-orange-50 hover:bg-orange-100 dark:border-orange-900 dark:bg-orange-950/50 dark:hover:bg-orange-950'
+        : 'hover:bg-slate-50 dark:hover:bg-slate-800'
+    }`}>
+      <div className="flex-1">
+        <div className="flex items-center gap-3 mb-1">
+          <h3 className="font-semibold text-slate-900 dark:text-white">{project.name}</h3>
+          <Badge variant="outline" className="text-xs">
+            {project.stage}
+          </Badge>
+          {isExpired && (
+            <Badge className="bg-red-600 text-white">已过期</Badge>
+          )}
+          {isUrgent && (
+            <Badge className="bg-orange-600 text-white">
+              <Timer className="h-3 w-3 mr-1" />
+              即将到期
+            </Badge>
+          )}
         </div>
-      </CardContent>
-    </Card>
+        <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+          <span>ID: {project.id}</span>
+          <span>AOS经理: {project.aosManager}</span>
+          <span className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            到期: {project.expiryDate}
+          </span>
+          <span className="flex items-center gap-1 font-semibold">
+            <Clock className="h-3 w-3" />
+            {isExpired ? '已逾期' : `剩余${project.daysRemaining}天`}
+          </span>
+        </div>
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="text-right">
+          <p className="text-lg font-bold text-slate-900 dark:text-white">
+            ¥{(project.value / 10000).toFixed(0)}万
+          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            成交率: <span className="font-semibold">{project.probability}%</span>
+          </p>
+        </div>
+        <Button size="sm" variant="outline" className="gap-1">
+          <ArrowUpRight className="h-3 w-3" />
+          申请延期
+        </Button>
+      </div>
+    </div>
   );
 }
 
 // 项目项组件
-function ProjectItem({ project }: { project: typeof mockProjects[0] }) {
+function ProjectItem({ project }: { project: typeof mockExpiringProjects[0] }) {
   const stageColors: Record<string, string> = {
     '跟进中': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
     '报价中': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
@@ -422,7 +670,6 @@ function ProjectItem({ project }: { project: typeof mockProjects[0] }) {
         <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
           <span>ID: {project.id}</span>
           <span>AOS经理: {project.aosManager}</span>
-          <span>创建: {project.createdAt}</span>
         </div>
       </div>
       <div className="text-right">
