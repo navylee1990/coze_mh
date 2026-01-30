@@ -403,25 +403,25 @@ export default function AOSPortal() {
                               className="stroke-slate-200 dark:stroke-slate-700"
                               strokeWidth="12"
                             />
-                            {/* 完成进度圆环 */}
+                            {/* 完成进度圆环 - 黑色 */}
                             <circle
                               cx="90"
                               cy="90"
                               r="80"
                               fill="none"
-                              className="stroke-purple-600"
+                              className="stroke-slate-900 dark:stroke-slate-300"
                               strokeWidth="12"
                               strokeLinecap="round"
                               transform="rotate(-90 90 90)"
                               strokeDasharray={`${(mockMonthlyTarget.progress / 100) * 502} 502`}
                             />
-                            {/* 预测进度圆环（内圈） */}
+                            {/* 预测进度圆环（内圈）- 红色如果有缺口 */}
                             <circle
                               cx="90"
                               cy="90"
                               r="65"
                               fill="none"
-                              className="stroke-blue-500"
+                              className={mockMonthlyTarget.predictedGap > 0 ? "stroke-red-600 dark:stroke-red-400" : "stroke-slate-900 dark:stroke-slate-300"}
                               strokeWidth="8"
                               strokeLinecap="round"
                               transform="rotate(-90 90 90)"
@@ -435,7 +435,7 @@ export default function AOSPortal() {
                             <div className="text-3xl font-bold text-slate-900 dark:text-white">
                               {mockMonthlyTarget.progress}%
                             </div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                            <div className="text-xs text-slate-900 dark:text-slate-300 mt-1">
                               完成进度
                             </div>
                           </div>
@@ -445,25 +445,25 @@ export default function AOSPortal() {
                       {/* 指标数据 */}
                       <div className="grid grid-cols-2 gap-3">
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">目标</div>
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">目标</div>
                           <div className="text-lg font-bold text-slate-900 dark:text-white">
                             ¥{(mockMonthlyTarget.target / 10000).toFixed(0)}万
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">已完成</div>
-                          <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">已完成</div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">
                             ¥{(mockMonthlyTarget.completed / 10000).toFixed(0)}万
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测</div>
-                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">预测</div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">
                             ¥{(mockMonthlyTarget.predicted / 10000).toFixed(0)}万
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测缺口</div>
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">预测缺口</div>
                           <div className="text-lg font-bold text-red-600 dark:text-red-400">
                             ¥{(mockMonthlyTarget.predictedGap / 10000).toFixed(0)}万
                           </div>
@@ -502,25 +502,25 @@ export default function AOSPortal() {
                               className="stroke-slate-200 dark:stroke-slate-700"
                               strokeWidth="12"
                             />
-                            {/* 完成进度圆环 */}
+                            {/* 完成进度圆环 - 黑色 */}
                             <circle
                               cx="90"
                               cy="90"
                               r="80"
                               fill="none"
-                              className="stroke-purple-600"
+                              className="stroke-slate-900 dark:stroke-slate-300"
                               strokeWidth="12"
                               strokeLinecap="round"
                               transform="rotate(-90 90 90)"
                               strokeDasharray={`${(mockYTDTarget.progress / 100) * 502} 502`}
                             />
-                            {/* 预测进度圆环（内圈） */}
+                            {/* 预测进度圆环（内圈）- 红色如果有缺口 */}
                             <circle
                               cx="90"
                               cy="90"
                               r="65"
                               fill="none"
-                              className="stroke-blue-500"
+                              className={mockYTDTarget.predictedGap > 0 ? "stroke-red-600 dark:stroke-red-400" : "stroke-slate-900 dark:stroke-slate-300"}
                               strokeWidth="8"
                               strokeLinecap="round"
                               transform="rotate(-90 90 90)"
@@ -534,7 +534,7 @@ export default function AOSPortal() {
                             <div className="text-3xl font-bold text-slate-900 dark:text-white">
                               {mockYTDTarget.progress}%
                             </div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                            <div className="text-xs text-slate-900 dark:text-slate-300 mt-1">
                               完成进度
                             </div>
                           </div>
@@ -544,25 +544,25 @@ export default function AOSPortal() {
                       {/* 指标数据 */}
                       <div className="grid grid-cols-2 gap-3">
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">目标</div>
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">目标</div>
                           <div className="text-lg font-bold text-slate-900 dark:text-white">
                             ¥{(mockYTDTarget.target / 10000).toFixed(0)}万
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">已完成</div>
-                          <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">已完成</div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">
                             ¥{(mockYTDTarget.completed / 10000).toFixed(0)}万
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测</div>
-                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">预测</div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">
                             ¥{(mockYTDTarget.predicted / 10000).toFixed(0)}万
                           </div>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
-                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测缺口</div>
+                          <div className="text-xs text-slate-900 dark:text-slate-300 mb-1">预测缺口</div>
                           <div className="text-lg font-bold text-red-600 dark:text-red-400">
                             ¥{(mockYTDTarget.predictedGap / 10000).toFixed(0)}万
                           </div>
