@@ -33,7 +33,8 @@ import {
   Building,
   Trophy,
   User,
-  LineChart
+  LineChart as LineChartIcon,
+  Circle
 } from 'lucide-react';
 
 // 模拟数据
@@ -191,12 +192,18 @@ const mockTopProducts = [
 ];
 
 const mockSalesTrend = [
-  { month: '1月', predicted: 180, actual: 165, percentage: 92 },
-  { month: '2月', predicted: 200, actual: 185, percentage: 93 },
-  { month: '3月', predicted: 220, actual: 0, percentage: 0 },
-  { month: '4月', predicted: 240, actual: 0, percentage: 0 },
-  { month: '5月', predicted: 250, actual: 0, percentage: 0 },
-  { month: '6月', predicted: 280, actual: 0, percentage: 0 }
+  { month: '1月', target: 200, actual: 165, predicted: 180 },
+  { month: '2月', target: 220, actual: 185, predicted: 200 },
+  { month: '3月', target: 250, actual: 0, predicted: 220 },
+  { month: '4月', target: 280, actual: 0, predicted: 240 },
+  { month: '5月', target: 300, actual: 0, predicted: 250 },
+  { month: '6月', target: 320, actual: 0, predicted: 280 },
+  { month: '7月', target: 300, actual: 0, predicted: 260 },
+  { month: '8月', target: 280, actual: 0, predicted: 240 },
+  { month: '9月', target: 320, actual: 0, predicted: 280 },
+  { month: '10月', target: 350, actual: 0, predicted: 300 },
+  { month: '11月', target: 380, actual: 0, predicted: 330 },
+  { month: '12月', target: 400, actual: 0, predicted: 350 }
 ];
 
 const mockIndustryAnalysis = [
@@ -229,6 +236,9 @@ export default function DealerPortal() {
       setSelectedProjects(new Set(mockExpiringProjects.map(p => p.id)));
     }
   };
+
+  // 计算图表数据
+  const maxValue = Math.max(...mockSalesTrend.map(d => Math.max(d.target, d.actual, d.predicted)));
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -431,59 +441,114 @@ export default function DealerPortal() {
                   </CardContent>
                 </Card>
 
-                {/* 销售趋势分析 */}
+                {/* 销售趋势分析 - 趋势线图 */}
                 <Card className="border-2 border-cyan-200 dark:border-cyan-800">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <LineChart className="h-5 w-5 text-cyan-600" />
+                      <LineChartIcon className="h-5 w-5 text-cyan-600" />
                       销售趋势分析
                     </CardTitle>
-                    <CardDescription>预测达成趋势显示</CardDescription>
+                    <CardDescription>1-12月目标、实际完成、预测趋势</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
-                      {mockSalesTrend.map((trend) => (
-                        <div key={trend.month} className="rounded-lg bg-slate-50 p-3 dark:bg-slate-800">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{trend.month}</span>
-                            <div className="flex items-center gap-3 text-xs">
-                              <span className="text-slate-600 dark:text-slate-400">
-                                预测: ¥{trend.predicted}万
-                              </span>
-                              {trend.actual > 0 && (
-                                <span className="text-slate-900 dark:text-white font-semibold">
-                                  实际: ¥{trend.actual}万
-                                </span>
-                              )}
-                            </div>
+                    {/* 图例 */}
+                    <div className="flex items-center gap-4 mb-4 text-xs">
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                        <span className="text-slate-700 dark:text-slate-300">目标线</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                        <span className="text-slate-700 dark:text-slate-300">实际完成</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-orange-500"></div>
+                        <span className="text-slate-700 dark:text-slate-300">预测线</span>
+                      </div>
+                    </div>
+
+                    {/* 趋势线图 */}
+                    <div className="relative h-64 w-full">
+                      {/* Y轴网格线和标签 */}
+                      <div className="absolute left-0 top-0 bottom-8 w-full flex flex-col justify-between text-xs text-slate-500 dark:text-slate-400">
+                        {[0, 100, 200, 300, 400, 500].map((value, index) => (
+                          <div key={value} className="relative w-full">
+                            <div className="absolute left-12 -top-2 right-0 border-t border-slate-200 dark:border-slate-700"></div>
+                            <span className="absolute left-0 -top-2">¥{value}万</span>
                           </div>
-                          <div className="h-6 rounded-full bg-slate-200 dark:bg-slate-700 relative">
-                            <div
-                              className={`h-6 rounded-full transition-all ${
-                                trend.actual > 0
-                                  ? trend.percentage >= 100
-                                    ? 'bg-green-500'
-                                    : 'bg-orange-500'
-                                  : 'bg-slate-400'
-                              }`}
-                              style={{ width: `${trend.actual > 0 ? Math.min(trend.percentage, 100) : 30}%` }}
-                            >
-                              <div className="h-full flex items-center justify-end px-2">
-                                {trend.actual > 0 && (
-                                  <span className="text-xs font-bold text-white">
-                                    {trend.percentage}%
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          {trend.actual === 0 && (
-                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                              尚未达成
-                            </p>
-                          )}
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+
+                      {/* 图表区域 */}
+                      <div className="absolute left-12 top-0 right-0 bottom-8">
+                        <svg className="w-full h-full" viewBox="0 0 588 256" preserveAspectRatio="none">
+                          {/* 目标线（蓝色） */}
+                          <polyline
+                            fill="none"
+                            stroke="rgb(59, 130, 246)"
+                            strokeWidth="2"
+                            strokeDasharray="5,5"
+                            points={mockSalesTrend.map((d, i) => `${i * 49},${256 - (d.target / maxValue) * 256}`).join(' ')}
+                          />
+
+                          {/* 实际完成线（绿色） */}
+                          <polyline
+                            fill="none"
+                            stroke="rgb(34, 197, 94)"
+                            strokeWidth="3"
+                            points={mockSalesTrend.map((d, i) => `${i * 49},${256 - (d.actual > 0 ? d.actual : 0) / maxValue * 256}`).join(' ')}
+                          />
+
+                          {/* 预测线（橙色） */}
+                          <polyline
+                            fill="none"
+                            stroke="rgb(249, 115, 22)"
+                            strokeWidth="2"
+                            strokeDasharray="3,3"
+                            points={mockSalesTrend.map((d, i) => `${i * 49},${256 - d.predicted / maxValue * 256}`).join(' ')}
+                          />
+
+                          {/* 目标线数据点 */}
+                          {mockSalesTrend.map((d, i) => (
+                            <Circle
+                              key={`target-${i}`}
+                              cx={i * 49}
+                              cy={256 - (d.target / maxValue) * 256}
+                              r={3}
+                              fill="rgb(59, 130, 246)"
+                            />
+                          ))}
+
+                          {/* 实际完成线数据点 */}
+                          {mockSalesTrend.filter(d => d.actual > 0).map((d, i) => (
+                            <Circle
+                              key={`actual-${i}`}
+                              cx={i * 49}
+                              cy={256 - d.actual / maxValue * 256}
+                              r={4}
+                              fill="rgb(34, 197, 94)"
+                            />
+                          ))}
+
+                          {/* 预测线数据点 */}
+                          {mockSalesTrend.filter((d, i) => i >= 1).map((d, i) => (
+                            <Circle
+                              key={`predicted-${i}`}
+                              cx={i * 49}
+                              cy={256 - d.predicted / maxValue * 256}
+                              r={3}
+                              fill="rgb(249, 115, 22)"
+                            />
+                          ))}
+                        </svg>
+                      </div>
+
+                      {/* X轴标签 */}
+                      <div className="absolute left-12 right-0 bottom-0 flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                        {mockSalesTrend.map((d, i) => (
+                          <span key={d.month} className="flex-1 text-center">{d.month}</span>
+                        ))}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -575,7 +640,7 @@ export default function DealerPortal() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6 lg:grid-cols-3">
-                    {/* 汇总信息 */}
+                    {/* 汇总信息 - 5行 */}
                     <div className="space-y-3">
                       <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <Zap className="h-4 w-4" />
@@ -591,17 +656,16 @@ export default function DealerPortal() {
                           <span className="text-lg font-bold text-slate-900 dark:text-white">{mockReserveHealth.reserveCompleted}</span>
                         </div>
                         <div className="rounded-lg bg-slate-50 p-2 dark:bg-slate-800">
-                          <div className="mb-1 flex items-center justify-between">
+                          <div className="flex items-center justify-between mb-1">
                             <span className="text-sm text-slate-600 dark:text-slate-400">储备完成进度</span>
                             <span className="text-sm font-bold text-purple-600 dark:text-purple-400">{mockReserveHealth.reserveProgress}%</span>
                           </div>
-                          <Progress value={mockReserveHealth.reserveProgress} className="h-2" />
-                        </div>
-                        <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2 dark:bg-slate-800">
-                          <span className="text-sm text-slate-600 dark:text-slate-400">健康度</span>
-                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                            {mockReserveHealth.health}
-                          </Badge>
+                          <div className="flex items-center justify-between mb-1">
+                            <Progress value={mockReserveHealth.reserveProgress} className="h-2" />
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-xs ml-2">
+                              {mockReserveHealth.health}
+                            </Badge>
+                          </div>
                         </div>
                         <div className="flex items-center justify-between rounded-lg bg-slate-50 p-2 dark:bg-slate-800">
                           <span className="text-sm text-slate-600 dark:text-slate-400">本周已关闭项目数</span>
