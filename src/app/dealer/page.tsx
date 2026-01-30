@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
+import CRMSystem from '@/components/crm/CRMSystem';
 import {
   Building2,
   ArrowLeft,
@@ -818,29 +819,7 @@ export default function DealerPortal() {
 
           {/* 商净CRM */}
           <TabsContent value="crm">
-            <Card>
-              <CardContent className="flex items-center justify-center py-20">
-                <div className="text-center space-y-4">
-                  <div className="flex h-20 w-20 mx-auto items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-                    <BarChart3 className="h-10 w-10 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                      商净CRM系统
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
-                      完整的客户关系管理系统，包含项目开发、办事大厅、销售订单、宣传物料、售后服务、IOT管理等模块
-                    </p>
-                    <Link href="/crm">
-                      <Button size="lg" className="gap-2">
-                        进入CRM系统
-                        <ArrowUpRight className="h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <CRMSystem showHeader={false} />
           </TabsContent>
         </Tabs>
       </main>
