@@ -55,6 +55,14 @@ const mockCustomerStats = {
   targetCustomers: 150
 };
 
+// 区域平均客户数据
+const mockRegionalCustomerAvg = {
+  totalCustomers: 135,
+  activeCustomers: 108,
+  newCustomers: 22,
+  targetCustomers: 150
+};
+
 const mockTopCustomers = [
   { name: '南京雪濠洋环保科技有限公司', industry: '环保工程', amount: 850000, growth: 15 },
   { name: '上海智慧园区科技有限公司', industry: '智慧园区', amount: 720000, growth: 22 },
@@ -145,6 +153,12 @@ const mockProjectForecast = [
     status: '预测中'
   }
 ];
+
+// 预测可靠性指标
+const mockForecastReliability = {
+  personal: 87.5, // 个人预测可靠性
+  regionalAverage: 82.3 // 区域平均预测可靠性
+};
 
 // 当月预测项目清单
 const mockForecastProjects = [
@@ -375,49 +389,83 @@ export default function AOSPortal() {
                           {new Date().getFullYear()}年{new Date().getMonth() + 1}月
                         </h3>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">目标金额</span>
-                          <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                            ¥{(mockMonthlyTarget.target / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">已完成</span>
-                          <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                            ¥{(mockMonthlyTarget.completed / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">预测</span>
-                          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                            ¥{(mockMonthlyTarget.predicted / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">缺口</span>
-                          <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                            ¥{(mockMonthlyTarget.gap / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">预测缺口</span>
-                          <span className="text-2xl font-bold text-red-600 dark:text-red-400">
-                            ¥{(mockMonthlyTarget.predictedGap / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="pt-4 border-t border-purple-200 dark:border-purple-700">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm text-slate-600 dark:text-slate-400">完成进度</span>
-                            <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                              {mockMonthlyTarget.progress}%
-                            </span>
-                          </div>
-                          <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-purple-600 to-purple-500 transition-all"
-                              style={{ width: `${mockMonthlyTarget.progress}%` }}
+                      
+                      {/* 仪表盘区域 */}
+                      <div className="flex justify-center mb-6">
+                        <div className="relative" style={{ width: '180px', height: '180px' }}>
+                          <svg className="w-full h-full" viewBox="0 0 180 180">
+                            {/* 背景圆环 */}
+                            <circle
+                              cx="90"
+                              cy="90"
+                              r="80"
+                              fill="none"
+                              className="stroke-slate-200 dark:stroke-slate-700"
+                              strokeWidth="12"
                             />
+                            {/* 完成进度圆环 */}
+                            <circle
+                              cx="90"
+                              cy="90"
+                              r="80"
+                              fill="none"
+                              className="stroke-purple-600"
+                              strokeWidth="12"
+                              strokeLinecap="round"
+                              transform="rotate(-90 90 90)"
+                              strokeDasharray={`${(mockMonthlyTarget.progress / 100) * 502} 502`}
+                            />
+                            {/* 预测进度圆环（内圈） */}
+                            <circle
+                              cx="90"
+                              cy="90"
+                              r="65"
+                              fill="none"
+                              className="stroke-blue-500"
+                              strokeWidth="8"
+                              strokeLinecap="round"
+                              transform="rotate(-90 90 90)"
+                              strokeDasharray={`${((mockMonthlyTarget.predicted / mockMonthlyTarget.target) * 100) / 100 * 408} 408`}
+                              strokeDashoffset="0"
+                              style={{ opacity: 0.7 }}
+                            />
+                          </svg>
+                          {/* 中心文字 */}
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                              {mockMonthlyTarget.progress}%
+                            </div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                              完成进度
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 指标数据 */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">目标</div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">
+                            ¥{(mockMonthlyTarget.target / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">已完成</div>
+                          <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                            ¥{(mockMonthlyTarget.completed / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测</div>
+                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                            ¥{(mockMonthlyTarget.predicted / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测缺口</div>
+                          <div className="text-lg font-bold text-red-600 dark:text-red-400">
+                            ¥{(mockMonthlyTarget.predictedGap / 10000).toFixed(0)}万
                           </div>
                         </div>
                       </div>
@@ -440,49 +488,83 @@ export default function AOSPortal() {
                           {new Date().getFullYear()}年累计
                         </h3>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">目标金额</span>
-                          <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                            ¥{(mockYTDTarget.target / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">已完成</span>
-                          <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                            ¥{(mockYTDTarget.completed / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">预测</span>
-                          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                            ¥{(mockYTDTarget.predicted / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">缺口</span>
-                          <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                            ¥{(mockYTDTarget.gap / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">预测缺口</span>
-                          <span className="text-2xl font-bold text-red-600 dark:text-red-400">
-                            ¥{(mockYTDTarget.predictedGap / 10000).toFixed(0)}万
-                          </span>
-                        </div>
-                        <div className="pt-4 border-t border-purple-200 dark:border-purple-700">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm text-slate-600 dark:text-slate-400">完成进度</span>
-                            <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                              {mockYTDTarget.progress}%
-                            </span>
-                          </div>
-                          <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-purple-600 to-purple-500 transition-all"
-                              style={{ width: `${mockYTDTarget.progress}%` }}
+                      
+                      {/* 仪表盘区域 */}
+                      <div className="flex justify-center mb-6">
+                        <div className="relative" style={{ width: '180px', height: '180px' }}>
+                          <svg className="w-full h-full" viewBox="0 0 180 180">
+                            {/* 背景圆环 */}
+                            <circle
+                              cx="90"
+                              cy="90"
+                              r="80"
+                              fill="none"
+                              className="stroke-slate-200 dark:stroke-slate-700"
+                              strokeWidth="12"
                             />
+                            {/* 完成进度圆环 */}
+                            <circle
+                              cx="90"
+                              cy="90"
+                              r="80"
+                              fill="none"
+                              className="stroke-purple-600"
+                              strokeWidth="12"
+                              strokeLinecap="round"
+                              transform="rotate(-90 90 90)"
+                              strokeDasharray={`${(mockYTDTarget.progress / 100) * 502} 502`}
+                            />
+                            {/* 预测进度圆环（内圈） */}
+                            <circle
+                              cx="90"
+                              cy="90"
+                              r="65"
+                              fill="none"
+                              className="stroke-blue-500"
+                              strokeWidth="8"
+                              strokeLinecap="round"
+                              transform="rotate(-90 90 90)"
+                              strokeDasharray={`${((mockYTDTarget.predicted / mockYTDTarget.target) * 100) / 100 * 408} 408`}
+                              strokeDashoffset="0"
+                              style={{ opacity: 0.7 }}
+                            />
+                          </svg>
+                          {/* 中心文字 */}
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                              {mockYTDTarget.progress}%
+                            </div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                              完成进度
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 指标数据 */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">目标</div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">
+                            ¥{(mockYTDTarget.target / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">已完成</div>
+                          <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                            ¥{(mockYTDTarget.completed / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测</div>
+                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                            ¥{(mockYTDTarget.predicted / 10000).toFixed(0)}万
+                          </div>
+                        </div>
+                        <div className="text-center p-3 rounded-lg bg-white/50 dark:bg-white/10">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测缺口</div>
+                          <div className="text-lg font-bold text-red-600 dark:text-red-400">
+                            ¥{(mockYTDTarget.predictedGap / 10000).toFixed(0)}万
                           </div>
                         </div>
                       </div>
@@ -511,6 +593,9 @@ export default function AOSPortal() {
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         目标: {mockCustomerStats.targetCustomers}
+                        <span className="ml-2 text-xs text-slate-400">
+                          (区域平均: {mockRegionalCustomerAvg.totalCustomers})
+                        </span>
                       </div>
                     </div>
                     <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4">
@@ -523,6 +608,9 @@ export default function AOSPortal() {
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         活跃率: {((mockCustomerStats.activeCustomers / mockCustomerStats.totalCustomers) * 100).toFixed(0)}%
+                        <span className="ml-2 text-xs text-slate-400">
+                          (区域平均: {((mockRegionalCustomerAvg.activeCustomers / mockRegionalCustomerAvg.totalCustomers) * 100).toFixed(0)}%)
+                        </span>
                       </div>
                     </div>
                     <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4">
@@ -535,6 +623,9 @@ export default function AOSPortal() {
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         本月新增
+                        <span className="ml-2 text-xs text-slate-400">
+                          (区域平均: {mockRegionalCustomerAvg.newCustomers})
+                        </span>
                       </div>
                     </div>
                     <div className="rounded-lg bg-slate-50 dark:bg-slate-800 p-4">
@@ -547,6 +638,9 @@ export default function AOSPortal() {
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                         进度
+                        <span className="ml-2 text-xs text-slate-400">
+                          (区域平均: {((mockRegionalCustomerAvg.totalCustomers / mockRegionalCustomerAvg.targetCustomers) * 100).toFixed(0)}%)
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -708,6 +802,28 @@ export default function AOSPortal() {
                             +{customer.growth}%
                           </div>
                         </div>
+                        <button
+                          className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-md transition-colors flex items-center gap-1.5"
+                          onClick={() => {
+                            // 1on1 功能
+                            console.log(`启动与 ${customer.name} 的 1on1 会议`);
+                          }}
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                            />
+                          </svg>
+                          1on1
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -784,6 +900,22 @@ export default function AOSPortal() {
                   <CardDescription className="text-sm">
                     当月及未来三个月预测
                   </CardDescription>
+                  <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="text-slate-600 dark:text-slate-400">个人预测可靠性</span>
+                        <Badge className="bg-purple-600 text-white">
+                          {mockForecastReliability.personal}%
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-slate-600 dark:text-slate-400">区域平均</span>
+                        <Badge variant="outline" className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300">
+                          {mockForecastReliability.regionalAverage}%
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
