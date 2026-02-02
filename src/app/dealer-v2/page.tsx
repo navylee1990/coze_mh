@@ -258,7 +258,7 @@ const mockKeyMetrics = {
   conversionRate: 32,
   pendingTasks: 15,
   monthlyForecast: 6,
-  unreadMessages: 3,
+  unreadMessages: 5,
   satisfaction: 92,
   pendingFollowUps: 23
 };
@@ -267,10 +267,10 @@ const mockKeyMetrics = {
 const mockMessages = [
   {
     id: 1,
-    type: 'warning',
-    title: '项目即将到期提醒',
-    content: '南京智能制造科技项目合同将于30天后到期，请及时跟进续约事宜',
-    time: '2025-01-28 09:30',
+    type: 'info',
+    title: '新政策发布通知',
+    content: '经销商返利政策已更新，新政策自2026年2月1日起生效，请及时了解详情',
+    time: '2026-02-02 10:00',
     priority: 'high'
   },
   {
@@ -278,15 +278,31 @@ const mockMessages = [
     type: 'info',
     title: '新产品发布通知',
     content: 'AR75-MAX系列产品已正式发布，利润率高达35%，欢迎了解详情',
-    time: '2025-01-28 08:15',
+    time: '2026-02-02 08:15',
     priority: 'medium'
   },
   {
     id: 3,
     type: 'success',
-    title: '订单审批通过',
-    content: '上海智慧园区科技采购订单已审批通过，金额120万元',
-    time: '2025-01-27 16:45',
+    title: '项目审批通过通知',
+    content: '南京智能制造科技采购订单已审批通过，金额98万元',
+    time: '2026-02-01 16:45',
+    priority: 'medium'
+  },
+  {
+    id: 4,
+    type: 'warning',
+    title: '项目即将到期通知',
+    content: '南京智能制造科技项目合同将于30天后到期，请及时跟进续约事宜',
+    time: '2026-01-28 09:30',
+    priority: 'high'
+  },
+  {
+    id: 5,
+    type: 'info',
+    title: '通知参加产品培训',
+    content: '请于2月10日参加AR75-MAX产品线上培训会议',
+    time: '2026-01-27 14:00',
     priority: 'low'
   }
 ];
@@ -295,37 +311,44 @@ const mockMessages = [
 const mockTodos = [
   {
     id: 1,
-    title: '提交项目报备',
-    description: '北京某医院水处理项目需要完成报备手续',
-    deadline: '2025-01-30',
+    title: '确认本月预测待下订单项目',
+    description: '南京智能制造科技（预测50万）、上海智慧园区（预测40万）需确认下单时间',
+    deadline: '2026-02-05',
     priority: 'high'
   },
   {
     id: 2,
-    title: '跟进客户谈判',
-    description: '深圳金融中心安防项目进入最终谈判阶段',
-    deadline: '2025-01-31',
+    title: '跟进关键项目进展反馈',
+    description: '深圳金融中心安防项目需向销售工程师反馈：客户已确认技术方案，等待预算审批',
+    deadline: '2026-02-03',
     priority: 'high'
   },
   {
     id: 3,
-    title: '准备技术方案',
-    description: '杭州产业园区项目需要补充技术方案',
-    deadline: '2025-02-02',
+    title: '项目技术支持设计确认',
+    description: '杭州产业园区水处理项目技术方案已完成设计，需与销售工程师确认方案细节',
+    deadline: '2026-02-04',
     priority: 'medium'
   },
   {
     id: 4,
-    title: '完成月度预测反馈',
-    description: '6个预测事项需要完成反馈',
-    deadline: '2025-01-31',
+    title: '新项目技术评估支持',
+    description: '北京某医院水处理项目需协助进行技术评估，已提供初步建议',
+    deadline: '2026-02-06',
     priority: 'medium'
   },
   {
     id: 5,
-    title: '参加产品培训',
-    description: '新产品AR75-MAX线上培训',
-    deadline: '2025-02-05',
+    title: '月度预测事项整理',
+    description: '整理2月份预测项目清单，包括预测金额、预计签约时间等信息',
+    deadline: '2026-02-10',
+    priority: 'medium'
+  },
+  {
+    id: 6,
+    title: '老客户回访记录提交',
+    description: '完成南京环保科技等3家老客户季度回访，提交回访记录和需求挖掘情况',
+    deadline: '2026-02-08',
     priority: 'low'
   }
 ];
