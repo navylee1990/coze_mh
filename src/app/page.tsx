@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Building2, Users, ArrowRight, BarChart3, FileText, MessageSquare, Target, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function Home() {
@@ -39,8 +40,8 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 两个角色入口卡片 */}
-        <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2">
+        {/* 三个角色入口卡片 */}
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
           {/* 经销商入口 */}
           <Card className="group overflow-hidden border-2 border-slate-200 transition-all hover:border-blue-500 hover:shadow-xl dark:border-slate-700 dark:hover:border-blue-400">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 pb-6 dark:from-slate-800 dark:to-slate-800">
@@ -80,6 +81,53 @@ export default function Home() {
                 size="lg"
               >
                 进入经销商门户
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* 经销商门户V2.0入口 */}
+          <Card className="group overflow-hidden border-2 border-teal-200 transition-all hover:border-teal-500 hover:shadow-xl dark:border-slate-700 dark:hover:border-teal-400">
+            <CardHeader className="bg-gradient-to-r from-teal-50 to-cyan-50 pb-6 dark:from-slate-800 dark:to-slate-800">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 shadow-lg transition-transform group-hover:scale-110">
+                <Target className="h-8 w-8 text-white" />
+              </div>
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-2xl text-slate-900 dark:text-white">经销商门户 V2.0</CardTitle>
+                <Badge className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white">NEW</Badge>
+              </div>
+              <CardDescription className="text-base text-slate-600 dark:text-slate-400">
+                帮助您找到成功之路 · 智能化经营指导
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-6">
+              {/* 核心功能列表 */}
+              <div className="mb-6 space-y-3">
+                <FeatureItem icon={<Target className="h-4 w-4" />} text="市场规划 - 找到适合的赛道" />
+                <FeatureItem icon={<BarChart3 className="h-4 w-4" />} text="当前情况 - 全面经营分析" />
+                <FeatureItem icon={<AlertCircle className="h-4 w-4" />} text="风险分析 - 任务闭环管理" />
+                <FeatureItem icon={<MessageSquare className="h-4 w-4" />} text="最新资讯 - 政策与行业动态" />
+                <FeatureItem icon={<CheckCircle className="h-4 w-4" />} text="健康度 - 全方位监控" />
+              </div>
+
+              {/* 特色说明 */}
+              <div className="mb-6 rounded-lg bg-teal-50 p-4 dark:bg-slate-800">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-teal-600 dark:text-teal-400" />
+                  <div className="text-sm text-slate-700 dark:text-slate-300">
+                    <p className="font-semibold">全新升级：</p>
+                    <p className="mt-1">智能赛道分析、产品盈利推荐、成功案例库、项目节点推进、任务闭环管理</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 进入按钮 */}
+              <Button
+                onClick={() => router.push('/dealer-v2')}
+                className="w-full gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
+                size="lg"
+              >
+                进入经销商门户V2.0
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </CardContent>
