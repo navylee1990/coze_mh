@@ -260,7 +260,12 @@ const mockKeyMetrics = {
   monthlyForecast: 6,
   unreadMessages: 5,
   satisfaction: 92,
-  pendingFollowUps: 23
+  pendingFollowUps: 23,
+  // 提醒数据
+  expiringProjects: 3,
+  untrackedProjects: 5,
+  pendingOrders: 2,
+  pendingProcesses: 4
 };
 
 // 消息提醒
@@ -500,6 +505,7 @@ const mockMonthlyTasks = [
 
 export default function DealerPortalV2() {
   const [activeMenu, setActiveMenu] = useState<MenuKey>('home');
+  const [activeTab, setActiveTab] = useState<'crm' | 'cockpit'>('crm');
   const [selectedIndustry, setSelectedIndustry] = useState<number | null>(null);
   const [selectedTask, setSelectedTask] = useState<typeof mockMonthlyTasks[0] | null>(null);
   const [filterFeedbackPerson, setFilterFeedbackPerson] = useState<string>('');
@@ -644,140 +650,223 @@ export default function DealerPortalV2() {
                 {/* 欢迎横幅 */}
                 <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl p-3 text-white">
                   <div className="text-sm text-teal-100">
-                    欢迎回来，{userInfo.name}！今天是 {new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}
+                    欢迎回来，{userInfo.name}！{userInfo.company}（{userInfo.companyCode}）今天是 {new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}
                   </div>
                 </div>
 
-                {/* 关键指标仪表盘 */}
-                <Card className="border-2 border-teal-200 dark:border-teal-800">
-                  <CardHeader className="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Activity className="h-5 w-5 text-teal-600" />
-                        关键指标
-                      </CardTitle>
-                      <Button variant="outline" size="sm">
-                        更多
-                        <ArrowRight className="ml-1 h-3 w-3" />
-                      </Button>
+                {/* TAB切换 */}
+                <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <button
+                    onClick={() => setActiveTab('crm')}
+                    className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+                      activeTab === 'crm'
+                        ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-sm'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    商净CRM
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('cockpit')}
+                    className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+                      activeTab === 'cockpit'
+                        ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-sm'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    经营驾驶舱
+                  </button>
+                </div>
+
+                {/* 商净CRM内容 */}
+                {activeTab === 'crm' && (
+                  <>
+                    {/* 关键指标仪表盘 + 提醒 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                      {/* 关键指标仪表盘 - 缩小 */}
+                      <div className="lg:col-span-3">
+                        <Card className="border-2 border-teal-200 dark:border-teal-800">
+                          <CardHeader className="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 py-3">
+                            <div className="flex items-center justify-between">
+                              <CardTitle className="text-base flex items-center gap-2">
+                                <Activity className="h-4 w-4 text-teal-600" />
+                                关键指标
+                              </CardTitle>
+                              <Button variant="outline" size="sm" className="text-xs">
+                                更多
+                                <ArrowRight className="ml-1 h-3 w-3" />
+                              </Button>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="pt-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              {/* 当月完成率 */}
+                              <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-300 dark:border-blue-700">
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="text-sm font-bold text-blue-900 dark:text-blue-400">当月完成率</div>
+                                  <Badge className="bg-blue-600 text-xs px-2 py-0.5">82%</Badge>
+                                </div>
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月实际</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthActual / 10000}万</span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-red-600 dark:text-red-400">缺口</span>
+                                    <span className="text-base font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000}万</span>
+                                  </div>
+                                  <div className="mt-3">
+                                    <Progress value={mockKeyMetrics.monthCompletion} className="h-2" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* 当月预测完成率 */}
+                              <div className="p-4 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-300 dark:border-green-700">
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="text-sm font-bold text-green-900 dark:text-green-400">当月预测完成率</div>
+                                  <Badge className="bg-green-600 text-xs px-2 py-0.5">96%</Badge>
+                                </div>
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">预测额</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthForecast / 10000}万</span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-red-600 dark:text-red-400">缺口</span>
+                                    <span className="text-base font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthForecast) / 10000}万</span>
+                                  </div>
+                                  <div className="mt-3">
+                                    <Progress value={mockKeyMetrics.monthForecastCompletion} className="h-2" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* YTD实际完成率 */}
+                              <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-300 dark:border-purple-700">
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="text-sm font-bold text-purple-900 dark:text-purple-400">YTD实际完成率</div>
+                                  <Badge className="bg-purple-600 text-xs px-2 py-0.5">81%</Badge>
+                                </div>
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">YTD实际</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdActual / 10000}万</span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">YTD目标</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdTarget / 10000}万</span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-red-600 dark:text-red-400">缺口</span>
+                                    <span className="text-base font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.ytdTarget - mockKeyMetrics.ytdActual) / 10000}万</span>
+                                  </div>
+                                  <div className="mt-3">
+                                    <Progress value={mockKeyMetrics.ytdCompletion} className="h-2" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* 提醒栏 */}
+                      <div className="lg:col-span-1">
+                        <Card className="border-2 border-orange-200 dark:border-orange-800 h-full">
+                          <CardHeader className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 py-3">
+                            <CardTitle className="text-base flex items-center gap-2">
+                              <Bell className="h-4 w-4 text-orange-600" />
+                              提醒
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="pt-4">
+                            <div className="space-y-3">
+                              {/* 1个月内将到期项目数 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border border-red-200 dark:border-red-800">
+                                <div className="flex items-center justify-between mb-1">
+                                  <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">1个月内将到期项目</div>
+                                  <AlertTriangle className="h-4 w-4 text-red-600" />
+                                </div>
+                                <div className="text-2xl font-bold text-red-600 dark:text-red-400">{mockKeyMetrics.expiringProjects}个</div>
+                              </div>
+
+                              {/* 1个月内未跟进项目数 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 border border-yellow-200 dark:border-yellow-800">
+                                <div className="flex items-center justify-between mb-1">
+                                  <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">1个月内未跟进项目</div>
+                                  <Clock className="h-4 w-4 text-yellow-600" />
+                                </div>
+                                <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{mockKeyMetrics.untrackedProjects}个</div>
+                              </div>
+
+                              {/* 待审订单数 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200 dark:border-blue-800">
+                                <div className="flex items-center justify-between mb-1">
+                                  <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">待审订单</div>
+                                  <FileText className="h-4 w-4 text-blue-600" />
+                                </div>
+                                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{mockKeyMetrics.pendingOrders}个</div>
+                              </div>
+
+                              {/* 待审流程数 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800">
+                                <div className="flex items-center justify-between mb-1">
+                                  <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">待审流程</div>
+                                  <RefreshCw className="h-4 w-4 text-purple-600" />
+                                </div>
+                                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{mockKeyMetrics.pendingProcesses}个</div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
                     </div>
-                  </CardHeader>
-                  <CardContent className="pt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {/* 当月完成率 */}
-                      <div className="p-5 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border-2 border-blue-300 dark:border-blue-700">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="text-base font-bold text-blue-900 dark:text-blue-400">当月完成率</div>
-                          <Badge className="bg-blue-600 text-sm px-3 py-1">82%</Badge>
-                        </div>
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between text-base">
-                            <span className="text-slate-700 dark:text-slate-400 font-medium">当月实际</span>
-                            <span className="text-xl font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthActual / 10000}万</span>
-                          </div>
-                          <div className="flex items-center justify-between text-base">
-                            <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
-                            <span className="text-xl font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
-                          </div>
-                          <div className="flex items-center justify-between text-base font-semibold">
-                            <span className="text-red-600 dark:text-red-400">缺口</span>
-                            <span className="text-2xl font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000}万</span>
-                          </div>
-                          <div className="mt-4">
-                            <Progress value={mockKeyMetrics.monthCompletion} className="h-3" />
-                          </div>
-                        </div>
-                      </div>
 
-                      {/* 当月预测完成率 */}
-                      <div className="p-5 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-300 dark:border-green-700">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="text-base font-bold text-green-900 dark:text-green-400">当月预测完成率</div>
-                          <Badge className="bg-green-600 text-sm px-3 py-1">96%</Badge>
-                        </div>
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between text-base">
-                            <span className="text-slate-700 dark:text-slate-400 font-medium">预测额</span>
-                            <span className="text-xl font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthForecast / 10000}万</span>
-                          </div>
-                          <div className="flex items-center justify-between text-base">
-                            <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
-                            <span className="text-xl font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
-                          </div>
-                          <div className="flex items-center justify-between text-base font-semibold">
-                            <span className="text-red-600 dark:text-red-400">缺口</span>
-                            <span className="text-2xl font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthForecast) / 10000}万</span>
-                          </div>
-                          <div className="mt-4">
-                            <Progress value={mockKeyMetrics.monthForecastCompletion} className="h-3" />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* YTD实际完成率 */}
-                      <div className="p-5 rounded-lg bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border-2 border-purple-300 dark:border-purple-700">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="text-base font-bold text-purple-900 dark:text-purple-400">YTD实际完成率</div>
-                          <Badge className="bg-purple-600 text-sm px-3 py-1">81%</Badge>
-                        </div>
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between text-base">
-                            <span className="text-slate-700 dark:text-slate-400 font-medium">YTD实际</span>
-                            <span className="text-xl font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdActual / 10000}万</span>
-                          </div>
-                          <div className="flex items-center justify-between text-base">
-                            <span className="text-slate-700 dark:text-slate-400 font-medium">YTD目标</span>
-                            <span className="text-xl font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdTarget / 10000}万</span>
-                          </div>
-                          <div className="flex items-center justify-between text-base font-semibold">
-                            <span className="text-red-600 dark:text-red-400">缺口</span>
-                            <span className="text-2xl font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.ytdTarget - mockKeyMetrics.ytdActual) / 10000}万</span>
-                          </div>
-                          <div className="mt-4">
-                            <Progress value={mockKeyMetrics.ytdCompletion} className="h-3" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 业务指引 - 居中占位较大 */}
-                <Card className="border-2 border-amber-200 dark:border-amber-800">
-                  <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Lightbulb className="h-5 w-5 text-amber-600" />
+                  {/* 业务指引 - 居中占位较大 */}
+                  <Card className="border-2 border-amber-200 dark:border-amber-800">
+                  <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 py-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Lightbulb className="h-4 w-4 text-amber-600" />
                       业务指引 - 赋能经营增效
                     </CardTitle>
-                    <CardDescription className="text-sm">
+                    <CardDescription className="text-xs">
                       基于您的经营数据，为您提供个性化的业务建议和指导
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                       {mockGuidance.map((guide) => (
-                        <div key={guide.id} className={`p-4 rounded-lg border-2 ${
+                        <div key={guide.id} className={`p-3 rounded-lg border-2 ${
                           guide.type === 'opportunity' ? 'border-green-300 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20' :
                           guide.type === 'risk' ? 'border-red-300 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20' :
                           guide.type === 'tip' ? 'border-blue-300 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20' :
                           'border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20'
                         }`}>
-                          <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-start justify-between mb-2">
                             <div className="flex items-center gap-2">
-                              {guide.type === 'opportunity' && <Star className="h-5 w-5 text-green-600" />}
-                              {guide.type === 'risk' && <ShieldAlert className="h-5 w-5 text-red-600" />}
-                              {guide.type === 'tip' && <Lightbulb className="h-5 w-5 text-blue-600" />}
-                              {guide.type === 'training' && <BookOpen className="h-5 w-5 text-purple-600" />}
-                              <div className="font-semibold text-base text-slate-900 dark:text-white">
+                              {guide.type === 'opportunity' && <Star className="h-4 w-4 text-green-600" />}
+                              {guide.type === 'risk' && <ShieldAlert className="h-4 w-4 text-red-600" />}
+                              {guide.type === 'tip' && <Lightbulb className="h-4 w-4 text-blue-600" />}
+                              {guide.type === 'training' && <BookOpen className="h-4 w-4 text-purple-600" />}
+                              <div className="font-semibold text-sm text-slate-900 dark:text-white">
                                 {guide.title}
                               </div>
                             </div>
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" className="text-xs">
                               {guide.action}
                               <ArrowRight className="ml-1 h-3 w-3" />
                             </Button>
                           </div>
-                          <div className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                          <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                             {guide.description}
                           </div>
                         </div>
@@ -790,13 +879,13 @@ export default function DealerPortalV2() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* 消息提醒 */}
                   <Card>
-                    <CardHeader>
+                    <CardHeader className="py-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base flex items-center gap-2">
+                        <CardTitle className="text-sm flex items-center gap-2">
                           <Bell className="h-4 w-4" />
                           消息提醒
                         </CardTitle>
-                        <Badge variant="outline">{mockMessages.length}条</Badge>
+                        <Badge variant="outline" className="text-xs">{mockMessages.length}条</Badge>
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -837,13 +926,13 @@ export default function DealerPortalV2() {
 
                   {/* 待办事项 */}
                   <Card>
-                    <CardHeader>
+                    <CardHeader className="py-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base flex items-center gap-2">
+                        <CardTitle className="text-sm flex items-center gap-2">
                           <Clock className="h-4 w-4" />
                           待办事项
                         </CardTitle>
-                        <Badge variant="outline">{mockTodos.length}项</Badge>
+                        <Badge variant="outline" className="text-xs">{mockTodos.length}项</Badge>
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -875,6 +964,39 @@ export default function DealerPortalV2() {
                     </CardContent>
                   </Card>
                 </div>
+                  </>
+                )}
+
+                {/* 经营驾驶舱内容 */}
+                {activeTab === 'cockpit' && (
+                  <div className="py-12 text-center">
+                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 shadow-lg border-2 border-teal-200 dark:border-teal-800">
+                      <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <BarChart3 className="h-10 w-10 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        经营驾驶舱
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400 mb-6">
+                        该功能模块正在开发中，敬请期待...
+                      </p>
+                      <div className="flex items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                        <div className="flex items-center gap-2">
+                          <TrendingUpIcon className="h-4 w-4" />
+                          <span>营收趋势分析</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <PieChart className="h-4 w-4" />
+                          <span>行业分布洞察</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Target className="h-4 w-4" />
+                          <span>目标达成追踪</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
