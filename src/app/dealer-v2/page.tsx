@@ -41,6 +41,7 @@ import {
   Cpu,
   RefreshCw,
   ArrowRight as ArrowRightIcon,
+  ArrowDown,
   X,
   Bell,
   Search,
@@ -103,81 +104,82 @@ const userInfo = {
 const mockIndustryTracks = [
   {
     id: 1,
-    name: '制造业',
-    own: 1200000,  // 自己的业绩
-    yoyGrowth: 15,  // 同比增长
-    peerAvg: 950000,  // 同规模经销商平均
-    potential: 85,  // 潜力
+    name: 'K12(小中高)',
+    own: 850000,  // 自己的业绩
+    yoyGrowth: 12,  // 同比增长
+    peerAvg: 950000,  // 同规模经销商平均（自己低于平均）
+    potential: 90,  // 潜力
     marketSize: 5000000,  // 市场规模
     cases: [
-      { id: 101, title: '某大型制造企业智能化改造', customer: '南京智能制造科技', revenue: 850000, successRate: 95, type: '智能化' },
-      { id: 102, title: '汽车制造厂水处理项目', customer: '上海汽车集团', revenue: 1200000, successRate: 90, type: '水处理' },
-      { id: 103, title: '电子制造厂环境监测', customer: '苏州电子科技', revenue: 560000, successRate: 88, type: '环境监测' }
+      { id: 101, title: '某中学直饮水系统改造', customer: '南京某中学', revenue: 650000, successRate: 95, type: '直饮水' },
+      { id: 102, title: '小学实验室设备采购', customer: '上海某小学', revenue: 380000, successRate: 90, type: '实验室' },
+      { id: 103, title: '高中智能化改造项目', customer: '苏州某高中', revenue: 560000, successRate: 88, type: '智能化' }
     ]
   },
   {
     id: 2,
-    name: '医疗系统',
-    own: 980000,
-    yoyGrowth: 22,
-    peerAvg: 780000,
-    potential: 90,
-    marketSize: 4200000,
+    name: '楼宇BOT',
+    own: 1200000,
+    yoyGrowth: 28,
+    peerAvg: 900000,  // 自己高于平均
+    potential: 85,
+    marketSize: 4500000,
     cases: [
-      { id: 201, title: '医院直饮水系统升级', customer: '北京某三甲医院', revenue: 650000, successRate: 92, type: '直饮水' },
-      { id: 202, title: '医疗机构水净化项目', customer: '广州医疗中心', revenue: 980000, successRate: 88, type: '水净化' },
-      { id: 203, title: '诊所设备采购', customer: '杭州连锁诊所', revenue: 320000, successRate: 85, type: '设备采购' }
+      { id: 201, title: '商业楼宇直饮水BOT项目', customer: '北京某商业中心', revenue: 1200000, successRate: 92, type: 'BOT' },
+      { id: 202, title: '办公楼宇水处理BOT', customer: '广州某写字楼', revenue: 980000, successRate: 88, type: 'BOT' },
+      { id: 203, title: '综合体楼宇设备BOT', customer: '杭州某综合体', revenue: 850000, successRate: 85, type: 'BOT' }
     ]
   },
   {
     id: 3,
-    name: '智慧园区',
-    own: 850000,
-    yoyGrowth: 18,
-    peerAvg: 720000,
-    potential: 75,
+    name: '校园BOT',
+    own: 720000,
+    yoyGrowth: 10,
+    peerAvg: 850000,  // 自己低于平均
+    potential: 88,
     marketSize: 3800000,
     cases: [
-      { id: 301, title: '智慧园区能源管理系统', customer: '上海智慧园区科技', revenue: 1200000, successRate: 90, type: '能源管理' },
-      { id: 302, title: '园区安防监控项目', customer: '深圳科技园', revenue: 680000, successRate: 87, type: '安防监控' }
+      { id: 301, title: '大学校园BOT项目', customer: '上海某大学', revenue: 950000, successRate: 90, type: 'BOT' },
+      { id: 302, title: '职业技术学校BOT', customer: '深圳某职校', revenue: 680000, successRate: 87, type: 'BOT' }
     ]
   },
   {
     id: 4,
-    name: '教育机构',
-    own: 620000,
-    yoyGrowth: 8,
-    peerAvg: 550000,
-    potential: 65,
-    marketSize: 2500000,
+    name: '医疗系统',
+    own: 1050000,
+    yoyGrowth: 22,
+    peerAvg: 820000,  // 自己高于平均
+    potential: 90,
+    marketSize: 4200000,
     cases: [
-      { id: 401, title: '高校实验室设备采购', customer: '清华大学', revenue: 420000, successRate: 85, type: '实验室' },
-      { id: 402, title: '中小学饮用水改造', customer: '上海教育局', revenue: 380000, successRate: 82, type: '饮用水' }
+      { id: 401, title: '医院直饮水系统升级', customer: '北京某三甲医院', revenue: 850000, successRate: 92, type: '直饮水' },
+      { id: 402, title: '医疗机构水净化项目', customer: '广州医疗中心', revenue: 1200000, successRate: 88, type: '水净化' },
+      { id: 403, title: '诊所设备采购', customer: '杭州连锁诊所', revenue: 420000, successRate: 85, type: '设备采购' }
     ]
   },
   {
     id: 5,
-    name: '金融中心',
-    own: 750000,
-    yoyGrowth: 20,
-    peerAvg: 680000,
-    potential: 70,
+    name: '政府机关/事业单位',
+    own: 580000,
+    yoyGrowth: 8,
+    peerAvg: 750000,  // 自己低于平均
+    potential: 80,
     marketSize: 3200000,
     cases: [
-      { id: 501, title: '金融中心安防系统', customer: '深圳金融中心', revenue: 580000, successRate: 87, type: '安防系统' },
-      { id: 502, title: '银行数据中心温控', customer: '北京某银行', revenue: 450000, successRate: 84, type: '温控系统' }
+      { id: 501, title: '政府机关办公楼改造', customer: '南京某机关', revenue: 650000, successRate: 87, type: '改造' },
+      { id: 502, title: '事业单位设备采购', customer: '上海某事业单位', revenue: 450000, successRate: 84, type: '设备' }
     ]
   },
   {
     id: 6,
-    name: '园区运营',
-    own: 580000,
-    yoyGrowth: 12,
-    peerAvg: 520000,
-    potential: 60,
+    name: '国央企业',
+    own: 480000,
+    yoyGrowth: 5,
+    peerAvg: 680000,  // 自己低于平均
+    potential: 75,
     marketSize: 2800000,
     cases: [
-      { id: 601, title: '园区整体设备运维', customer: '杭州产业园区', revenue: 720000, successRate: 89, type: '设备运维' }
+      { id: 601, title: '国企园区整体设备运维', customer: '杭州某国企', revenue: 720000, successRate: 89, type: '设备运维' }
     ]
   }
 ];
@@ -358,47 +360,72 @@ const mockTodos = [
   }
 ];
 
-// 业务指引/运营建议 - 基于行业分析的推荐（优化为"看到问题→明白要做什么→一键执行→有结果反馈"）
+// 业务指引/运营建议 - 基于行业分析的推荐（针对低于平均的行业，并结合销售工程师标签定向指引）
 const mockGuidance = [
   {
     id: 1,
-    type: 'opportunity',
-    title: '🎯 看到问题：制造业行业优势明显',
-    description: '您的制造业业绩达120万，同比+28%，高于同规模平均15个百分点。这是您的优势领域，但还有40%的潜在市场未开发。',
-    action: '查看制造业详情',
-    nextAction: '立即制定制造业扩客计划',
-    expectedResult: '预计可新增20-30万业绩',
-    priority: 'high'
+    type: 'risk',
+    title: '⚠️ 看到问题：K12(小中高)行业低于平均',
+    description: '您的K12行业业绩85万，同比+12%，低于同规模平均10个百分点。该行业还有较大提升空间，建议重点跟进。',
+    action: '查看K12详情',
+    nextAction: '联系5-8所中小学客户',
+    expectedResult: '预计可提升至95万+',
+    priority: 'high',
+    engineerTags: ['K12', '教育', '学校'],
+    executeAction: '系统自动推送K12行业潜在客户名单，生成跟进任务清单',
+    detailAction: '跳转到K12行业分析页面，显示详细数据对比和成功案例'
   },
   {
     id: 2,
-    type: 'opportunity',
-    title: '🎯 看到机会：医疗系统增长强劲',
-    description: '医疗系统同比增长22%，高于同规模平均12个百分点。市场需求旺盛，建议加强医疗系统客户开发，把握行业增长机会。',
-    action: '查看医疗系统详情',
-    nextAction: '联系医疗系统潜在客户',
-    expectedResult: '预计可新增15-25万业绩',
-    priority: 'medium'
+    type: 'risk',
+    title: '⚠️ 看到问题：校园BOT行业低于平均',
+    description: '您的校园BOT业绩72万，同比+10%，低于同规模平均15个百分点。校园BOT是高潜力领域，建议加强开发。',
+    action: '查看校园BOT详情',
+    nextAction: '对接3-5所高校的BOT项目',
+    expectedResult: '预计可提升至85万+',
+    priority: 'high',
+    engineerTags: ['校园BOT', '高校', 'BOT'],
+    executeAction: '生成校园BOT项目合作方案模板，自动匹配高校资源',
+    detailAction: '查看校园BOT行业政策、成功案例和合作模式'
   },
   {
     id: 3,
     type: 'risk',
-    title: '⚠️ 风险提示：教育机构增长乏力',
-    description: '教育机构同比增长仅8%，低于制造业、医疗系统等优势行业。该行业还有较大提升空间，建议重点跟进。',
-    action: '查看教育机构分析',
-    nextAction: '分析教育机构客户流失原因',
-    expectedResult: '提升教育机构业绩至20万+',
-    priority: 'high'
+    title: '⚠️ 看到问题：政府机关/事业单位低于平均',
+    description: '您的政府机关/事业单位业绩58万，同比+8%，低于同规模平均17个百分点。该行业有政府采购机会，建议重点跟进。',
+    action: '查看政府机关详情',
+    nextAction: '关注3-5个政府采购项目',
+    expectedResult: '预计可提升至75万+',
+    priority: 'high',
+    engineerTags: ['政府', '事业单位', '采购'],
+    executeAction: '订阅政府采购信息推送，获取相关项目招标信息',
+    detailAction: '查看政府机关/事业单位的行业政策、采购流程和成功案例'
   },
   {
     id: 4,
+    type: 'risk',
+    title: '⚠️ 看到问题：国央企业行业低于平均',
+    description: '您的国央企业业绩48万，同比+5%，低于同规模平均20个百分点。国央企业是大客户集中地，建议重点突破。',
+    action: '查看国央企业详情',
+    nextAction: '对接2-3家国央企业决策层',
+    expectedResult: '预计可提升至68万+',
+    priority: 'high',
+    engineerTags: ['国央企业', '国企', '央企'],
+    executeAction: '生成国央企业客户画像和接触策略，安排销售工程师对接',
+    detailAction: '查看国央企业行业特点、决策流程和成功案例'
+  },
+  {
+    id: 5,
     type: 'tip',
-    title: '💡 经营建议：智慧园区持续发力',
-    description: '智慧园区同比增长18%，高于同规模平均10个百分点。建议在现有智慧园区客户中推广升级，提升整体利润率。',
-    action: '查看智慧园区详情',
-    nextAction: '制定客户升级方案',
-    expectedResult: '提升客户客单价20%',
-    priority: 'medium'
+    title: '💡 经验建议：楼宇BOT保持优势',
+    description: '您的楼宇BOT业绩120万，同比+28%，高于同规模平均33个百分点。建议继续巩固优势，推广成功案例。',
+    action: '查看楼宇BOT详情',
+    nextAction: '整理楼宇BOT成功案例并在同行中推广',
+    expectedResult: '保持领先优势，新增20万+',
+    priority: 'medium',
+    engineerTags: ['楼宇BOT', '商业'],
+    executeAction: '生成楼宇BOT成功案例集，用于市场推广和客户演示',
+    detailAction: '查看楼宇BOT的详细数据、客户反馈和成功案例'
   }
 ];
 
@@ -807,11 +834,9 @@ export default function DealerPortalV2() {
                                     </text>
                                   ))}
 
-                                  {/* 目标线（虚线） */}
+                                  {/* 目标线（虚线） - 略低于绿色预测线 */}
                                   <polyline
-                                    points={[100, 100, 200, 100, 300, 100, 400, 100, 500, 100, 600, 100, 700, 100, 800, 100, 900, 100, 1000, 100, 1100, 100, 1200, 100, 1300, 100].map((y, idx) => 
-                                      `${50 + idx * 50},${y}`
-                                    ).join(' ')}
+                                    points={`${50},${120 - 93} ${100},${120 - 96} ${150},${120 - 100} ${200},${120 - 103} ${250},${120 - 98} ${300},${120 - 93} ${350},${120 - 96} ${400},${120 - 100} ${450},${120 - 103} ${500},${120 - 98} ${550},${120 - 96} ${600},${120 - 93}`}
                                     fill="none"
                                     stroke="#a855f7"
                                     strokeWidth="2"
@@ -840,7 +865,7 @@ export default function DealerPortalV2() {
 
                                   {/* 数据点 */}
                                   {/* 目标点 */}
-                                  {[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100].map((y, idx) => (
+                                  {[93, 96, 100, 103, 98, 93, 96, 100, 103, 98, 96, 93].map((y, idx) => (
                                     <circle
                                       key={`target-${idx}`}
                                       cx={50 + idx * 50}
@@ -913,7 +938,7 @@ export default function DealerPortalV2() {
                                   </div>
                                   <div className="text-xl font-bold text-orange-600 dark:text-orange-400 mb-2">{mockKeyMetrics.expiringProjects}个</div>
                                   <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
-                                    立即跟进
+                                    申请延期
                                   </Button>
                                 </div>
                                 <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border border-orange-200 dark:border-orange-800">
@@ -923,7 +948,7 @@ export default function DealerPortalV2() {
                                   </div>
                                   <div className="text-xl font-bold text-orange-600 dark:text-orange-400 mb-2">{mockKeyMetrics.untrackedProjects}个</div>
                                   <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
-                                    批量跟进
+                                    反馈跟进
                                   </Button>
                                 </div>
                               </div>
@@ -1001,191 +1026,50 @@ export default function DealerPortalV2() {
                       </CardHeader>
                       <CardContent className="pt-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          {/* 制造业 */}
-                          <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-bold text-slate-900 dark:text-white">制造业</div>
-                              <Badge className="bg-purple-600 text-xs">+15%</Badge>
-                            </div>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">自己</span>
-                                  <span className="font-semibold text-purple-600">¥120万</span>
+                          {mockIndustryTracks.map((industry) => {
+                            const isAboveAverage = industry.own > industry.peerAvg;
+                            const progressOwn = (industry.own / 2000000) * 100;
+                            const progressPeer = (industry.peerAvg / 2000000) * 100;
+                            const diffPercent = ((industry.own - industry.peerAvg) / industry.peerAvg * 100).toFixed(0);
+                            const isPositive = parseFloat(diffPercent) > 0;
+                            
+                            return (
+                              <div key={industry.id} className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="text-sm font-bold text-slate-900 dark:text-white">{industry.name}</div>
+                                  <Badge className={`${isAboveAverage ? 'bg-purple-600' : 'bg-slate-600'} text-xs`}>
+                                    {industry.yoyGrowth > 0 ? '+' : ''}{industry.yoyGrowth}%
+                                  </Badge>
                                 </div>
-                                <Progress value={60} className="h-1.5" />
-                              </div>
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
-                                  <span className="font-semibold text-blue-600">¥95万</span>
+                                <div className="space-y-2">
+                                  <div>
+                                    <div className="flex items-center justify-between text-xs mb-1">
+                                      <span className="text-slate-600 dark:text-slate-400">自己</span>
+                                      <span className="font-semibold text-purple-600">¥{(industry.own / 10000).toFixed(0)}万</span>
+                                    </div>
+                                    <Progress value={progressOwn} className="h-1.5" />
+                                  </div>
+                                  <div>
+                                    <div className="flex items-center justify-between text-xs mb-1">
+                                      <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
+                                      <span className="font-semibold text-blue-600">¥{(industry.peerAvg / 10000).toFixed(0)}万</span>
+                                    </div>
+                                    <Progress value={progressPeer} className="h-1.5" />
+                                  </div>
+                                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    同比增长 {industry.yoyGrowth > 0 ? '+' : ''}{industry.yoyGrowth}%，{isPositive ? '高于' : '低于'}平均 {Math.abs(parseFloat(diffPercent))}个百分点
+                                  </div>
                                 </div>
-                                <Progress value={47.5} className="h-1.5" />
+                                {/* 只有自己低于同规模平均时才显示"制定行动计划"按钮 */}
+                                {!isAboveAverage && (
+                                  <Button size="sm" className="w-full h-7 text-xs mt-3 bg-slate-600 hover:bg-slate-700">
+                                    制定行动计划
+                                    <ArrowRightIcon className="ml-1 h-3 w-3" />
+                                  </Button>
+                                )}
                               </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                同比增长 +28%，高于平均 15个百分点
-                              </div>
-                            </div>
-                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
-                              制定行动计划
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 医疗系统 */}
-                          <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-bold text-slate-900 dark:text-white">医疗系统</div>
-                              <Badge className="bg-purple-600 text-xs">+22%</Badge>
-                            </div>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">自己</span>
-                                  <span className="font-semibold text-purple-600">¥98万</span>
-                                </div>
-                                <Progress value={49} className="h-1.5" />
-                              </div>
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
-                                  <span className="font-semibold text-blue-600">¥78万</span>
-                                </div>
-                                <Progress value={39} className="h-1.5" />
-                              </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                同比增长 +22%，高于平均 12个百分点
-                              </div>
-                            </div>
-                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
-                              制定行动计划
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 智慧园区 */}
-                          <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-bold text-slate-900 dark:text-white">智慧园区</div>
-                              <Badge className="bg-purple-600 text-xs">+18%</Badge>
-                            </div>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">自己</span>
-                                  <span className="font-semibold text-purple-600">¥85万</span>
-                                </div>
-                                <Progress value={42.5} className="h-1.5" />
-                              </div>
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
-                                  <span className="font-semibold text-blue-600">¥72万</span>
-                                </div>
-                                <Progress value={36} className="h-1.5" />
-                              </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                同比增长 +18%，高于平均 10个百分点
-                              </div>
-                            </div>
-                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
-                              制定行动计划
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 教育机构 */}
-                          <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-bold text-slate-900 dark:text-white">教育机构</div>
-                              <Badge className="bg-slate-600 text-xs">+8%</Badge>
-                            </div>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">自己</span>
-                                  <span className="font-semibold text-purple-600">¥62万</span>
-                                </div>
-                                <Progress value={31} className="h-1.5" />
-                              </div>
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
-                                  <span className="font-semibold text-blue-600">¥55万</span>
-                                </div>
-                                <Progress value={27.5} className="h-1.5" />
-                              </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                同比增长 +8%，高于平均 3个百分点
-                              </div>
-                            </div>
-                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-slate-600 hover:bg-slate-700">
-                              制定行动计划
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 金融中心 */}
-                          <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-bold text-slate-900 dark:text-white">金融中心</div>
-                              <Badge className="bg-purple-600 text-xs">+20%</Badge>
-                            </div>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">自己</span>
-                                  <span className="font-semibold text-purple-600">¥75万</span>
-                                </div>
-                                <Progress value={37.5} className="h-1.5" />
-                              </div>
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
-                                  <span className="font-semibold text-blue-600">¥68万</span>
-                                </div>
-                                <Progress value={34} className="h-1.5" />
-                              </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                同比增长 +20%，高于平均 8个百分点
-                              </div>
-                            </div>
-                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
-                              制定行动计划
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 园区运营 */}
-                          <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-bold text-slate-900 dark:text-white">园区运营</div>
-                              <Badge className="bg-purple-600 text-xs">+12%</Badge>
-                            </div>
-                            <div className="space-y-2">
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">自己</span>
-                                  <span className="font-semibold text-purple-600">¥58万</span>
-                                </div>
-                                <Progress value={29} className="h-1.5" />
-                              </div>
-                              <div>
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <span className="text-slate-600 dark:text-slate-400">同规模平均</span>
-                                  <span className="font-semibold text-blue-600">¥52万</span>
-                                </div>
-                                <Progress value={26} className="h-1.5" />
-                              </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                同比增长 +12%，高于平均 6个百分点
-                              </div>
-                            </div>
-                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
-                              制定行动计划
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
+                            );
+                          })}
                         </div>
                       </CardContent>
                     </Card>
@@ -1361,36 +1245,245 @@ export default function DealerPortalV2() {
 
             {/* 其他菜单占位符 */}
             {activeMenu !== 'home' && (
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 shadow-lg">
-                  <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center mb-6">
-                    {(() => {
-                      const activeSection = menuSections.find(s => s.items.some(i => i.key === activeMenu));
-                      const activeItem = activeSection?.items.find(i => i.key === activeMenu);
-                      if (activeItem) {
-                        const Icon = activeItem.icon;
-                        return <Icon className="h-10 w-10 text-white" />;
-                      }
-                      return <Activity className="h-10 w-10 text-white" />;
-                    })()}
+              <div className="flex-1 overflow-auto">
+                {/* 项目开发 - 项目储备 */}
+                {activeMenu === 'project' && (
+                  <div className="space-y-6">
+                    {/* 页面标题 */}
+                    <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">项目开发</h2>
+                      <p className="text-sm text-blue-100">项目储备与跟踪管理</p>
+                    </div>
+
+                    {/* 项目储备总览 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base">项目储备总览</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                          <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-300 dark:border-blue-700">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="text-sm font-bold text-blue-900 dark:text-blue-400">储备项目总数</div>
+                              <Database className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{mockProjectReserve.total}个</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                              目标：{mockProjectReserve.target}个
+                            </div>
+                            <Progress value={mockProjectReserve.progress} className="h-2 mt-2" />
+                          </div>
+
+                          <div className="p-4 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-300 dark:border-green-700">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="text-sm font-bold text-green-900 dark:text-green-400">3个月内即将签约</div>
+                              <Target className="h-5 w-5 text-green-600" />
+                            </div>
+                            <div className="text-3xl font-bold text-green-600 dark:text-green-400">{mockProjectReserve.within3Months}个</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                              预计金额：¥450万
+                            </div>
+                          </div>
+
+                          <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-300 dark:border-purple-700">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="text-sm font-bold text-purple-900 dark:text-purple-400">2-6个月内转化</div>
+                              <TrendingUp className="h-5 w-5 text-purple-600" />
+                            </div>
+                            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">{mockProjectReserve.months2To6}个</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                              预计金额：¥680万
+                            </div>
+                          </div>
+
+                          <div className="p-4 rounded-lg bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 border border-orange-300 dark:border-orange-700">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="text-sm font-bold text-orange-900 dark:text-orange-400">6-12个月内转化</div>
+                              <Calendar className="h-5 w-5 text-orange-600" />
+                            </div>
+                            <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">{mockProjectReserve.months6To12}个</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                              预计金额：¥720万
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 行业赛道分布 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base">项目储备 - 行业赛道分布</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {mockIndustryTracks.map((industry) => (
+                            <div key={industry.id} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                  <div className="text-sm font-bold text-slate-900 dark:text-white">{industry.name}</div>
+                                  <Badge className="bg-purple-600 text-xs">{industry.potential}分</Badge>
+                                </div>
+                                <div className="text-sm text-slate-600 dark:text-slate-400">
+                                  {industry.cases.length}个项目储备
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                {industry.cases.map((project) => (
+                                  <div key={project.id} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                    <div className="flex items-start justify-between mb-2">
+                                      <div className="flex-1">
+                                        <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                                          {project.title}
+                                        </div>
+                                        <div className="text-xs text-slate-600 dark:text-slate-400">
+                                          客户：{project.customer}
+                                        </div>
+                                      </div>
+                                      <div className="text-right ml-4">
+                                        <div className="text-sm font-bold text-green-600 dark:text-green-400">
+                                          ¥{(project.revenue / 10000).toFixed(0)}万
+                                        </div>
+                                        <div className="text-xs text-slate-600 dark:text-slate-400">
+                                          成功率：{project.successRate}%
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <Badge className="bg-blue-600 text-xs">{project.type}</Badge>
+                                      <Button size="sm" className="h-6 text-xs">
+                                        查看详情
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                    {(() => {
-                      const activeSection = menuSections.find(s => s.items.some(i => i.key === activeMenu));
-                      const activeItem = activeSection?.items.find(i => i.key === activeMenu);
-                      return activeItem?.label || '功能模块';
-                    })()}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400 mb-6">
-                    该功能模块正在开发中，敬请期待...
-                  </p>
-                  <Button
-                    onClick={() => setActiveMenu('home')}
-                    className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
-                  >
-                    返回首页
-                  </Button>
-                </div>
+                )}
+
+                {/* 节点推进 - 销售漏斗和项目周期管理 */}
+                {activeMenu === 'node' && (
+                  <div className="space-y-6">
+                    {/* 页面标题 */}
+                    <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">节点推进</h2>
+                      <p className="text-sm text-teal-100">销售漏斗与项目周期管理</p>
+                    </div>
+
+                    {/* 销售漏斗 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <GitBranch className="h-5 w-5 text-teal-600" />
+                          销售漏斗
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {mockSalesFunnel.map((stage, idx) => (
+                            <div key={stage.stage} className="relative">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="text-sm font-semibold text-slate-900 dark:text-white">
+                                  {stage.stage}
+                                </div>
+                                <div className="flex items-center gap-4 text-sm">
+                                  <span className="text-slate-600 dark:text-slate-400">{stage.count}个</span>
+                                  <span className="text-teal-600 dark:text-teal-400 font-semibold">
+                                    转化率 {stage.conversion}%
+                                  </span>
+                                </div>
+                              </div>
+                              <Progress value={stage.conversion} className="h-3" />
+                              {idx < mockSalesFunnel.length - 1 && (
+                                <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                  <ArrowDown className="h-4 w-4 text-slate-400" />
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 项目周期管理 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Activity className="h-5 w-5 text-cyan-600" />
+                          项目周期管理（10个阶段）
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {mockProjectCycle.map((stage, idx) => (
+                            <div key={stage.stage} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <Badge className={`${stage.progress === 100 ? 'bg-green-600' : 'bg-blue-600'} text-xs`}>
+                                    阶段{idx + 1}
+                                  </Badge>
+                                  <div className="text-sm font-semibold text-slate-900 dark:text-white">
+                                    {stage.stage}
+                                  </div>
+                                </div>
+                                <div className="text-sm font-bold text-cyan-600 dark:text-cyan-400">
+                                  {stage.count}个
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between text-xs">
+                                  <span className="text-slate-600 dark:text-slate-400">平均周期</span>
+                                  <span className="text-slate-900 dark:text-white font-medium">{stage.avgDays}天</span>
+                                </div>
+                                <Progress value={stage.progress} className="h-2" />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {/* 其他菜单 - 默认占位符 */}
+                {activeMenu !== 'home' && activeMenu !== 'project' && activeMenu !== 'node' && (
+                  <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 shadow-lg">
+                      <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center mb-6">
+                        {(() => {
+                          const activeSection = menuSections.find(s => s.items.some(i => i.key === activeMenu));
+                          const activeItem = activeSection?.items.find(i => i.key === activeMenu);
+                          if (activeItem) {
+                            const Icon = activeItem.icon;
+                            return <Icon className="h-10 w-10 text-white" />;
+                          }
+                          return <Activity className="h-10 w-10 text-white" />;
+                        })()}
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        {(() => {
+                          const activeSection = menuSections.find(s => s.items.some(i => i.key === activeMenu));
+                          const activeItem = activeSection?.items.find(i => i.key === activeMenu);
+                          return activeItem?.label || '功能模块';
+                        })()}
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400 mb-6">
+                        该功能模块正在开发中，敬请期待...
+                      </p>
+                      <Button
+                        onClick={() => setActiveMenu('home')}
+                        className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
+                      >
+                        返回首页
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
