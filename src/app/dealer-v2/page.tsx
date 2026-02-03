@@ -58,7 +58,11 @@ import {
   ArrowRight,
   Phone,
   Mail,
-  MapPin
+  MapPin,
+  School,
+  GraduationCap,
+  Stethoscope,
+  Briefcase
 } from 'lucide-react';
 
 // ==================== 菜单配置 ====================
@@ -549,6 +553,21 @@ export default function DealerPortalV2() {
   const [filterFeedbackPerson, setFilterFeedbackPerson] = useState<string>('');
   const [filterStatus, setFilterStatus] = useState<string>('全部');
   const [filterPushTime, setFilterPushTime] = useState<string>('');
+  const [executeDialogOpen, setExecuteDialogOpen] = useState(false);
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [selectedGuidance, setSelectedGuidance] = useState<typeof mockGuidance[0] | null>(null);
+
+  // 处理立即执行按钮点击
+  const handleExecuteClick = (guide: typeof mockGuidance[0]) => {
+    setSelectedGuidance(guide);
+    setExecuteDialogOpen(true);
+  };
+
+  // 处理查看详情按钮点击
+  const handleDetailClick = (guide: typeof mockGuidance[0]) => {
+    setSelectedGuidance(guide);
+    setDetailDialogOpen(true);
+  };
 
   const activeMenuItem = menuItems.find(item => item.key === activeMenu);
   const Icon = activeMenuItem?.icon || Activity;
@@ -644,36 +663,50 @@ export default function DealerPortalV2() {
 
         {/* 主内容区 */}
         <main className="flex-1 flex flex-col overflow-hidden">
-          {/* 顶部工具栏 */}
-          <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-6 py-4">
+          {/* 顶部工具栏 - 整合欢迎信息、消息提醒、用户信息 */}
+          <header className="bg-gradient-to-r from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 px-6 py-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4 flex-1">
-                <div className="relative w-96">
+              <div className="flex items-center gap-6 flex-1">
+                {/* 搜索框 */}
+                <div className="relative w-80">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <input
                     type="text"
                     placeholder="搜索项目、客户、产品..."
-                    className="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full pl-10 pr-4 py-2 border border-slate-700 bg-slate-800 text-white text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                   />
                 </div>
+
+                {/* 欢迎信息 - 整合用户信息 */}
+                <div className="flex items-center gap-3 text-slate-300 text-sm">
+                  <Calendar className="h-4 w-4 text-teal-400" />
+                  <span>今天是 {new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' })}</span>
+                  <span className="text-slate-500">|</span>
+                  <span className="text-slate-400">{userInfo.company}（{userInfo.companyCode}）</span>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Button variant="ghost" size="sm" className="relative">
+
+              <div className="flex items-center gap-4">
+                {/* 消息提醒铃铛 - 显示未读数量 */}
+                <Button variant="ghost" size="sm" className="relative text-slate-300 hover:text-white">
                   <Bell className="h-5 w-5" />
                   {mockKeyMetrics.unreadMessages > 0 && (
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-red-500">
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-red-500 text-xs font-bold">
                       {mockKeyMetrics.unreadMessages}
                     </Badge>
                   )}
                 </Button>
-                <div className="h-8 w-px bg-slate-200 dark:bg-slate-700" />
+
+                <div className="h-8 w-px bg-slate-700"></div>
+
+                {/* 用户信息 - 精简显示 */}
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-lg">
                     {userInfo.avatar}
                   </div>
                   <div className="text-sm">
-                    <div className="font-semibold text-slate-900 dark:text-white">{userInfo.name}</div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">{userInfo.role}</div>
+                    <div className="font-semibold text-white">{userInfo.name}</div>
+                    <div className="text-xs text-slate-400">{userInfo.role}</div>
                   </div>
                 </div>
               </div>
@@ -685,13 +718,6 @@ export default function DealerPortalV2() {
             {/* 首页内容 */}
             {activeMenu === 'home' && (
               <div className="space-y-6">
-                {/* 欢迎横幅 */}
-                <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl p-3 text-white">
-                  <div className="text-sm text-teal-100">
-                    欢迎回来，{userInfo.name}！{userInfo.company}（{userInfo.companyCode}）今天是 {new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}
-                  </div>
-                </div>
-
                 {/* 关键指标仪表盘 + 关键提醒 */}
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                       {/* 关键指标仪表盘 - 缩小 */}
@@ -1136,11 +1162,20 @@ export default function DealerPortalV2() {
 
                           {/* 4. 一键执行：操作按钮 */}
                           <div className="flex gap-2">
-                            <Button size="sm" className="flex-1 h-8 text-xs bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600">
+                            <Button
+                              size="sm"
+                              className="flex-1 h-8 text-xs bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
+                              onClick={() => handleExecuteClick(guide)}
+                            >
                               立即执行
                               <ArrowRightIcon className="ml-1 h-3 w-3" />
                             </Button>
-                            <Button variant="outline" size="sm" className="h-8 text-xs">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-8 text-xs"
+                              onClick={() => handleDetailClick(guide)}
+                            >
                               查看详情
                               <ArrowRight className="ml-1 h-3 w-3" />
                             </Button>
@@ -1366,6 +1401,403 @@ export default function DealerPortalV2() {
                   </div>
                 )}
 
+                {/* 销售导航 */}
+                {activeMenu === 'sales' && (
+                  <div className="space-y-6">
+                    {/* 页面标题 */}
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">销售导航</h2>
+                      <p className="text-sm text-purple-100">销售工具与资源</p>
+                    </div>
+
+                    {/* 快捷工具 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base">快捷工具</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
+                            <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
+                              <Plus className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">项目报备</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">快速报备新项目</div>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center mb-3">
+                              <Activity className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">项目跟踪</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">跟踪项目进展</div>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
+                            <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center mb-3">
+                              <ShoppingCart className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">订单申请</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">提交订单申请</div>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
+                            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center mb-3">
+                              <Headphones className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">服务申请</div>
+                            <div className="text-xs text-slate-600 dark:text-slate-400">提交售后服务</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 行业资源库 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Building className="h-5 w-5 text-purple-600" />
+                          行业资源库
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          针对不同行业的销售资源、案例和工具
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* K12行业 */}
+                          <div className="p-4 rounded-lg border-2 border-purple-200 dark:border-purple-800 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                                  <School className="h-4 w-4 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">K12(小中高)</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">15个案例 · 8套工具 · 5门课程</div>
+                                </div>
+                              </div>
+                              <Badge className="bg-purple-600 text-xs">资源丰富</Badge>
+                            </div>
+                            <Button size="sm" className="w-full mt-3 bg-purple-600 hover:bg-purple-700">
+                              查看K12资源
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          {/* 楼宇BOT行业 */}
+                          <div className="p-4 rounded-lg border-2 border-blue-200 dark:border-blue-800 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                                  <Building2 className="h-4 w-4 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">楼宇BOT</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">12个案例 · 6套工具 · 3门课程</div>
+                                </div>
+                              </div>
+                              <Badge className="bg-blue-600 text-xs">热门</Badge>
+                            </div>
+                            <Button size="sm" className="w-full mt-3 bg-blue-600 hover:bg-blue-700">
+                              查看楼宇BOT资源
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          {/* 校园BOT行业 */}
+                          <div className="p-4 rounded-lg border-2 border-green-200 dark:border-green-800 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+                                  <GraduationCap className="h-4 w-4 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">校园BOT</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">8个案例 · 5套工具 · 4门课程</div>
+                                </div>
+                              </div>
+                              <Badge className="bg-green-600 text-xs">高潜力</Badge>
+                            </div>
+                            <Button size="sm" className="w-full mt-3 bg-green-600 hover:bg-green-700">
+                              查看校园BOT资源
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          {/* 医疗系统行业 */}
+                          <div className="p-4 rounded-lg border-2 border-red-200 dark:border-red-800 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20">
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                                  <Stethoscope className="h-4 w-4 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">医疗系统</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">10个案例 · 7套工具 · 4门课程</div>
+                                </div>
+                              </div>
+                              <Badge className="bg-red-600 text-xs">稳定增长</Badge>
+                            </div>
+                            <Button size="sm" className="w-full mt-3 bg-red-600 hover:bg-red-700">
+                              查看医疗系统资源
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          {/* 政府机关/事业单位 */}
+                          <div className="p-4 rounded-lg border-2 border-amber-200 dark:border-amber-800 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20">
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center">
+                                  <Building className="h-4 w-4 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">政府机关/事业单位</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">6个案例 · 4套工具 · 3门课程</div>
+                                </div>
+                              </div>
+                              <Badge className="bg-amber-600 text-xs">机会多</Badge>
+                            </div>
+                            <Button size="sm" className="w-full mt-3 bg-amber-600 hover:bg-amber-700">
+                              查看政府机关资源
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          {/* 国央企业 */}
+                          <div className="p-4 rounded-lg border-2 border-slate-200 dark:border-slate-800 bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20">
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center">
+                                  <Briefcase className="h-4 w-4 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">国央企业</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">5个案例 · 3套工具 · 2门课程</div>
+                                </div>
+                              </div>
+                              <Badge className="bg-slate-600 text-xs">大客户</Badge>
+                            </div>
+                            <Button size="sm" className="w-full mt-3 bg-slate-600 hover:bg-slate-700">
+                              查看国央企业资源
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {/* 运营指南 */}
+                {activeMenu === 'guide' && (
+                  <div className="space-y-6">
+                    {/* 页面标题 */}
+                    <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">运营指南</h2>
+                      <p className="text-sm text-indigo-100">最佳实践与培训</p>
+                    </div>
+
+                    {/* 最佳实践 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Star className="h-5 w-5 text-amber-500" />
+                          最佳实践
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          行业领先者的成功经验和最佳实践
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center">
+                                <TrendingUp className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">K12行业销售策略</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">教育机构客户开发指南</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              如何快速切入K12市场，掌握学校采购流程，提高签约成功率
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center">
+                                <Building2 className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">楼宇BOT运营模式</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">BOT项目全流程管理</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              BOT项目的投资、建设、运营全流程管理，降低风险提高收益
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                                <GraduationCap className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">校园BOT项目开发</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">高校BOT项目实战经验</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              高校BOT项目的特点、难点和解决方案，成功案例分享
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-orange-500 rounded-lg flex items-center justify-center">
+                                <Stethoscope className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">医疗系统准入策略</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">医疗机构市场开发</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              医疗系统的准入要求、合规流程和客户关系维护
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center">
+                                <Building className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">政府采购项目投标</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">政府采购流程详解</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              政府采购项目的投标技巧、标书制作和注意事项
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-slate-400 to-gray-500 rounded-lg flex items-center justify-center">
+                                <Briefcase className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">国央企业大客户开发</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">国央企业销售策略</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              国央企业的组织架构、决策流程和客户关系管理
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 培训课程 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <BookOpen className="h-5 w-5 text-indigo-600" />
+                          培训课程
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          系统化的培训课程，提升销售技能和行业知识
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors">
+                            <div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-xl flex items-center justify-center">
+                              <School className="h-8 w-8 text-white" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-slate-900 dark:text-white mb-1">K12行业销售实战</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">掌握K12行业的客户特点和销售技巧</div>
+                              <div className="flex items-center gap-2">
+                                <Badge className="bg-teal-600 text-xs">8节课</Badge>
+                                <Badge variant="outline" className="text-xs">初级</Badge>
+                              </div>
+                            </div>
+                            <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
+                              开始学习
+                            </Button>
+                          </div>
+
+                          <div className="flex items-center gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
+                            <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center">
+                              <Building2 className="h-8 w-8 text-white" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-slate-900 dark:text-white mb-1">BOT项目运营管理</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">BOT项目的全生命周期管理</div>
+                              <div className="flex items-center gap-2">
+                                <Badge className="bg-blue-600 text-xs">12节课</Badge>
+                                <Badge variant="outline" className="text-xs">中级</Badge>
+                              </div>
+                            </div>
+                            <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                              开始学习
+                            </Button>
+                          </div>
+
+                          <div className="flex items-center gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-purple-500 dark:hover:border-purple-500 transition-colors">
+                            <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center">
+                              <Award className="h-8 w-8 text-white" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-slate-900 dark:text-white mb-1">大客户关系管理</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">国央企业和政府客户关系维护</div>
+                              <div className="flex items-center gap-2">
+                                <Badge className="bg-purple-600 text-xs">10节课</Badge>
+                                <Badge variant="outline" className="text-xs">高级</Badge>
+                              </div>
+                            </div>
+                            <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                              开始学习
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
                 {/* 节点推进 - 销售漏斗和项目周期管理 */}
                 {activeMenu === 'node' && (
                   <div className="space-y-6">
@@ -1484,6 +1916,299 @@ export default function DealerPortalV2() {
                     </div>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* 立即执行对话框 */}
+            {executeDialogOpen && selectedGuidance && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-auto">
+                  {/* 对话框头部 */}
+                  <div className="bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-4 rounded-t-2xl">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <Zap className="h-6 w-6 text-white" />
+                        <h3 className="text-lg font-bold text-white">立即执行</h3>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setExecuteDialogOpen(false)}
+                        className="text-white hover:bg-white/20"
+                      >
+                        <X className="h-5 w-5" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* 对话框内容 */}
+                  <div className="p-6 space-y-6">
+                    {/* 问题说明 */}
+                    <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">看到问题</h4>
+                          <p className="text-sm text-slate-700 dark:text-slate-300">{selectedGuidance.title}</p>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-2">{selectedGuidance.description}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 下一步行动 */}
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <ArrowRight className="h-5 w-5 text-blue-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">明白要做什么</h4>
+                          <p className="text-sm text-slate-900 dark:text-white font-medium">{selectedGuidance.nextAction}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 后台逻辑说明 */}
+                    <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <Cpu className="h-5 w-5 text-purple-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">后台自动执行</h4>
+                          <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">{selectedGuidance.executeAction}</p>
+                          <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                              <span className="font-semibold">行业经验：</span>基于CRM数据和AI算法，自动匹配最适合的客户和策略，提高效率
+                            </p>
+                            <p className="text-xs text-slate-600 dark:text-slate-400">
+                              <span className="font-semibold">销售工程师标签：</span>{selectedGuidance.engineerTags.join('、')}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 预期效果 */}
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">有结果反馈</h4>
+                          <p className="text-sm text-green-700 dark:text-green-400 font-medium">{selectedGuidance.expectedResult}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 对话框底部 */}
+                  <div className="border-t border-slate-200 dark:border-slate-700 px-6 py-4 bg-slate-50 dark:bg-slate-900/50 rounded-b-2xl">
+                    <div className="flex gap-3">
+                      <Button
+                        className="flex-1 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
+                        onClick={() => {
+                          // 模拟执行操作
+                          alert('系统已自动执行：' + selectedGuidance.executeAction);
+                          setExecuteDialogOpen(false);
+                        }}
+                      >
+                        <Zap className="mr-2 h-4 w-4" />
+                        确认执行
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setExecuteDialogOpen(false)}
+                      >
+                        取消
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 查看详情对话框 */}
+            {detailDialogOpen && selectedGuidance && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+                  {/* 对话框头部 */}
+                  <div className="bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4 rounded-t-2xl">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <BookOpen className="h-6 w-6 text-white" />
+                        <h3 className="text-lg font-bold text-white">行业详情</h3>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setDetailDialogOpen(false)}
+                        className="text-white hover:bg-white/20"
+                      >
+                        <X className="h-5 w-5" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* 对话框内容 */}
+                  <div className="p-6 space-y-6">
+                    {/* 问题说明 */}
+                    <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">看到问题</h4>
+                          <p className="text-sm text-slate-900 dark:text-white font-bold">{selectedGuidance.title.replace('⚠️ 看到问题：', '').replace('💡 经验建议：', '')}</p>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-2">{selectedGuidance.description}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 行业数据对比 */}
+                    <div className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-4">
+                      <h4 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <BarChart3 className="h-5 w-5 text-blue-600" />
+                        行业数据对比
+                      </h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">自己的业绩</div>
+                          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">¥85万</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-500 mt-1">同比增长 +12%</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg p-4">
+                          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">同规模平均</div>
+                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">¥95万</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-500 mt-1">低于平均 10个百分点</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 成功案例 */}
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-4">
+                      <h4 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <Award className="h-5 w-5 text-green-600" />
+                        成功案例
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <div className="text-sm font-semibold text-slate-900 dark:text-white">某中学直饮水系统改造</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">客户：南京某中学</div>
+                            </div>
+                            <div className="text-right ml-4">
+                              <div className="text-sm font-bold text-green-600 dark:text-green-400">¥65万</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">成功率 95%</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <div className="text-sm font-semibold text-slate-900 dark:text-white">小学实验室设备采购</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">客户：上海某小学</div>
+                            </div>
+                            <div className="text-right ml-4">
+                              <div className="text-sm font-bold text-green-600 dark:text-green-400">¥38万</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">成功率 90%</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 行业政策 */}
+                    <div className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <Newspaper className="h-5 w-5 text-amber-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">行业政策</h4>
+                          <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">
+                            教育部《关于推进中小学直饮水系统改造的通知》要求，2026年底前完成所有中小学直饮水系统改造工作，市场规模约5000万元。
+                          </p>
+                          <p className="text-xs text-slate-600 dark:text-slate-400">
+                            <span className="font-semibold">政策支持：</span>政府补贴、专项基金、税收优惠
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 行业特点 */}
+                    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <TrendingUp className="h-5 w-5 text-indigo-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">行业特点</h4>
+                          <ul className="text-sm text-slate-700 dark:text-slate-300 space-y-2">
+                            <li className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <span>决策周期长，通常需要3-6个月</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <span>价格敏感度中等，更关注质量和安全性</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <span>学校寒暑假是最佳推进时间</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                              <span>教育局和政府采购是主要渠道</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 客户画像 */}
+                    <div className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 border-2 border-cyan-200 dark:border-cyan-800 rounded-xl p-4">
+                      <div className="flex items-start gap-3">
+                        <Users className="h-5 w-5 text-cyan-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-900 dark:text-white mb-2">客户画像</h4>
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">关键决策人</div>
+                              <div className="text-slate-900 dark:text-white font-medium">校长、后勤主任、财务主任</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">采购流程</div>
+                              <div className="text-slate-900 dark:text-white font-medium">教育局审批 → 招投标 → 签约</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预算规模</div>
+                              <div className="text-slate-900 dark:text-white font-medium">20万-100万</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">付款方式</div>
+                              <div className="text-slate-900 dark:text-white font-medium">分期付款，验收后付尾款</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 对话框底部 */}
+                  <div className="border-t border-slate-200 dark:border-slate-700 px-6 py-4 bg-slate-50 dark:bg-slate-900/50 rounded-b-2xl">
+                    <div className="flex gap-3">
+                      <Button
+                        className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
+                        onClick={() => {
+                          // 跳转到详情页面
+                          alert('跳转到' + selectedGuidance.title + '详情页面');
+                          setDetailDialogOpen(false);
+                        }}
+                      >
+                        <BookOpen className="mr-2 h-4 w-4" />
+                        查看完整报告
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setDetailDialogOpen(false)}
+                      >
+                        关闭
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
