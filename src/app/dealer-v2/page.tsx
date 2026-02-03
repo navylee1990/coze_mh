@@ -358,35 +358,47 @@ const mockTodos = [
   }
 ];
 
-// 业务指引/运营建议 - 基于行业分析的推荐
+// 业务指引/运营建议 - 基于行业分析的推荐（优化为"看到问题→明白要做什么→一键执行→有结果反馈"）
 const mockGuidance = [
   {
     id: 1,
     type: 'opportunity',
-    title: '优势放大：制造业行业深耕',
-    description: '您在制造业业绩达120万，同比+28%，高于同规模平均15个百分点。建议继续深耕制造业客户，推荐AR75-E1和BZR100-A102产品，扩大领先优势。',
-    action: '查看制造业详情'
+    title: '🎯 看到问题：制造业行业优势明显',
+    description: '您的制造业业绩达120万，同比+28%，高于同规模平均15个百分点。这是您的优势领域，但还有40%的潜在市场未开发。',
+    action: '查看制造业详情',
+    nextAction: '立即制定制造业扩客计划',
+    expectedResult: '预计可新增20-30万业绩',
+    priority: 'high'
   },
   {
     id: 2,
     type: 'opportunity',
-    title: '增长潜力：医疗系统提速',
-    description: '医疗系统同比增长22%，高于同规模平均12个百分点。市场需求旺盛，建议加强医疗系统客户开发，推荐AR75-E1产品，抓住行业增长机会。',
-    action: '查看医疗系统详情'
+    title: '🎯 看到机会：医疗系统增长强劲',
+    description: '医疗系统同比增长22%，高于同规模平均12个百分点。市场需求旺盛，建议加强医疗系统客户开发，把握行业增长机会。',
+    action: '查看医疗系统详情',
+    nextAction: '联系医疗系统潜在客户',
+    expectedResult: '预计可新增15-25万业绩',
+    priority: 'medium'
   },
   {
     id: 3,
     type: 'risk',
-    title: '风险提示：教育机构跟进不足',
-    description: '教育机构同比增长仅8%，低于制造业、医疗系统等优势行业。建议加强教育机构客户回访，挖掘潜在需求，提升该行业业绩。',
-    action: '查看教育机构分析'
+    title: '⚠️ 风险提示：教育机构增长乏力',
+    description: '教育机构同比增长仅8%，低于制造业、医疗系统等优势行业。该行业还有较大提升空间，建议重点跟进。',
+    action: '查看教育机构分析',
+    nextAction: '分析教育机构客户流失原因',
+    expectedResult: '提升教育机构业绩至20万+',
+    priority: 'high'
   },
   {
     id: 4,
     type: 'tip',
-    title: '经营建议：智慧园区持续发力',
+    title: '💡 经营建议：智慧园区持续发力',
     description: '智慧园区同比增长18%，高于同规模平均10个百分点。建议在现有智慧园区客户中推广升级，提升整体利润率。',
-    action: '查看智慧园区详情'
+    action: '查看智慧园区详情',
+    nextAction: '制定客户升级方案',
+    expectedResult: '提升客户客单价20%',
+    priority: 'medium'
   }
 ];
 
@@ -752,44 +764,129 @@ export default function DealerPortalV2() {
                             <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
                               <div className="flex items-center justify-between mb-3">
                                 <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">1-12月度趋势（实际完成/预测完成/目标对比）</div>
-                                <div className="flex items-center gap-2 text-xs">
+                                <div className="flex items-center gap-3 text-xs">
                                   <div className="flex items-center gap-1">
-                                    <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                                    <div className="w-8 h-0.5 bg-blue-500 rounded"></div>
                                     <span className="text-slate-600 dark:text-slate-400">实际完成</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    <div className="w-3 h-3 bg-green-500 rounded"></div>
+                                    <div className="w-8 h-0.5 bg-green-500 rounded"></div>
                                     <span className="text-slate-600 dark:text-slate-400">预测完成</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    <div className="w-3 h-3 bg-purple-500 rounded"></div>
+                                    <div className="w-8 h-0.5 bg-purple-500 rounded border-dashed border-purple-500"></div>
                                     <span className="text-slate-600 dark:text-slate-400">目标</span>
                                   </div>
                                 </div>
                               </div>
-                              <div className="h-24 flex items-end gap-1">
-                                {[30, 45, 38, 52, 48, 60, 55, 62, 58, 70, 68, 72].map((actual, idx) => (
-                                  <div key={idx} className="flex-1 flex flex-col items-center gap-1">
-                                    <div className="w-full flex gap-0.5 items-end h-full">
-                                      <div 
-                                        className="flex-1 bg-blue-500 rounded-t transition-all hover:bg-blue-600" 
-                                        style={{ height: `${actual}%` }}
-                                        title={`实际完成: ¥${(actual * 10).toFixed(0)}万`}
-                                      ></div>
-                                      <div 
-                                        className="flex-1 bg-green-500 rounded-t transition-all hover:bg-green-600" 
-                                        style={{ height: `${Math.min(actual + 8, 100)}%` }}
-                                        title={`预测完成: ¥${((actual + 8) * 10).toFixed(0)}万`}
-                                      ></div>
-                                      <div 
-                                        className="flex-1 bg-purple-500 rounded-t opacity-50 transition-all hover:opacity-70" 
-                                        style={{ height: `${[40, 50, 45, 55, 50, 60, 55, 65, 60, 70, 68, 75][idx]}%` }}
-                                        title={`目标: ¥${[40, 50, 45, 55, 50, 60, 55, 65, 60, 70, 68, 75][idx] * 10}万`}
-                                      ></div>
-                                    </div>
-                                    <span className="text-xs text-slate-500 dark:text-slate-400">{idx + 1}月</span>
-                                  </div>
-                                ))}
+                              <div className="h-24 relative">
+                                <svg className="w-full h-full" viewBox="0 0 600 120" preserveAspectRatio="none">
+                                  {/* 网格线 */}
+                                  {[0, 25, 50, 75, 100].map((value, idx) => (
+                                    <line
+                                      key={idx}
+                                      x1="0"
+                                      y1={120 - (value / 100 * 120)}
+                                      x2="600"
+                                      y2={120 - (value / 100 * 120)}
+                                      stroke="#e2e8f0"
+                                      strokeWidth="1"
+                                      strokeDasharray="4 4"
+                                    />
+                                  ))}
+                                  
+                                  {/* Y轴标签 */}
+                                  {[0, 50, 100].map((value, idx) => (
+                                    <text
+                                      key={idx}
+                                      x="5"
+                                      y={120 - (value / 100 * 120) - 3}
+                                      className="text-[10px] fill-slate-500 dark:fill-slate-400"
+                                    >
+                                      {value}
+                                    </text>
+                                  ))}
+
+                                  {/* 目标线（虚线） */}
+                                  <polyline
+                                    points={[100, 100, 200, 100, 300, 100, 400, 100, 500, 100, 600, 100, 700, 100, 800, 100, 900, 100, 1000, 100, 1100, 100, 1200, 100, 1300, 100].map((y, idx) => 
+                                      `${50 + idx * 50},${y}`
+                                    ).join(' ')}
+                                    fill="none"
+                                    stroke="#a855f7"
+                                    strokeWidth="2"
+                                    strokeDasharray="6 4"
+                                  />
+
+                                  {/* 实际完成线（1月90，2月55，3-12月0） */}
+                                  <polyline
+                                    points={`${50},${120 - 90} ${100},${120 - 55} ${150},${120 - 0} ${200},${120 - 0} ${250},${120 - 0} ${300},${120 - 0} ${350},${120 - 0} ${400},${120 - 0} ${450},${120 - 0} ${500},${120 - 0} ${550},${120 - 0} ${600},${120 - 0}`}
+                                    fill="none"
+                                    stroke="#3b82f6"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+
+                                  {/* 预测完成线 */}
+                                  <polyline
+                                    points={`${50},${120 - 95} ${100},${120 - 98} ${150},${120 - 102} ${200},${120 - 105} ${250},${120 - 100} ${300},${120 - 95} ${350},${120 - 98} ${400},${120 - 102} ${450},${120 - 105} ${500},${120 - 100} ${550},${120 - 98} ${600},${120 - 95}`}
+                                    fill="none"
+                                    stroke="#22c55e"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+
+                                  {/* 数据点 */}
+                                  {/* 目标点 */}
+                                  {[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100].map((y, idx) => (
+                                    <circle
+                                      key={`target-${idx}`}
+                                      cx={50 + idx * 50}
+                                      cy={120 - y}
+                                      r="3"
+                                      fill="#a855f7"
+                                      className="hover:r-4 transition-all cursor-pointer"
+                                      title={`${idx + 1}月目标: ¥${y}万`}
+                                    />
+                                  ))}
+
+                                  {/* 实际完成点 */}
+                                  {[90, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((y, idx) => (
+                                    <circle
+                                      key={`actual-${idx}`}
+                                      cx={50 + idx * 50}
+                                      cy={120 - y}
+                                      r="3"
+                                      fill="#3b82f6"
+                                      className="hover:r-4 transition-all cursor-pointer"
+                                      title={`${idx + 1}月实际完成: ¥${y}万`}
+                                    />
+                                  ))}
+
+                                  {/* 预测完成点 */}
+                                  {[95, 98, 102, 105, 100, 95, 98, 102, 105, 100, 98, 95].map((y, idx) => (
+                                    <circle
+                                      key={`forecast-${idx}`}
+                                      cx={50 + idx * 50}
+                                      cy={120 - y}
+                                      r="3"
+                                      fill="#22c55e"
+                                      className="hover:r-4 transition-all cursor-pointer"
+                                      title={`${idx + 1}月预测完成: ¥${y}万`}
+                                    />
+                                  ))}
+                                </svg>
+
+                                {/* X轴标签 */}
+                                <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1">
+                                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month) => (
+                                    <span key={month} className="text-[10px] text-slate-500 dark:text-slate-400">
+                                      {month}月
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </CardContent>
@@ -814,14 +911,20 @@ export default function DealerPortalV2() {
                                     <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">1个月内将到期项目</div>
                                     <AlertTriangle className="h-4 w-4 text-orange-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{mockKeyMetrics.expiringProjects}个</div>
+                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400 mb-2">{mockKeyMetrics.expiringProjects}个</div>
+                                  <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
+                                    立即跟进
+                                  </Button>
                                 </div>
                                 <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border border-orange-200 dark:border-orange-800">
                                   <div className="flex items-center justify-between mb-1">
                                     <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">1个月内未跟进项目</div>
                                     <Clock className="h-4 w-4 text-orange-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{mockKeyMetrics.untrackedProjects}个</div>
+                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400 mb-2">{mockKeyMetrics.untrackedProjects}个</div>
+                                  <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
+                                    批量跟进
+                                  </Button>
                                 </div>
                               </div>
 
@@ -832,14 +935,20 @@ export default function DealerPortalV2() {
                                     <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">待审订单</div>
                                     <FileText className="h-4 w-4 text-orange-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{mockKeyMetrics.pendingOrders}个</div>
+                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400 mb-2">{mockKeyMetrics.pendingOrders}个</div>
+                                  <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
+                                    查看审批
+                                  </Button>
                                 </div>
                                 <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border border-orange-200 dark:border-orange-800">
                                   <div className="flex items-center justify-between mb-1">
                                     <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">待审流程</div>
                                     <RefreshCw className="h-4 w-4 text-orange-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400">{mockKeyMetrics.pendingProcesses}个</div>
+                                  <div className="text-xl font-bold text-orange-600 dark:text-orange-400 mb-2">{mockKeyMetrics.pendingProcesses}个</div>
+                                  <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
+                                    查看流程
+                                  </Button>
                                 </div>
                               </div>
 
@@ -849,7 +958,7 @@ export default function DealerPortalV2() {
                                   <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">本月预测项目数/已下订单数</div>
                                   <Target className="h-4 w-4 text-orange-600" />
                                 </div>
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-4 mb-2">
                                   <div className="flex-1">
                                     <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">预测项目数</div>
                                     <div className="text-lg font-bold text-orange-600 dark:text-orange-400">6个</div>
@@ -860,6 +969,9 @@ export default function DealerPortalV2() {
                                     <div className="text-lg font-bold text-orange-600 dark:text-orange-400">3个</div>
                                   </div>
                                 </div>
+                                <Button size="sm" className="w-full h-7 text-xs bg-orange-600 hover:bg-orange-700">
+                                  查看预测项目
+                                </Button>
                               </div>
                             </div>
                           </CardContent>
@@ -914,6 +1026,10 @@ export default function DealerPortalV2() {
                                 同比增长 +28%，高于平均 15个百分点
                               </div>
                             </div>
+                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
+                              制定行动计划
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
                           </div>
 
                           {/* 医疗系统 */}
@@ -941,6 +1057,10 @@ export default function DealerPortalV2() {
                                 同比增长 +22%，高于平均 12个百分点
                               </div>
                             </div>
+                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
+                              制定行动计划
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
                           </div>
 
                           {/* 智慧园区 */}
@@ -968,6 +1088,10 @@ export default function DealerPortalV2() {
                                 同比增长 +18%，高于平均 10个百分点
                               </div>
                             </div>
+                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
+                              制定行动计划
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
                           </div>
 
                           {/* 教育机构 */}
@@ -995,6 +1119,10 @@ export default function DealerPortalV2() {
                                 同比增长 +8%，高于平均 3个百分点
                               </div>
                             </div>
+                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-slate-600 hover:bg-slate-700">
+                              制定行动计划
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
                           </div>
 
                           {/* 金融中心 */}
@@ -1022,6 +1150,10 @@ export default function DealerPortalV2() {
                                 同比增长 +20%，高于平均 8个百分点
                               </div>
                             </div>
+                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
+                              制定行动计划
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
                           </div>
 
                           {/* 园区运营 */}
@@ -1049,6 +1181,10 @@ export default function DealerPortalV2() {
                                 同比增长 +12%，高于平均 6个百分点
                               </div>
                             </div>
+                            <Button size="sm" className="w-full h-7 text-xs mt-3 bg-purple-600 hover:bg-purple-700">
+                              制定行动计划
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
                           </div>
                         </div>
                       </CardContent>
@@ -1074,23 +1210,56 @@ export default function DealerPortalV2() {
                           guide.type === 'tip' ? 'border-blue-300 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20' :
                           'border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20'
                         }`}>
+                          {/* 1. 看到问题：标题和描述 */}
                           <div className="flex items-start justify-between mb-2">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 flex-1">
                               {guide.type === 'opportunity' && <Star className="h-4 w-4 text-green-600" />}
                               {guide.type === 'risk' && <ShieldAlert className="h-4 w-4 text-red-600" />}
                               {guide.type === 'tip' && <Lightbulb className="h-4 w-4 text-blue-600" />}
                               {guide.type === 'training' && <BookOpen className="h-4 w-4 text-purple-600" />}
-                              <div className="font-semibold text-sm text-slate-900 dark:text-white">
+                              <div className="font-semibold text-sm text-slate-900 dark:text-white flex-1">
                                 {guide.title}
                               </div>
                             </div>
-                            <Button variant="outline" size="sm" className="text-xs">
-                              {guide.action}
+                            <Badge className={`ml-2 text-xs ${
+                              guide.priority === 'high' ? 'bg-red-600' :
+                              guide.priority === 'medium' ? 'bg-orange-600' :
+                              'bg-slate-600'
+                            }`}>
+                              {guide.priority === 'high' ? '重要' : guide.priority === 'medium' ? '建议' : '可选'}
+                            </Badge>
+                          </div>
+                          <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                            {guide.description}
+                          </div>
+
+                          {/* 2. 明白要做什么：下一步行动 */}
+                          <div className="bg-white/50 dark:bg-slate-800/50 rounded-md p-2 mb-2">
+                            <div className="flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400 mb-1">
+                              <ArrowRight className="h-3 w-3" />
+                              <span className="font-semibold">下一步：</span>
+                            </div>
+                            <div className="text-xs font-medium text-slate-900 dark:text-white">
+                              {guide.nextAction}
+                            </div>
+                          </div>
+
+                          {/* 3. 有结果反馈：预期效果 */}
+                          <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 mb-2">
+                            <CheckCircle2 className="h-3 w-3" />
+                            <span>{guide.expectedResult}</span>
+                          </div>
+
+                          {/* 4. 一键执行：操作按钮 */}
+                          <div className="flex gap-2">
+                            <Button size="sm" className="flex-1 h-8 text-xs bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600">
+                              立即执行
+                              <ArrowRightIcon className="ml-1 h-3 w-3" />
+                            </Button>
+                            <Button variant="outline" size="sm" className="h-8 text-xs">
+                              查看详情
                               <ArrowRight className="ml-1 h-3 w-3" />
                             </Button>
-                          </div>
-                          <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {guide.description}
                           </div>
                         </div>
                       ))}
