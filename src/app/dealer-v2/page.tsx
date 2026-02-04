@@ -99,7 +99,8 @@ const userInfo = {
   company: '南京雪濠洋环保科技有限公司',
   companyCode: 'ZLX0008',
   avatar: 'J',
-  role: '总经理'
+  role: '总经理',
+  rating: 'A+'
 };
 
 // ==================== 首页四大版块数据 ====================
@@ -197,6 +198,79 @@ const mockTopProducts = [
   { rank: 5, name: 'AR80-Pro', sales: 87, revenue: 1566000, profitMargin: 30, growth: 22, recommended: false, reason: '' },
   { rank: 6, name: 'AR75-MAX', sales: 65, revenue: 1430000, profitMargin: 35, growth: 32, recommended: true, reason: '超高利润率，快速成长' },
   { rank: 7, name: 'BZ200-Pro', sales: 52, revenue: 1300000, profitMargin: 38, growth: 28, recommended: true, reason: '旗舰产品，利润率最高' }
+];
+
+// 销售工程师评估分析 - 协同交互
+const mockEngineerAnalysis = [
+  {
+    id: 1,
+    industryId: 1,
+    industryName: 'K12(小中高)',
+    engineerName: '张三',
+    engineerRating: 'A级',
+    analysisDate: '2026-02-01',
+    status: '已提交',
+    assessment: {
+      marketOpportunity: 'K12市场需求旺盛，政策支持力度大，尤其是直饮水系统改造项目',
+      strength: '我们在南京地区有丰富的学校资源，与多所中学建立了良好关系',
+      weakness: '销售团队对K12行业的专业产品知识有待提升，需要加强培训',
+      opportunities: '教育部要求2026年底前完成所有中小学直饮水系统改造，市场规模约5000万',
+      risks: '竞争激烈，价格压力大，需要提升产品附加值和服务质量'
+    },
+    actionPlan: {
+      shortTerm: '在2-3月份重点跟进5-8所中小学，预计签约2-3个项目，金额50-80万',
+      mediumTerm: '加强销售团队培训，提升专业能力，开发3-5个新客户',
+      longTerm: '建立K12行业标杆案例，扩大市场影响力'
+    },
+    feedback: '希望市场部提供K12行业政策解读和产品培训支持',
+    dealerResponse: '已安排张经理进行专业培训，提供政策解读资料'
+  },
+  {
+    id: 2,
+    industryId: 3,
+    industryName: '校园BOT',
+    engineerName: '李四',
+    engineerRating: 'B+级',
+    analysisDate: '2026-01-28',
+    status: '待反馈',
+    assessment: {
+      marketOpportunity: '高校BOT项目投资回报周期长，但收益稳定，适合长期发展',
+      strength: '我们有3个成功的高校BOT案例，经验丰富',
+      weakness: 'BOT项目前期投入大，资金压力大',
+      opportunities: '多所高校有基础设施改造需求，BOT模式受欢迎',
+      risks: '高校决策周期长，政策变化风险'
+    },
+    actionPlan: {
+      shortTerm: '对接3-5所高校，争取1-2个项目立项',
+      mediumTerm: '优化BOT投资模式，降低前期投入',
+      longTerm: '建立校园BOT成功案例库，推广复制'
+    },
+    feedback: '希望财务部支持BOT项目融资方案',
+    dealerResponse: null
+  },
+  {
+    id: 3,
+    industryId: 5,
+    industryName: '政府机关/事业单位',
+    engineerName: '王五',
+    engineerRating: 'A级',
+    analysisDate: '2026-01-25',
+    status: '已确认',
+    assessment: {
+      marketOpportunity: '政府采购项目数量多，预算充足，但竞争激烈',
+      strength: '我们在政府系统有良好的人脉资源',
+      weakness: '招投标经验不足，需要提升',
+      opportunities: '政府机关办公楼改造项目增多，市场机会好',
+      risks: '招投标过程复杂，合规要求高'
+    },
+    actionPlan: {
+      shortTerm: '关注政府采购公告，参与3-5个项目投标',
+      mediumTerm: '加强招投标培训，提升中标率',
+      longTerm: '建立政府采购成功案例，扩大政府客户群'
+    },
+    feedback: '希望法务部提供招投标合规指导',
+    dealerResponse: '已安排法务专员提供指导，制定标准投标模板'
+  }
 ];
 
 // 项目开发 - 储备情况
@@ -683,6 +757,9 @@ export default function DealerPortalV2() {
                   <span>今天是 {new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' })}</span>
                   <span className="text-slate-500">|</span>
                   <span className="text-slate-400">{userInfo.company}（{userInfo.companyCode}）</span>
+                  <Badge className="bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 font-bold text-xs px-2 py-0.5">
+                    {userInfo.rating}
+                  </Badge>
                 </div>
               </div>
 
@@ -1086,11 +1163,11 @@ export default function DealerPortalV2() {
                                     同比增长 {industry.yoyGrowth > 0 ? '+' : ''}{industry.yoyGrowth}%，{isPositive ? '高于' : '低于'}平均 {Math.abs(parseFloat(diffPercent))}个百分点
                                   </div>
                                 </div>
-                                {/* 只有自己低于同规模平均时才显示"制定行动计划"按钮 */}
+                                {/* 只有自己低于同规模平均时才显示"交流反馈"按钮 */}
                                 {!isAboveAverage && (
-                                  <Button size="sm" className="w-full h-7 text-xs mt-3 bg-slate-600 hover:bg-slate-700">
-                                    制定行动计划
-                                    <ArrowRightIcon className="ml-1 h-3 w-3" />
+                                  <Button size="sm" variant="outline" className="w-full h-7 text-xs mt-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900/30">
+                                    交流反馈
+                                    <MessageSquare className="ml-1 h-3 w-3" />
                                   </Button>
                                 )}
                               </div>
@@ -1099,6 +1176,153 @@ export default function DealerPortalV2() {
                         </div>
                       </CardContent>
                     </Card>
+
+                  {/* 协同交互 - 销售工程师评估分析 */}
+                  <Card className="border-2 border-cyan-200 dark:border-cyan-800">
+                    <CardHeader className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 py-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4 text-cyan-600" />
+                          协同交互 - 销售工程师评估分析
+                        </CardTitle>
+                        <Badge variant="outline" className="text-xs">{mockEngineerAnalysis.length}份评估</Badge>
+                      </div>
+                      <CardDescription className="text-xs">
+                        基于行业分析，销售工程师进行评估分析，制定行动计划，实现双向交流和协同决策
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {mockEngineerAnalysis.map((analysis) => (
+                          <div key={analysis.id} className="p-4 rounded-lg border-2 border-cyan-200 dark:border-cyan-700 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20">
+                            {/* 头部：行业信息 + 销售工程师信息 */}
+                            <div className="flex items-start justify-between mb-3">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
+                                  <MessageSquare className="h-5 w-5 text-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold text-slate-900 dark:text-white">{analysis.industryName}</div>
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">
+                                    {analysis.engineerName} · {analysis.engineerRating} · {analysis.analysisDate}
+                                  </div>
+                                </div>
+                              </div>
+                              <Badge className={`${
+                                analysis.status === '已确认' ? 'bg-green-600' :
+                                analysis.status === '已提交' ? 'bg-blue-600' :
+                                'bg-amber-600'
+                              } text-xs`}>
+                                {analysis.status}
+                              </Badge>
+                            </div>
+
+                            {/* 评估分析 */}
+                            <div className="space-y-3 mb-4">
+                              <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <TrendingUp className="h-4 w-4 text-cyan-600" />
+                                  <div className="font-semibold text-sm text-slate-900 dark:text-white">市场机会</div>
+                                </div>
+                                <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.marketOpportunity}</p>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-3">
+                                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <Star className="h-3 w-3 text-green-600" />
+                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">优势</div>
+                                  </div>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.strength}</p>
+                                </div>
+                                <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-3">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <AlertTriangle className="h-3 w-3 text-red-600" />
+                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">不足</div>
+                                  </div>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.weakness}</p>
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-3">
+                                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <Lightbulb className="h-3 w-3 text-amber-600" />
+                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">机会</div>
+                                  </div>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.opportunities}</p>
+                                </div>
+                                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <ShieldAlert className="h-3 w-3 text-purple-600" />
+                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">风险</div>
+                                  </div>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.risks}</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* 行动计划 */}
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-3 mb-3">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Target className="h-4 w-4 text-blue-600" />
+                                <div className="font-semibold text-sm text-slate-900 dark:text-white">行动计划</div>
+                              </div>
+                              <div className="space-y-2">
+                                <div className="flex items-start gap-2">
+                                  <Badge className="bg-teal-600 text-xs flex-shrink-0 mt-0.5">短期</Badge>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.actionPlan.shortTerm}</p>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                  <Badge className="bg-blue-600 text-xs flex-shrink-0 mt-0.5">中期</Badge>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.actionPlan.mediumTerm}</p>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                  <Badge className="bg-purple-600 text-xs flex-shrink-0 mt-0.5">长期</Badge>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.actionPlan.longTerm}</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* 交互反馈 */}
+                            <div className="space-y-3">
+                              {/* 销售工程师反馈 */}
+                              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-lg p-3">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <MessageSquare className="h-4 w-4 text-amber-600" />
+                                  <div className="font-semibold text-sm text-slate-900 dark:text-white">销售工程师反馈</div>
+                                </div>
+                                <p className="text-xs text-slate-700 dark:text-slate-300 italic">"{analysis.feedback}"</p>
+                              </div>
+
+                              {/* 经销商响应 */}
+                              {analysis.dealerResponse ? (
+                                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-3">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    <div className="font-semibold text-sm text-slate-900 dark:text-white">经销商响应</div>
+                                  </div>
+                                  <p className="text-xs text-slate-700 dark:text-slate-300">"{analysis.dealerResponse}"</p>
+                                </div>
+                              ) : (
+                                <div className="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 rounded-lg p-3">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Clock className="h-4 w-4 text-slate-400" />
+                                    <div className="font-semibold text-sm text-slate-600 dark:text-slate-400">待响应</div>
+                                  </div>
+                                  <p className="text-xs text-slate-500 dark:text-slate-500">经销商正在评估销售工程师的反馈，请耐心等待...</p>
+                                  <Button size="sm" variant="outline" className="w-full mt-2 text-xs">
+                                    立即响应
+                                    <ArrowRight className="ml-1 h-3 w-3" />
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
 
                   {/* 业务指引 - 基于行业分析的推荐 */}
                   <Card className="border-2 border-amber-200 dark:border-amber-800">
