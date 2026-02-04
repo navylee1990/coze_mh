@@ -1370,98 +1370,109 @@ export default function DealerPortalV2() {
                       </CardContent>
                     </Card>
 
-                  {/* 业务指引 - 基于行业分析的推荐 */}
-                  <Card className="border-2 border-amber-200 dark:border-amber-800">
-                  <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 py-3">
-                    <CardTitle className="text-base flex items-center gap-2">
-                      <Lightbulb className="h-4 w-4 text-amber-600" />
-                      业务指引 - 赋能经营增效
-                    </CardTitle>
-                    <CardDescription className="text-xs">
-                      基于行业分析对比，为您提供个性化的业务建议和指导
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                      {mockGuidance.map((guide) => (
-                        <div key={guide.id} className={`p-3 rounded-lg border-2 ${
-                          guide.type === 'opportunity' ? 'border-green-300 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20' :
-                          guide.type === 'risk' ? 'border-red-300 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20' :
-                          guide.type === 'tip' ? 'border-blue-300 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20' :
-                          'border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20'
-                        }`}>
-                          {/* 1. 看到问题：标题和描述 */}
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex items-center gap-2 flex-1">
-                              {guide.type === 'opportunity' && <Star className="h-4 w-4 text-green-600" />}
-                              {guide.type === 'risk' && <ShieldAlert className="h-4 w-4 text-red-600" />}
-                              {guide.type === 'tip' && <Lightbulb className="h-4 w-4 text-blue-600" />}
-                              {guide.type === 'training' && <BookOpen className="h-4 w-4 text-purple-600" />}
-                              <div className="font-semibold text-sm text-slate-900 dark:text-white flex-1">
-                                {guide.title}
-                              </div>
-                            </div>
-                            <Badge className={`ml-2 text-xs ${
-                              guide.priority === 'high' ? 'bg-red-600' :
-                              guide.priority === 'medium' ? 'bg-orange-600' :
-                              'bg-slate-600'
-                            }`}>
-                              {guide.priority === 'high' ? '重要' : guide.priority === 'medium' ? '建议' : '可选'}
-                            </Badge>
-                          </div>
-                          <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
-                            {guide.description}
-                          </div>
-
-                          {/* 2. 明白要做什么：下一步行动 */}
-                          <div className="bg-white/50 dark:bg-slate-800/50 rounded-md p-2 mb-2">
-                            <div className="flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400 mb-1">
-                              <ArrowRight className="h-3 w-3" />
-                              <span className="font-semibold">下一步：</span>
-                            </div>
-                            <div className="text-xs font-medium text-slate-900 dark:text-white">
-                              {guide.nextAction}
-                            </div>
-                          </div>
-
-                          {/* 3. 有结果反馈：预期效果 */}
-                          <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 mb-2">
-                            <CheckCircle2 className="h-3 w-3" />
-                            <span>{guide.expectedResult}</span>
-                          </div>
-
-                          {/* 4. 一键执行：操作按钮 */}
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              className="flex-1 h-8 text-xs bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
-                              onClick={() => handleExecuteClick(guide)}
-                            >
-                              立即执行
-                              <ArrowRightIcon className="ml-1 h-3 w-3" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 text-xs"
-                              onClick={() => handleDetailClick(guide)}
-                            >
-                              查看详情
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
               </div>
             )}
 
             {/* 其他菜单占位符 */}
             {activeMenu !== 'home' && (
               <div className="flex-1 overflow-auto">
+                {/* 市场规划 */}
+                {activeMenu === 'market' && (
+                  <div className="space-y-6">
+                    {/* 页面标题 */}
+                    <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">市场规划</h2>
+                      <p className="text-sm text-indigo-100">指导、行动方案及闭环跟进</p>
+                    </div>
+
+                    {/* 业务指引 - 赋能经营增效 */}
+                    <Card className="border-2 border-amber-200 dark:border-amber-800">
+                      <CardHeader className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 py-3">
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Lightbulb className="h-4 w-4 text-amber-600" />
+                          业务指引 - 赋能经营增效
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          基于行业分析对比，为您提供个性化的业务建议和指导
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                          {mockGuidance.map((guide) => (
+                            <div key={guide.id} className={`p-3 rounded-lg border-2 ${
+                              guide.type === 'opportunity' ? 'border-green-300 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20' :
+                              guide.type === 'risk' ? 'border-red-300 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20' :
+                              guide.type === 'tip' ? 'border-blue-300 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20' :
+                              'border-purple-300 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20'
+                            }`}>
+                              {/* 1. 看到问题：标题和描述 */}
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-center gap-2 flex-1">
+                                  {guide.type === 'opportunity' && <Star className="h-4 w-4 text-green-600" />}
+                                  {guide.type === 'risk' && <ShieldAlert className="h-4 w-4 text-red-600" />}
+                                  {guide.type === 'tip' && <Lightbulb className="h-4 w-4 text-blue-600" />}
+                                  {guide.type === 'training' && <BookOpen className="h-4 w-4 text-purple-600" />}
+                                  <div className="font-semibold text-sm text-slate-900 dark:text-white flex-1">
+                                    {guide.title}
+                                  </div>
+                                </div>
+                                <Badge className={`ml-2 text-xs ${
+                                  guide.priority === 'high' ? 'bg-red-600' :
+                                  guide.priority === 'medium' ? 'bg-orange-600' :
+                                  'bg-slate-600'
+                                }`}>
+                                  {guide.priority === 'high' ? '重要' : guide.priority === 'medium' ? '建议' : '可选'}
+                                </Badge>
+                              </div>
+                              <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                                {guide.description}
+                              </div>
+
+                              {/* 2. 明白要做什么：下一步行动 */}
+                              <div className="bg-white/50 dark:bg-slate-800/50 rounded-md p-2 mb-2">
+                                <div className="flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                  <ArrowRight className="h-3 w-3" />
+                                  <span className="font-semibold">下一步：</span>
+                                </div>
+                                <div className="text-xs font-medium text-slate-900 dark:text-white">
+                                  {guide.nextAction}
+                                </div>
+                              </div>
+
+                              {/* 3. 有结果反馈：预期效果 */}
+                              <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 mb-2">
+                                <CheckCircle2 className="h-3 w-3" />
+                                <span>{guide.expectedResult}</span>
+                              </div>
+
+                              {/* 4. 一键执行：操作按钮 */}
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  className="flex-1 h-8 text-xs bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
+                                  onClick={() => handleExecuteClick(guide)}
+                                >
+                                  立即执行
+                                  <ArrowRightIcon className="ml-1 h-3 w-3" />
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-8 text-xs"
+                                  onClick={() => handleDetailClick(guide)}
+                                >
+                                  查看详情
+                                  <ArrowRight className="ml-1 h-3 w-3" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
                 {/* 项目开发 - 项目储备 */}
                 {false && (
                   <div className="space-y-6">
@@ -1576,6 +1587,98 @@ export default function DealerPortalV2() {
                               </div>
                             </div>
                           ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 产品 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Package className="h-5 w-5 text-cyan-600" />
+                          产品
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          产品资料与技术参数
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-lg flex items-center justify-center">
+                                <Cpu className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">直饮水设备</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">技术参数与选型指南</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              RO反渗透、超滤、纳滤等直饮水设备的技术参数和选型建议
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                                <RefreshCw className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">IC卡水控系统</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">系统功能与规格说明</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              IC卡水控器的功能特点、技术规格和安装指南
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center">
+                                <Database className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">智能管理系统</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">平台功能与对接方案</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              云管理平台的功能模块、数据接口和第三方对接方案
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
+                                <Wrench className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">配件与耗材</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">常用配件清单与更换周期</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              滤芯、膜元件、配件清单和更换周期说明
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
