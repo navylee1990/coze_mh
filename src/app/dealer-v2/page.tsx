@@ -77,8 +77,7 @@ import {
   XCircle,
   FileText as FileTextIcon,
   Hammer,
-  LogOut,
-  Funnel
+  LogOut
 } from 'lucide-react';
 
 // ==================== 菜单配置 ====================
@@ -1015,7 +1014,7 @@ export default function DealerPortalV2() {
                               <Card className="border border-slate-200">
                                 <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
                                   <CardTitle className="text-sm flex items-center gap-2">
-                                    <Funnel className="h-4 w-4 text-orange-600" />
+                                    <Target className="h-4 w-4 text-orange-600" />
                                     销售漏斗
                                   </CardTitle>
                                 </CardHeader>
