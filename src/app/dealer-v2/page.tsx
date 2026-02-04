@@ -728,6 +728,9 @@ export default function DealerPortalV2() {
   const [developmentDialogOpen, setDevelopmentDialogOpen] = useState(false);
   const [developmentIndustry, setDevelopmentIndustry] = useState<number | null>(null);
   const [developmentPlan, setDevelopmentPlan] = useState('');
+  
+  // 时间段选择状态
+  const [timePeriod, setTimePeriod] = useState<'month' | 'quarter' | 'year'>('month');
 
   // 切换子菜单展开/收起
   const toggleMenuExpansion = (menuKey: MenuKey) => {
@@ -826,10 +829,9 @@ export default function DealerPortalV2() {
           <nav className="flex-1 overflow-y-auto p-4">
             {menuSections.map((section, sectionIndex) => (
               <div key={section.title || `section-${sectionIndex}`} className="mb-6">
-                {section.title && (
+                {section.title && section.title !== '经营驾驶舱' && (
                   <>
                     <div className="flex items-center gap-2">
-                      {section.title === '经营驾驶舱' && <BarChart3 className="h-3 w-3 text-blue-600" />}
                       <div className="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-1">
                         {section.title}
                       </div>
@@ -976,34 +978,91 @@ export default function DealerPortalV2() {
                               {/* 当月任务情况 */}
                               <Card className="border border-slate-200">
                                 <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
-                                  <CardTitle className="text-sm flex items-center gap-2">
-                                    <Activity className="h-4 w-4 text-blue-600" />
-                                    当月任务情况
-                                  </CardTitle>
+                                  <div className="flex items-center justify-between">
+                                    <CardTitle className="text-sm flex items-center gap-2">
+                                      <Activity className="h-4 w-4 text-blue-600" />
+                                      当月任务情况
+                                    </CardTitle>
+                                    <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
+                                      <button
+                                        onClick={() => setTimePeriod('month')}
+                                        className={`px-2 py-0.5 text-xs rounded-md transition-all ${
+                                          timePeriod === 'month'
+                                            ? 'bg-white text-blue-700 shadow-sm font-medium'
+                                            : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                      >
+                                        月
+                                      </button>
+                                      <button
+                                        onClick={() => setTimePeriod('quarter')}
+                                        className={`px-2 py-0.5 text-xs rounded-md transition-all ${
+                                          timePeriod === 'quarter'
+                                            ? 'bg-white text-blue-700 shadow-sm font-medium'
+                                            : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                      >
+                                        季
+                                      </button>
+                                      <button
+                                        onClick={() => setTimePeriod('year')}
+                                        className={`px-2 py-0.5 text-xs rounded-md transition-all ${
+                                          timePeriod === 'year'
+                                            ? 'bg-white text-blue-700 shadow-sm font-medium'
+                                            : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                      >
+                                        年
+                                      </button>
+                                    </div>
+                                  </div>
                                 </CardHeader>
                                 <CardContent className="pt-3">
                                   <div className="space-y-3">
                                     <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">当月完成率</div>
+                                      <div className="text-xs text-slate-600">完成率</div>
                                       <Badge className="bg-blue-100 text-blue-700 text-xs">82%</Badge>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">当月预测完成率</div>
+                                      <div className="text-xs text-slate-600">预测完成率</div>
                                       <Badge className="bg-green-100 text-green-700 text-xs">96%</Badge>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">YTD实际完成率</div>
+                                      <div className="text-xs text-slate-600">实际完成率</div>
                                       <Badge className="bg-purple-100 text-purple-700 text-xs">81%</Badge>
                                     </div>
-                                    <div className="mt-2 pt-2 border-t border-slate-200">
-                                      <div className="flex items-center justify-between">
-                                        <div>
-                                          <div className="text-xs text-slate-600 mb-1">缺口</div>
-                                          <div className="text-sm font-bold text-red-600">¥22万</div>
+                                    
+                                    {/* 风险提醒 */}
+                                    <div className="mt-3 pt-3 border-t border-slate-200">
+                                      <div className="text-xs font-semibold text-slate-700 mb-2">风险</div>
+                                      <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center gap-2">
+                                            <div className="text-xs text-slate-600">缺口</div>
+                                            <span className="text-xs font-bold text-red-600">22万</span>
+                                          </div>
+                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-7 px-2">
+                                            补预测
+                                          </Button>
                                         </div>
-                                        <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50">
-                                          增补预测
-                                        </Button>
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center gap-2">
+                                            <div className="text-xs text-slate-600">未按时间下单</div>
+                                            <span className="text-xs font-bold text-orange-600">2个</span>
+                                          </div>
+                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-7 px-2">
+                                            去下单
+                                          </Button>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center gap-2">
+                                            <div className="text-xs text-slate-600">大项目依赖</div>
+                                            <span className="text-xs font-bold text-orange-600">1个</span>
+                                          </div>
+                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-7 px-2">
+                                            去确认
+                                          </Button>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
