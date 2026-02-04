@@ -90,10 +90,14 @@ type SubMenuKey = 'projectReport' | 'projectFollow' |
 
 const menuSections = [
   {
-    title: '经营驾驶舱',
     items: [
-      { key: 'home' as MenuKey, icon: Home, label: '首页', description: '经营总览与决策支持' }
+      { key: 'home' as MenuKey, icon: Home, label: '首页', description: '经营总览与待办' }
     ]
+  },
+  {
+    title: '经营驾驶舱',
+    subtitle: '发现问题与寻找方法',
+    items: []
   },
   {
     title: '运营指南',
@@ -818,11 +822,20 @@ export default function DealerPortalV2() {
 
           {/* 菜单 */}
           <nav className="flex-1 overflow-y-auto p-4">
-            {menuSections.map((section) => (
-              <div key={section.title} className="mb-6">
-                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                  {section.title}
-                </div>
+            {menuSections.map((section, sectionIndex) => (
+              <div key={section.title || `section-${sectionIndex}`} className="mb-6">
+                {section.title && (
+                  <div>
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+                      {section.title}
+                    </div>
+                    {section.subtitle && (
+                      <div className="text-xs text-slate-400 mb-2 pl-1">
+                        {section.subtitle}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="space-y-1">
                   {section.items.map((item) => {
                     const MenuIcon = item.icon;
@@ -929,19 +942,6 @@ export default function DealerPortalV2() {
                     </Badge>
                   )}
                 </Button>
-
-                <div className="h-8 w-px bg-slate-700"></div>
-
-                {/* 用户信息 - 精简显示 */}
-                <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-lg">
-                    {userInfo.avatar}
-                  </div>
-                  <div className="text-sm">
-                    <div className="font-semibold text-white">{userInfo.name}</div>
-                    <div className="text-xs text-slate-400">{userInfo.role}</div>
-                  </div>
-                </div>
               </div>
             </div>
           </header>
@@ -1570,195 +1570,6 @@ export default function DealerPortalV2() {
                             </p>
                             <Button size="sm" variant="outline" className="w-full text-xs">
                               查看详情
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
-
-                {/* 销售导航 */}
-                {activeMenu === 'sales' && (
-                  <div className="space-y-6">
-                    {/* 页面标题 */}
-                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-4 text-white">
-                      <h2 className="text-xl font-bold mb-1">销售导航</h2>
-                      <p className="text-sm text-purple-100">销售工具与资源</p>
-                    </div>
-
-                    {/* 快捷工具 */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">快捷工具</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
-                            <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center mb-3">
-                              <Plus className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">项目报备</div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400">快速报备新项目</div>
-                          </div>
-
-                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center mb-3">
-                              <Activity className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">项目跟踪</div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400">跟踪项目进展</div>
-                          </div>
-
-                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
-                            <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center mb-3">
-                              <ShoppingCart className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">订单申请</div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400">提交订单申请</div>
-                          </div>
-
-                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-500 transition-colors cursor-pointer">
-                            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center mb-3">
-                              <Headphones className="h-5 w-5 text-white" />
-                            </div>
-                            <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">服务申请</div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400">提交售后服务</div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* 行业资源库 */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <Building className="h-5 w-5 text-purple-600" />
-                          行业资源库
-                        </CardTitle>
-                        <CardDescription className="text-xs">
-                          针对不同行业的销售资源、案例和工具
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {/* K12行业 */}
-                          <div className="p-4 rounded-lg border-2 border-purple-200 dark:border-purple-800 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                                  <School className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">K12(小中高)</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">15个案例 · 8套工具 · 5门课程</div>
-                                </div>
-                              </div>
-                              <Badge className="bg-purple-600 text-xs">资源丰富</Badge>
-                            </div>
-                            <Button size="sm" className="w-full mt-3 bg-purple-600 hover:bg-purple-700">
-                              查看K12资源
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 楼宇BOT行业 */}
-                          <div className="p-4 rounded-lg border-2 border-blue-200 dark:border-blue-800 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                                  <Building2 className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">楼宇BOT</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">12个案例 · 6套工具 · 3门课程</div>
-                                </div>
-                              </div>
-                              <Badge className="bg-blue-600 text-xs">热门</Badge>
-                            </div>
-                            <Button size="sm" className="w-full mt-3 bg-blue-600 hover:bg-blue-700">
-                              查看楼宇BOT资源
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 校园BOT行业 */}
-                          <div className="p-4 rounded-lg border-2 border-green-200 dark:border-green-800 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                                  <GraduationCap className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">校园BOT</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">8个案例 · 5套工具 · 4门课程</div>
-                                </div>
-                              </div>
-                              <Badge className="bg-green-600 text-xs">高潜力</Badge>
-                            </div>
-                            <Button size="sm" className="w-full mt-3 bg-green-600 hover:bg-green-700">
-                              查看校园BOT资源
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 医疗系统行业 */}
-                          <div className="p-4 rounded-lg border-2 border-red-200 dark:border-red-800 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                                  <Stethoscope className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">医疗系统</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">10个案例 · 7套工具 · 4门课程</div>
-                                </div>
-                              </div>
-                              <Badge className="bg-red-600 text-xs">稳定增长</Badge>
-                            </div>
-                            <Button size="sm" className="w-full mt-3 bg-red-600 hover:bg-red-700">
-                              查看医疗系统资源
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 政府机关/事业单位 */}
-                          <div className="p-4 rounded-lg border-2 border-amber-200 dark:border-amber-800 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center">
-                                  <Building className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">政府机关/事业单位</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">6个案例 · 4套工具 · 3门课程</div>
-                                </div>
-                              </div>
-                              <Badge className="bg-amber-600 text-xs">机会多</Badge>
-                            </div>
-                            <Button size="sm" className="w-full mt-3 bg-amber-600 hover:bg-amber-700">
-                              查看政府机关资源
-                              <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          {/* 国央企业 */}
-                          <div className="p-4 rounded-lg border-2 border-slate-200 dark:border-slate-800 bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20">
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center">
-                                  <Briefcase className="h-4 w-4 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">国央企业</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">5个案例 · 3套工具 · 2门课程</div>
-                                </div>
-                              </div>
-                              <Badge className="bg-slate-600 text-xs">大客户</Badge>
-                            </div>
-                            <Button size="sm" className="w-full mt-3 bg-slate-600 hover:bg-slate-700">
-                              查看国央企业资源
                               <ArrowRight className="ml-1 h-3 w-3" />
                             </Button>
                           </div>
