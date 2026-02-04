@@ -138,7 +138,7 @@ const menuSections = [
     title: '销售赋能',
     items: [
       { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '行业分析与产品推荐' },
-      { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '最佳实践与培训' }
+      { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '政策、案例与培训' }
     ]
   }
 ];
@@ -1780,15 +1780,15 @@ export default function DealerPortalV2() {
                       <p className="text-sm text-indigo-100">政策、案例与培训</p>
                     </div>
 
-                    {/* 最佳实践 */}
+                    {/* 政策、案例与培训 */}
                     <Card>
                       <CardHeader>
                         <CardTitle className="text-base flex items-center gap-2">
                           <Star className="h-5 w-5 text-amber-500" />
-                          最佳实践
+                          政策、案例与培训
                         </CardTitle>
                         <CardDescription className="text-xs">
-                          行业领先者的成功经验和最佳实践
+                          最新政策解读、成功案例分享与专业培训资源
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
