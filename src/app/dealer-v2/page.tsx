@@ -77,7 +77,8 @@ import {
   XCircle,
   FileText as FileTextIcon,
   Hammer,
-  LogOut
+  LogOut,
+  Funnel
 } from 'lucide-react';
 
 // ==================== 菜单配置 ====================
@@ -996,34 +997,104 @@ export default function DealerPortalV2() {
                                       <Badge className="bg-purple-100 text-purple-700 text-xs">81%</Badge>
                                     </div>
                                     <div className="mt-2 pt-2 border-t border-slate-200">
-                                      <div className="text-xs text-slate-600 mb-1">缺口</div>
-                                      <div className="text-sm font-bold text-red-600">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000}万</div>
+                                      <div className="flex items-center justify-between">
+                                        <div>
+                                          <div className="text-xs text-slate-600 mb-1">缺口</div>
+                                          <div className="text-sm font-bold text-red-600">¥22万</div>
+                                        </div>
+                                        <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50">
+                                          增补预测
+                                        </Button>
+                                      </div>
                                     </div>
                                   </div>
                                 </CardContent>
                               </Card>
 
-                              {/* 预测风险提醒 */}
+                              {/* 销售漏斗 */}
                               <Card className="border border-slate-200">
                                 <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
                                   <CardTitle className="text-sm flex items-center gap-2">
-                                    <AlertTriangle className="h-4 w-4 text-orange-600" />
-                                    预测风险提醒
+                                    <Funnel className="h-4 w-4 text-orange-600" />
+                                    销售漏斗
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-3">
-                                  <div className="space-y-4">
-                                    <div>
-                                      <div className="text-xs text-slate-600 mb-1">预测缺口金额</div>
-                                      <div className="text-lg font-bold text-red-600">¥750万</div>
+                                  <div className="space-y-2">
+                                    {/* 线索阶段 */}
+                                    <div className="relative">
+                                      <div className="flex items-center justify-between text-xs mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                          <span className="text-slate-700 font-medium">线索</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-slate-900 font-semibold">20个</span>
+                                          <span className="text-slate-600">¥2000万</span>
+                                        </div>
+                                      </div>
+                                      <div className="w-full bg-blue-200 h-5 rounded-t-sm"></div>
                                     </div>
-                                    <div>
-                                      <div className="text-xs text-slate-600 mb-1">缺口数量</div>
-                                      <div className="text-lg font-bold text-orange-600">5个</div>
+                                    
+                                    {/* 初步接触 */}
+                                    <div className="relative ml-4">
+                                      <div className="flex items-center justify-between text-xs mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                          <span className="text-slate-700 font-medium">初步接触</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-slate-900 font-semibold">15个</span>
+                                          <span className="text-slate-600">¥1500万</span>
+                                        </div>
+                                      </div>
+                                      <div className="w-full bg-blue-300 h-5 rounded-t-sm"></div>
                                     </div>
-                                    <Button variant="outline" size="sm" className="w-full text-xs border-blue-300 text-blue-700 hover:bg-blue-50">
-                                      补充预测
-                                    </Button>
+
+                                    {/* 方案阶段 */}
+                                    <div className="relative ml-8">
+                                      <div className="flex items-center justify-between text-xs mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                          <span className="text-slate-700 font-medium">方案阶段</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-slate-900 font-semibold">10个</span>
+                                          <span className="text-slate-600">¥1000万</span>
+                                        </div>
+                                      </div>
+                                      <div className="w-full bg-blue-500 h-5 rounded-t-sm"></div>
+                                    </div>
+
+                                    {/* 商务谈判 */}
+                                    <div className="relative ml-12">
+                                      <div className="flex items-center justify-between text-xs mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                          <span className="text-slate-700 font-medium">商务谈判</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-slate-900 font-semibold">5个</span>
+                                          <span className="text-slate-600">¥500万</span>
+                                        </div>
+                                      </div>
+                                      <div className="w-full bg-purple-400 h-5 rounded-t-sm"></div>
+                                    </div>
+
+                                    {/* 成交 */}
+                                    <div className="relative ml-16">
+                                      <div className="flex items-center justify-between text-xs mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                          <span className="text-slate-700 font-medium">成交</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-slate-900 font-semibold">3个</span>
+                                          <span className="text-slate-600">¥300万</span>
+                                        </div>
+                                      </div>
+                                      <div className="w-full bg-green-400 h-5 rounded-t-sm"></div>
+                                    </div>
                                   </div>
                                 </CardContent>
                               </Card>
