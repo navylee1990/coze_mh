@@ -966,25 +966,19 @@ export default function DealerPortalV2() {
                   <div>
                     <Card className="border border-slate-200">
                           <CardHeader className="bg-white py-3">
-                            <div className="flex items-center justify-between">
-                              <CardTitle className="text-base flex items-center gap-2">
-                                <Activity className="h-4 w-4 text-slate-600" />
-                                关键指标
-                              </CardTitle>
-                              <Button variant="outline" size="sm" className="text-xs">
-                                查看经营驾驶舱
-                                <ArrowRight className="ml-1 h-3 w-3" />
-                              </Button>
-                            </div>
+                            <CardTitle className="text-base flex items-center gap-2">
+                              <Activity className="h-4 w-4 text-slate-600" />
+                              关键指标
+                            </CardTitle>
                           </CardHeader>
                           <CardContent className="pt-4">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                              {/* 任务情况 */}
+                              {/* 当月任务情况 */}
                               <Card className="border border-slate-200">
                                 <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
                                   <CardTitle className="text-sm flex items-center gap-2">
                                     <Activity className="h-4 w-4 text-blue-600" />
-                                    任务情况
+                                    当月任务情况
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-3">
@@ -1009,32 +1003,27 @@ export default function DealerPortalV2() {
                                 </CardContent>
                               </Card>
 
-                              {/* 风险提醒 */}
+                              {/* 预测风险提醒 */}
                               <Card className="border border-slate-200">
                                 <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
                                   <CardTitle className="text-sm flex items-center gap-2">
                                     <AlertTriangle className="h-4 w-4 text-orange-600" />
-                                    风险提醒
+                                    预测风险提醒
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-3">
-                                  <div className="space-y-3">
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">1个月内到期项目</div>
-                                      <Badge className="bg-red-100 text-red-700 text-xs">{mockKeyMetrics.expiringProjects}个</Badge>
+                                  <div className="space-y-4">
+                                    <div>
+                                      <div className="text-xs text-slate-600 mb-1">预测缺口金额</div>
+                                      <div className="text-lg font-bold text-red-600">¥750万</div>
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">1个月内未跟进项目</div>
-                                      <Badge className="bg-orange-100 text-orange-700 text-xs">{mockKeyMetrics.untrackedProjects}个</Badge>
+                                    <div>
+                                      <div className="text-xs text-slate-600 mb-1">缺口数量</div>
+                                      <div className="text-lg font-bold text-orange-600">5个</div>
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">待审订单</div>
-                                      <Badge className="bg-amber-100 text-amber-700 text-xs">{mockKeyMetrics.pendingOrders}个</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">待审流程</div>
-                                      <Badge className="bg-yellow-100 text-yellow-700 text-xs">{mockKeyMetrics.pendingProcesses}个</Badge>
-                                    </div>
+                                    <Button variant="outline" size="sm" className="w-full text-xs border-blue-300 text-blue-700 hover:bg-blue-50">
+                                      补充预测
+                                    </Button>
                                   </div>
                                 </CardContent>
                               </Card>
@@ -1048,54 +1037,56 @@ export default function DealerPortalV2() {
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-3">
-                                  <div className="space-y-2">
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                                      <div className="flex-1">
-                                        <div className="flex justify-between text-xs">
-                                          <span className="text-slate-600">K12教育</span>
-                                          <span className="text-slate-900 font-semibold">35%</span>
-                                        </div>
-                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
-                                          <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '35%' }}></div>
-                                        </div>
-                                      </div>
+                                  <div className="flex items-center justify-center">
+                                    <div className="relative w-40 h-40">
+                                      <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                                        {/* K12教育 35% */}
+                                        <path
+                                          d="M50,50 L50,10 A40,40 0 0,1 83.14,26.18 Z"
+                                          fill="#3b82f6"
+                                          className="hover:opacity-80 transition-opacity"
+                                        />
+                                        {/* 楼宇BOT 28% */}
+                                        <path
+                                          d="M50,50 L83.14,26.18 A40,40 0 0,1 83.14,73.82 Z"
+                                          fill="#22c55e"
+                                          className="hover:opacity-80 transition-opacity"
+                                        />
+                                        {/* 校园BOT 20% */}
+                                        <path
+                                          d="M50,50 L83.14,73.82 A40,40 0 0,1 26.18,83.14 Z"
+                                          fill="#a855f7"
+                                          className="hover:opacity-80 transition-opacity"
+                                        />
+                                        {/* 其他 17% */}
+                                        <path
+                                          d="M50,50 L26.18,83.14 A40,40 0 0,1 50,10 Z"
+                                          fill="#f97316"
+                                          className="hover:opacity-80 transition-opacity"
+                                        />
+                                      </svg>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                      <div className="flex-1">
-                                        <div className="flex justify-between text-xs">
-                                          <span className="text-slate-600">楼宇BOT</span>
-                                          <span className="text-slate-900 font-semibold">28%</span>
-                                        </div>
-                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
-                                          <div className="bg-green-500 h-1.5 rounded-full" style={{ width: '28%' }}></div>
-                                        </div>
-                                      </div>
+                                  </div>
+                                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                                    <div className="flex items-center gap-1">
+                                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                      <span className="text-slate-600">K12教育</span>
+                                      <span className="text-slate-900 font-semibold ml-auto">35%</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                                      <div className="flex-1">
-                                        <div className="flex justify-between text-xs">
-                                          <span className="text-slate-600">校园BOT</span>
-                                          <span className="text-slate-900 font-semibold">20%</span>
-                                        </div>
-                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
-                                          <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: '20%' }}></div>
-                                        </div>
-                                      </div>
+                                    <div className="flex items-center gap-1">
+                                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                      <span className="text-slate-600">楼宇BOT</span>
+                                      <span className="text-slate-900 font-semibold ml-auto">28%</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                                      <div className="flex-1">
-                                        <div className="flex justify-between text-xs">
-                                          <span className="text-slate-600">其他</span>
-                                          <span className="text-slate-900 font-semibold">17%</span>
-                                        </div>
-                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
-                                          <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: '17%' }}></div>
-                                        </div>
-                                      </div>
+                                    <div className="flex items-center gap-1">
+                                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                      <span className="text-slate-600">校园BOT</span>
+                                      <span className="text-slate-900 font-semibold ml-auto">20%</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                                      <span className="text-slate-600">其他</span>
+                                      <span className="text-slate-900 font-semibold ml-auto">17%</span>
                                     </div>
                                   </div>
                                 </CardContent>
