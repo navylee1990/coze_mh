@@ -931,9 +931,9 @@ export default function DealerPortalV2() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-6 flex-1">
                 {/* 欢迎信息 */}
-                <div className="flex items-center gap-3 text-slate-600 text-sm">
-                  <span className="font-medium">你好，{userInfo.name}，{userInfo.company}（{userInfo.companyCode}），今天是您与AO签约的<span className="text-blue-600 font-semibold">188</span>天！</span>
-                  <Badge className="bg-slate-100 text-slate-700 font-medium text-xs px-2 py-0.5">
+                <div className="flex items-center gap-3 text-slate-700 text-base">
+                  <span className="font-semibold text-base">你好，{userInfo.name}，{userInfo.company}（{userInfo.companyCode}），今天是您与AO签约的<span className="text-blue-700 font-bold text-lg">188</span>天！</span>
+                  <Badge className="bg-blue-100 text-blue-800 font-bold text-sm px-3 py-1">
                     {userInfo.rating}
                   </Badge>
                 </div>
@@ -1080,13 +1080,13 @@ export default function DealerPortalV2() {
                                 <CardContent className="pt-2 pb-3">
                                   <div className="relative">
                                     {/* 上半部分：漏斗图 + 右侧数据 */}
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-3">
                                       {/* 左侧漏斗图 */}
-                                      <div className="relative" style={{ width: '90px' }}>
-                                        <svg viewBox="0 0 90 140" className="w-full h-auto">
+                                      <div className="relative" style={{ width: '120px' }}>
+                                        <svg viewBox="0 0 120 160" className="w-full h-auto">
                                           {/* 初步接触 - 顶部最大 */}
                                           <path
-                                            d="M2,2 L88,2 L78,22 L12,22 Z"
+                                            d="M2,2 L118,2 L105,25 L15,25 Z"
                                             fill="#60a5fa"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1095,7 +1095,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 现场勘察 */}
                                           <path
-                                            d="M13,22 L77,22 L68,44 L22,44 Z"
+                                            d="M16,25 L104,25 L92,48 L28,48 Z"
                                             fill="#3b82f6"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1104,7 +1104,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 需求意向 */}
                                           <path
-                                            d="M23,44 L67,44 L58,66 L32,66 Z"
+                                            d="M29,48 L91,48 L80,71 L40,71 Z"
                                             fill="#2563eb"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1113,7 +1113,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 方案设计 */}
                                           <path
-                                            d="M33,66 L57,66 L49,88 L41,88 Z"
+                                            d="M41,71 L79,71 L69,94 L51,94 Z"
                                             fill="#1d4ed8"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1122,7 +1122,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 项目采购 */}
                                           <path
-                                            d="M41,88 L49,88 L44,110 L46,110 Z"
+                                            d="M52,94 L68,94 L60,117 L60,117 Z"
                                             fill="#8b5cf6"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1131,7 +1131,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 项目合同 - 底部 */}
                                           <path
-                                            d="M43,110 L47,110 L45,130 Z"
+                                            d="M56,117 L64,117 L60,142 Z"
                                             fill="#22c55e"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1139,58 +1139,76 @@ export default function DealerPortalV2() {
                                           </path>
                                           
                                           {/* 细线连接到右侧数据 */}
-                                          <line x1="88" y1="12" x2="95" y2="12" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="77" y1="33" x2="95" y2="33" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="67" y1="55" x2="95" y2="55" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="57" y1="77" x2="95" y2="77" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="49" y1="99" x2="95" y2="99" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="47" y1="120" x2="95" y2="120" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="118" y1="13" x2="125" y2="13" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="104" y1="36" x2="125" y2="36" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="91" y1="59" x2="125" y2="59" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="79" y1="82" x2="125" y2="82" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="68" y1="105" x2="125" y2="105" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="64" y1="130" x2="125" y2="130" stroke="#94a3b8" strokeWidth="1" />
                                         </svg>
                                       </div>
                                       
                                       {/* 右侧数据 */}
-                                      <div className="flex-1 space-y-1.5 py-1">
+                                      <div className="flex-1 space-y-2 py-1">
                                         <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
-                                            <div className="text-xs font-semibold text-slate-700">初步接触</div>
-                                            <div className="text-[10px] text-slate-500">5%</div>
+                                            <div className="text-xs font-bold text-slate-800">初步接触</div>
                                           </div>
-                                          <div className="text-xs font-bold text-blue-600">300个</div>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-[11px] text-slate-500">5%</span>
+                                            <span className="text-xs font-bold text-blue-600">300个</span>
+                                          </div>
                                         </div>
                                         <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
-                                            <div className="text-xs font-semibold text-slate-700">现场勘察</div>
-                                            <div className="text-[10px] text-slate-500">10%</div>
+                                            <div className="text-xs font-bold text-slate-800">现场勘察</div>
                                           </div>
-                                          <div className="text-xs font-bold text-blue-600">600个</div>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-[11px] text-slate-500">10%</span>
+                                            <span className="text-xs font-bold text-blue-600">600个</span>
+                                          </div>
                                         </div>
                                         <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
-                                            <div className="text-xs font-semibold text-slate-700">需求意向</div>
-                                            <div className="text-[10px] text-slate-500">20%</div>
+                                            <div className="text-xs font-bold text-slate-800">需求意向</div>
                                           </div>
-                                          <div className="text-xs font-bold text-blue-600">1200个</div>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-[11px] text-slate-500">20%</span>
+                                            <span className="text-xs font-bold text-blue-600">1200个</span>
+                                          </div>
                                         </div>
                                         <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-blue-700 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
-                                            <div className="text-xs font-semibold text-slate-700">方案设计</div>
-                                            <div className="text-[10px] text-slate-500">50%</div>
+                                            <div className="text-xs font-bold text-slate-800">方案设计</div>
                                           </div>
-                                          <div className="text-xs font-bold text-blue-600">3000个</div>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-[11px] text-slate-500">50%</span>
+                                            <span className="text-xs font-bold text-blue-700">3000个</span>
+                                          </div>
                                         </div>
                                         <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
-                                            <div className="text-xs font-semibold text-slate-700">项目采购</div>
-                                            <div className="text-[10px] text-slate-500">70%</div>
+                                            <div className="text-xs font-bold text-slate-800">项目采购</div>
                                           </div>
-                                          <div className="text-xs font-bold text-purple-600">4200个</div>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-[11px] text-slate-500">70%</span>
+                                            <span className="text-xs font-bold text-purple-600">4200个</span>
+                                          </div>
                                         </div>
                                         <div className="flex items-center gap-2">
+                                          <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
-                                            <div className="text-xs font-semibold text-slate-700">项目合同</div>
-                                            <div className="text-[10px] text-slate-500">90%</div>
+                                            <div className="text-xs font-bold text-slate-800">项目合同</div>
                                           </div>
-                                          <div className="text-xs font-bold text-green-600">5400个</div>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-[11px] text-slate-500">90%</span>
+                                        <span className="text-xs font-bold text-green-600">5400个</span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -1225,88 +1243,90 @@ export default function DealerPortalV2() {
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-2 pb-3">
-                                  <div className="flex gap-2">
-                                    {/* 左侧饼图 */}
-                                    <div className="relative" style={{ width: '100px' }}>
-                                      <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
-                                        {/* K12教育 35% */}
-                                        <path
-                                          d="M50,50 L50,10 A40,40 0 0,1 83.14,26.18 Z"
-                                          fill="#3b82f6"
-                                          className="hover:opacity-80 transition-opacity cursor-pointer"
-                                        >
-                                          <title>K12教育: 35%</title>
-                                        </path>
-                                        {/* 楼宇BOT 28% */}
-                                        <path
-                                          d="M50,50 L83.14,26.18 A40,40 0 0,1 83.14,73.82 Z"
-                                          fill="#22c55e"
-                                          className="hover:opacity-80 transition-opacity cursor-pointer"
-                                        >
-                                          <title>楼宇BOT: 28%</title>
-                                        </path>
-                                        {/* 校园BOT 20% */}
-                                        <path
-                                          d="M50,50 L83.14,73.82 A40,40 0 0,1 26.18,83.14 Z"
-                                          fill="#a855f7"
-                                          className="hover:opacity-80 transition-opacity cursor-pointer"
-                                        >
-                                          <title>校园BOT: 20%</title>
-                                        </path>
-                                        {/* 其他 17% */}
-                                        <path
-                                          d="M50,50 L26.18,83.14 A40,40 0 0,1 50,10 Z"
-                                          fill="#f97316"
-                                          className="hover:opacity-80 transition-opacity cursor-pointer"
-                                        >
-                                          <title>其他: 17%</title>
-                                        </path>
-                                      </svg>
+                                  <div className="flex flex-col gap-3">
+                                    {/* 上方：饼图居中 */}
+                                    <div className="flex justify-center">
+                                      <div className="relative" style={{ width: '100px' }}>
+                                        <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                                          {/* K12教育 35% */}
+                                          <path
+                                            d="M50,50 L50,10 A40,40 0 0,1 83.14,26.18 Z"
+                                            fill="#3b82f6"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>K12教育: 35%</title>
+                                          </path>
+                                          {/* 楼宇BOT 28% */}
+                                          <path
+                                            d="M50,50 L83.14,26.18 A40,40 0 0,1 83.14,73.82 Z"
+                                            fill="#22c55e"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>楼宇BOT: 28%</title>
+                                          </path>
+                                          {/* 校园BOT 20% */}
+                                          <path
+                                            d="M50,50 L83.14,73.82 A40,40 0 0,1 26.18,83.14 Z"
+                                            fill="#a855f7"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>校园BOT: 20%</title>
+                                          </path>
+                                          {/* 其他 17% */}
+                                          <path
+                                            d="M50,50 L26.18,83.14 A40,40 0 0,1 50,10 Z"
+                                            fill="#f97316"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>其他: 17%</title>
+                                          </path>
+                                        </svg>
+                                      </div>
                                     </div>
                                     
-                                    {/* 右侧数据 - 一行一个 */}
-                                    <div className="flex-1 space-y-1 py-1">
+                                    {/* 下方：说明 - 一行一个 */}
+                                    <div className="space-y-1.5 py-1">
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-semibold text-slate-900">K12教育</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2.5 h-2.5 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">K12教育</span>
                                         </div>
-                                        <div className="flex items-center gap-2 text-right">
-                                          <span className="text-[10px] font-semibold text-blue-600">35%</span>
-                                          <span className="text-[10px] text-slate-500">350个</span>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-[11px] font-bold text-blue-600">35%</span>
+                                          <span className="text-[11px] text-slate-500">350个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-semibold text-slate-900">楼宇BOT</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">楼宇BOT</span>
                                         </div>
-                                        <div className="flex items-center gap-2 text-right">
-                                          <span className="text-[10px] font-semibold text-green-600">28%</span>
-                                          <span className="text-[10px] text-slate-500">280个</span>
-                                        </div>
-                                      </div>
-                                      
-                                      <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-semibold text-slate-900">校园BOT</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-right">
-                                          <span className="text-[10px] font-semibold text-purple-600">20%</span>
-                                          <span className="text-[10px] text-slate-500">200个</span>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-[11px] font-bold text-green-600">28%</span>
+                                          <span className="text-[11px] text-slate-500">280个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-semibold text-slate-900">其他</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2.5 h-2.5 bg-purple-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">校园BOT</span>
                                         </div>
-                                        <div className="flex items-center gap-2 text-right">
-                                          <span className="text-[10px] font-semibold text-orange-600">17%</span>
-                                          <span className="text-[10px] text-slate-500">170个</span>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-[11px] font-bold text-purple-600">20%</span>
+                                          <span className="text-[11px] text-slate-500">200个</span>
+                                        </div>
+                                      </div>
+                                      
+                                      <div className="flex items-center justify-between gap-2 text-xs">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-2.5 h-2.5 bg-orange-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">其他</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <span className="text-[11px] font-bold text-orange-600">17%</span>
+                                          <span className="text-[11px] text-slate-500">170个</span>
                                         </div>
                                       </div>
                                     </div>
