@@ -76,42 +76,21 @@ import {
   Move,
   XCircle,
   FileText as FileTextIcon,
-  Hammer,
-  Info
+  Hammer
 } from 'lucide-react';
 
 // ==================== 菜单配置 ====================
 
-type MenuKey = 'home' | 'cockpit' | 'projectDev' | 'lease' | 'sales' | 'afterSales' |
-                  'policyPublish' | 'newProduct' | 'companyNews' | 'excellentCases' |
-                  'market' | 'salesNav' | 'guide';
-type SubMenuKey = 'projectReport' | 'projectFollow' |
-                   'leaseApply' | 'cardApplyRecord' | 'renewLease' | 'leaseToSale' | 'delayRecord' |
+type MenuKey = 'home' | 'lease' | 'sales' | 'afterSales' | 'market' | 'salesNav' | 'guide';
+type SubMenuKey = 'leaseApply' | 'cardApplyRecord' | 'renewLease' | 'leaseToSale' | 'delayRecord' |
                    'buyApply' | 'buyRecord' | 'maintenance' | 'installApply' | 'materials' |
                    'moveApply' | 'returnApply' | 'returnRecord' | 'disassembleRecord';
 
 const menuSections = [
   {
-    title: '经营驾驶舱',
-    items: [
-      { key: 'cockpit' as MenuKey, icon: BarChart3, label: '经营驾驶舱', description: '整体经营数据看板' }
-    ]
-  },
-  {
-    title: '运营指南',
+    title: '销售导航',
     items: [
       { key: 'home' as MenuKey, icon: Home, label: '首页', description: '经营总览与决策支持' },
-      {
-        key: 'projectDev' as MenuKey,
-        icon: Target,
-        label: '项目开发',
-        description: '项目开发管理',
-        hasSubmenu: true,
-        subItems: [
-          { key: 'projectReport' as SubMenuKey, icon: Plus, label: '项目报备', description: '新项目报备' },
-          { key: 'projectFollow' as SubMenuKey, icon: Activity, label: '项目跟进', description: '项目跟踪管理' }
-        ]
-      },
       {
         key: 'lease' as MenuKey,
         icon: Key,
@@ -158,10 +137,8 @@ const menuSections = [
   {
     title: '销售赋能',
     items: [
-      { key: 'policyPublish' as MenuKey, icon: FileText, label: '政策发布', description: '最新政策信息发布' },
-      { key: 'newProduct' as MenuKey, icon: Package, label: '最新产品', description: '新品发布与产品信息' },
-      { key: 'companyNews' as MenuKey, icon: Newspaper, label: '公司新闻', description: '公司动态与新闻资讯' },
-      { key: 'excellentCases' as MenuKey, icon: Award, label: '优秀案例', description: '成功案例与经验分享' }
+      { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '指导、行动方案及闭环跟进' },
+      { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '政策、案例、培训与产品' }
     ]
   }
 ];
@@ -802,14 +779,36 @@ export default function DealerPortalV2() {
       <div className="flex h-screen overflow-hidden">
         {/* 左侧导航栏 */}
         <aside className="w-72 bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 flex flex-col">
-          {/* 门户名称和欢迎语 */}
+          {/* 门户名称 */}
           <div className="p-6 border-b border-slate-700/50">
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2 mb-3">
+            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
               <Building2 className="h-7 w-7 text-teal-400" />
-              商擎
+              商擎 <span className="text-teal-400">V1.0</span>
             </h1>
-            <div className="text-sm text-slate-300 leading-relaxed">
-              你好，郭晓东，南京雪濠洋公司（ZLX0008)，今天是您与AO签约的<span className="text-teal-400 font-semibold">188</span>天！
+          </div>
+
+          {/* 快捷工具 */}
+          <div className="p-4 border-b border-slate-700/50">
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+              快捷工具
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <Button className="h-auto flex-col gap-1.5 bg-teal-600 hover:bg-teal-700 text-white">
+                <Plus className="h-5 w-5" />
+                <span className="text-xs font-medium">项目报备</span>
+              </Button>
+              <Button className="h-auto flex-col gap-1.5 bg-cyan-600 hover:bg-cyan-700 text-white">
+                <Activity className="h-5 w-5" />
+                <span className="text-xs font-medium">项目跟踪</span>
+              </Button>
+              <Button className="h-auto flex-col gap-1.5 bg-purple-600 hover:bg-purple-700 text-white">
+                <ShoppingCart className="h-5 w-5" />
+                <span className="text-xs font-medium">订单申请</span>
+              </Button>
+              <Button className="h-auto flex-col gap-1.5 bg-orange-600 hover:bg-orange-700 text-white">
+                <Headphones className="h-5 w-5" />
+                <span className="text-xs font-medium">服务申请</span>
+              </Button>
             </div>
           </div>
 
@@ -963,7 +962,7 @@ export default function DealerPortalV2() {
               <div className="space-y-6">
                 {/* 关键指标仪表盘 + 关键提醒 */}
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                      {/* 关键指标仪表盘 */}
+                      {/* 关键指标仪表盘 - 缩小 */}
                       <div className="lg:col-span-3">
                         <Card className="border-2 border-teal-200 dark:border-teal-800 h-full">
                           <CardHeader className="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 py-3">
@@ -979,165 +978,78 @@ export default function DealerPortalV2() {
                             </div>
                           </CardHeader>
                           <CardContent className="pt-4">
-                            <div className="grid grid-cols-3 gap-6">
-                              {/* 月度完成情况 */}
-                              <div className="text-center">
-                                <div className="relative w-32 h-32 mx-auto mb-3">
-                                  <svg className="w-32 h-32 transform -rotate-90">
-                                    <circle
-                                      cx="64"
-                                      cy="64"
-                                      r="56"
-                                      stroke="#e2e8f0"
-                                      strokeWidth="12"
-                                      fill="none"
-                                      className="dark:stroke-slate-700"
-                                    />
-                                    <circle
-                                      cx="64"
-                                      cy="64"
-                                      r="56"
-                                      stroke="url(#gradient-month)"
-                                      strokeWidth="12"
-                                      fill="none"
-                                      strokeLinecap="round"
-                                      strokeDasharray={`${mockKeyMetrics.monthCompletion * 3.52} 352`}
-                                      className="transition-all duration-1000"
-                                    />
-                                    <defs>
-                                      <linearGradient id="gradient-month" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#3b82f6" />
-                                        <stop offset="100%" stopColor="#06b6d4" />
-                                      </linearGradient>
-                                    </defs>
-                                  </svg>
-                                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                                      {mockKeyMetrics.monthCompletion.toFixed(0)}%
-                                    </div>
-                                    <div className="text-xs text-slate-600 dark:text-slate-400">月度</div>
-                                  </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                              {/* 当月完成率 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-300 dark:border-blue-700">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="text-xs font-bold text-blue-900 dark:text-blue-400">当月完成率</div>
+                                  <Badge className="bg-blue-600 text-xs px-2 py-0.5">82%</Badge>
                                 </div>
                                 <div className="space-y-1">
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">实际</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">¥{(mockKeyMetrics.monthActual / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月实际</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthActual / 10000}万</span>
                                   </div>
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">目标</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">¥{(mockKeyMetrics.monthTarget / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
                                   </div>
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-red-600 dark:text-red-400 font-semibold">缺口</span>
-                                    <span className="font-bold text-red-600 dark:text-red-400">¥{((mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-red-600 dark:text-red-400">缺口</span>
+                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000}万</span>
+                                  </div>
+                                  <div className="mt-2">
+                                    <Progress value={mockKeyMetrics.monthCompletion} className="h-1.5" />
                                   </div>
                                 </div>
                               </div>
 
-                              {/* 季度完成情况 */}
-                              <div className="text-center">
-                                <div className="relative w-32 h-32 mx-auto mb-3">
-                                  <svg className="w-32 h-32 transform -rotate-90">
-                                    <circle
-                                      cx="64"
-                                      cy="64"
-                                      r="56"
-                                      stroke="#e2e8f0"
-                                      strokeWidth="12"
-                                      fill="none"
-                                      className="dark:stroke-slate-700"
-                                    />
-                                    <circle
-                                      cx="64"
-                                      cy="64"
-                                      r="56"
-                                      stroke="url(#gradient-quarter)"
-                                      strokeWidth="12"
-                                      fill="none"
-                                      strokeLinecap="round"
-                                      strokeDasharray={`${(mockKeyMetrics.ytdCompletion * 3 / 2) * 3.52} 352`}
-                                      className="transition-all duration-1000"
-                                    />
-                                    <defs>
-                                      <linearGradient id="gradient-quarter" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#10b981" />
-                                        <stop offset="100%" stopColor="#34d399" />
-                                      </linearGradient>
-                                    </defs>
-                                  </svg>
-                                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                                      {((mockKeyMetrics.ytdCompletion * 3 / 2).toFixed(0))}%
-                                    </div>
-                                    <div className="text-xs text-slate-600 dark:text-slate-400">季度</div>
-                                  </div>
+                              {/* 当月预测完成率 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-300 dark:border-green-700">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="text-xs font-bold text-green-900 dark:text-green-400">当月预测完成率</div>
+                                  <Badge className="bg-green-600 text-xs px-2 py-0.5">96%</Badge>
                                 </div>
                                 <div className="space-y-1">
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">实际</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">¥{(mockKeyMetrics.ytdActual * 3 / 2 / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">预测额</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthForecast / 10000}万</span>
                                   </div>
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">目标</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">¥{(mockKeyMetrics.ytdTarget * 3 / 2 / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
                                   </div>
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-red-600 dark:text-red-400 font-semibold">缺口</span>
-                                    <span className="font-bold text-red-600 dark:text-red-400">¥{((mockKeyMetrics.ytdTarget * 3 / 2 - mockKeyMetrics.ytdActual * 3 / 2) / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-red-600 dark:text-red-400">缺口</span>
+                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthForecast) / 10000}万</span>
+                                  </div>
+                                  <div className="mt-2">
+                                    <Progress value={mockKeyMetrics.monthForecastCompletion} className="h-1.5" />
                                   </div>
                                 </div>
                               </div>
 
-                              {/* 年度完成情况 */}
-                              <div className="text-center">
-                                <div className="relative w-32 h-32 mx-auto mb-3">
-                                  <svg className="w-32 h-32 transform -rotate-90">
-                                    <circle
-                                      cx="64"
-                                      cy="64"
-                                      r="56"
-                                      stroke="#e2e8f0"
-                                      strokeWidth="12"
-                                      fill="none"
-                                      className="dark:stroke-slate-700"
-                                    />
-                                    <circle
-                                      cx="64"
-                                      cy="64"
-                                      r="56"
-                                      stroke="url(#gradient-year)"
-                                      strokeWidth="12"
-                                      fill="none"
-                                      strokeLinecap="round"
-                                      strokeDasharray={`${mockKeyMetrics.ytdCompletion * 3.52} 352`}
-                                      className="transition-all duration-1000"
-                                    />
-                                    <defs>
-                                      <linearGradient id="gradient-year" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#8b5cf6" />
-                                        <stop offset="100%" stopColor="#ec4899" />
-                                      </linearGradient>
-                                    </defs>
-                                  </svg>
-                                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                                      {mockKeyMetrics.ytdCompletion.toFixed(0)}%
-                                    </div>
-                                    <div className="text-xs text-slate-600 dark:text-slate-400">年度</div>
-                                  </div>
+                              {/* YTD实际完成率 */}
+                              <div className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-300 dark:border-purple-700">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="text-xs font-bold text-purple-900 dark:text-purple-400">YTD实际完成率</div>
+                                  <Badge className="bg-purple-600 text-xs px-2 py-0.5">81%</Badge>
                                 </div>
                                 <div className="space-y-1">
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">实际</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">¥{(mockKeyMetrics.ytdActual / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">YTD实际</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdActual / 10000}万</span>
                                   </div>
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">目标</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">¥{(mockKeyMetrics.ytdTarget / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-slate-700 dark:text-slate-400 font-medium">YTD目标</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdTarget / 10000}万</span>
                                   </div>
-                                  <div className="flex justify-between text-xs">
-                                    <span className="text-red-600 dark:text-red-400 font-semibold">缺口</span>
-                                    <span className="font-bold text-red-600 dark:text-red-400">¥{((mockKeyMetrics.ytdTarget - mockKeyMetrics.ytdActual) / 10000).toFixed(0)}万</span>
+                                  <div className="flex items-center justify-between text-xs font-semibold">
+                                    <span className="text-red-600 dark:text-red-400">缺口</span>
+                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.ytdTarget - mockKeyMetrics.ytdActual) / 10000}万</span>
+                                  </div>
+                                  <div className="mt-2">
+                                    <Progress value={mockKeyMetrics.ytdCompletion} className="h-1.5" />
                                   </div>
                                 </div>
                               </div>
@@ -1277,13 +1189,13 @@ export default function DealerPortalV2() {
                         </Card>
                       </div>
 
-                      {/* 关键待办栏 */}
+                      {/* 关键提醒栏 */}
                       <div className="lg:col-span-1">
                         <Card className="border-2 border-orange-200 dark:border-orange-800 h-full">
                           <CardHeader className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 py-3">
                             <CardTitle className="text-base flex items-center gap-2">
                               <Bell className="h-4 w-4 text-orange-600" />
-                              关键待办
+                              关键提醒
                             </CardTitle>
                           </CardHeader>
                           <CardContent className="pt-4">
@@ -1362,107 +1274,6 @@ export default function DealerPortalV2() {
                         </Card>
                       </div>
                     </div>
-
-                    {/* 消息提醒 */}
-                    <Card className="border-2 border-indigo-200 dark:border-indigo-800">
-                      <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 py-3">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <Bell className="h-4 w-4 text-indigo-600" />
-                          消息提醒
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-4">
-                        <div className="space-y-3">
-                          {mockMessages.slice(0, 5).map((message) => (
-                            <div key={message.id} className={`p-3 rounded-lg border ${
-                              message.type === 'success' ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800' :
-                              message.type === 'warning' ? 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800' :
-                              message.type === 'error' ? 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800' :
-                              'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
-                            }`}>
-                              <div className="flex items-start gap-2">
-                                {message.type === 'success' && <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />}
-                                {message.type === 'warning' && <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />}
-                                {message.type === 'error' && <XCircle className="h-4 w-4 text-red-600 mt-0.5" />}
-                                {message.type === 'info' && <Info className="h-4 w-4 text-blue-600 mt-0.5" />}
-                                <div className="flex-1">
-                                  <div className="flex items-start justify-between mb-1">
-                                    <div className="font-semibold text-sm text-slate-900 dark:text-white">
-                                      {message.title}
-                                    </div>
-                                    {message.priority === 'high' && (
-                                      <Badge className="bg-red-600 text-xs ml-2">重要</Badge>
-                                    )}
-                                  </div>
-                                  <div className="text-xs text-slate-700 dark:text-slate-300 mb-2">
-                                    {message.content}
-                                  </div>
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-500 dark:text-slate-400">{message.time}</span>
-                                    <Button variant="ghost" size="sm" className="text-xs h-6">
-                                      查看详情
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* 总体行业分布 */}
-                    <Card className="border-2 border-cyan-200 dark:border-cyan-800">
-                      <CardHeader className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 py-3">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <PieChart className="h-4 w-4 text-cyan-600" />
-                          总体行业分布
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {mockIndustryTracks.map((industry) => {
-                            const totalRevenue = mockIndustryTracks.reduce((sum, item) => sum + item.own, 0);
-                            const percentage = ((industry.own / totalRevenue) * 100).toFixed(1);
-                            const colors = [
-                              'from-blue-500 to-cyan-500',
-                              'from-green-500 to-emerald-500',
-                              'from-purple-500 to-pink-500',
-                              'from-orange-500 to-amber-500',
-                              'from-teal-500 to-cyan-500',
-                              'from-red-500 to-rose-500'
-                            ];
-                            const colorIndex = (industry.id - 1) % colors.length;
-                            
-                            return (
-                              <div key={industry.id} className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
-                                <div className="flex items-center justify-between mb-3">
-                                  <div className="font-semibold text-sm text-slate-900 dark:text-white">{industry.name}</div>
-                                  <Badge className={`${colors[colorIndex].split(' ')[0].replace('from-', 'bg-')} text-xs`}>
-                                    {percentage}%
-                                  </Badge>
-                                </div>
-                                <div className="space-y-2">
-                                  <div>
-                                    <div className="flex items-center justify-between text-xs mb-1">
-                                      <span className="text-slate-600 dark:text-slate-400">营业收入</span>
-                                      <span className="font-semibold text-cyan-600">¥{(industry.own / 10000).toFixed(0)}万</span>
-                                    </div>
-                                    <Progress value={parseFloat(percentage)} className="h-2" />
-                                  </div>
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-600 dark:text-slate-400">同比增长</span>
-                                    <span className={`font-semibold ${industry.yoyGrowth > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                      {industry.yoyGrowth > 0 ? '+' : ''}{industry.yoyGrowth}%
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </CardContent>
-                    </Card>
 
                     {/* 行业分析 - 自己vs同规模经销商平均 */}
                     <Card className="border-2 border-purple-200 dark:border-purple-800">
