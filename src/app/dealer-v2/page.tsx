@@ -97,7 +97,9 @@ const menuSections = [
   },
   {
     title: '经营驾驶舱',
-    items: []
+    items: [
+      { key: 'cockpit' as MenuKey, icon: BarChart3, label: '经营驾驶舱', description: '发现问题与寻找方法' }
+    ]
   },
   {
     title: '运营指南',
@@ -976,212 +978,128 @@ export default function DealerPortalV2() {
                             </div>
                           </CardHeader>
                           <CardContent className="pt-4">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                              {/* 当月完成率 */}
-                              <div className="p-3 rounded-lg bg-white border border-slate-200">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div className="text-xs font-semibold text-slate-700">当月完成率</div>
-                                  <Badge className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5">82%</Badge>
-                                </div>
-                                <div className="space-y-1">
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月实际</span>
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthActual / 10000}万</span>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              {/* 任务情况 */}
+                              <Card className="border border-slate-200">
+                                <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
+                                  <CardTitle className="text-sm flex items-center gap-2">
+                                    <Activity className="h-4 w-4 text-blue-600" />
+                                    任务情况
+                                  </CardTitle>
+                                </CardHeader>
+                                <CardContent className="pt-3">
+                                  <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">当月完成率</div>
+                                      <Badge className="bg-blue-100 text-blue-700 text-xs">82%</Badge>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">当月预测完成率</div>
+                                      <Badge className="bg-green-100 text-green-700 text-xs">96%</Badge>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">YTD实际完成率</div>
+                                      <Badge className="bg-purple-100 text-purple-700 text-xs">81%</Badge>
+                                    </div>
+                                    <div className="mt-2 pt-2 border-t border-slate-200">
+                                      <div className="text-xs text-slate-600 mb-1">缺口</div>
+                                      <div className="text-sm font-bold text-red-600">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000}万</div>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
-                                  </div>
-                                  <div className="flex items-center justify-between text-xs font-semibold">
-                                    <span className="text-red-600 dark:text-red-400">缺口</span>
-                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthActual) / 10000}万</span>
-                                  </div>
-                                  <div className="mt-2">
-                                    <Progress value={mockKeyMetrics.monthCompletion} className="h-1.5" />
-                                  </div>
-                                </div>
-                              </div>
+                                </CardContent>
+                              </Card>
 
-                              {/* 当月预测完成率 */}
-                              <div className="p-3 rounded-lg bg-white border border-slate-200">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div className="text-xs font-semibold text-slate-700">当月预测完成率</div>
-                                  <Badge className="bg-green-100 text-green-700 text-xs px-2 py-0.5">96%</Badge>
-                                </div>
-                                <div className="space-y-1">
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-700 dark:text-slate-400 font-medium">预测额</span>
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthForecast / 10000}万</span>
+                              {/* 风险提醒 */}
+                              <Card className="border border-slate-200">
+                                <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
+                                  <CardTitle className="text-sm flex items-center gap-2">
+                                    <AlertTriangle className="h-4 w-4 text-orange-600" />
+                                    风险提醒
+                                  </CardTitle>
+                                </CardHeader>
+                                <CardContent className="pt-3">
+                                  <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">1个月内到期项目</div>
+                                      <Badge className="bg-red-100 text-red-700 text-xs">{mockKeyMetrics.expiringProjects}个</Badge>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">1个月内未跟进项目</div>
+                                      <Badge className="bg-orange-100 text-orange-700 text-xs">{mockKeyMetrics.untrackedProjects}个</Badge>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">待审订单</div>
+                                      <Badge className="bg-amber-100 text-amber-700 text-xs">{mockKeyMetrics.pendingOrders}个</Badge>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <div className="text-xs text-slate-600">待审流程</div>
+                                      <Badge className="bg-yellow-100 text-yellow-700 text-xs">{mockKeyMetrics.pendingProcesses}个</Badge>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-700 dark:text-slate-400 font-medium">当月目标</span>
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.monthTarget / 10000}万</span>
-                                  </div>
-                                  <div className="flex items-center justify-between text-xs font-semibold">
-                                    <span className="text-red-600 dark:text-red-400">缺口</span>
-                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.monthTarget - mockKeyMetrics.monthForecast) / 10000}万</span>
-                                  </div>
-                                  <div className="mt-2">
-                                    <Progress value={mockKeyMetrics.monthForecastCompletion} className="h-1.5" />
-                                  </div>
-                                </div>
-                              </div>
+                                </CardContent>
+                              </Card>
 
-                              {/* YTD实际完成率 */}
-                              <div className="p-3 rounded-lg bg-white border border-slate-200">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div className="text-xs font-semibold text-slate-700">YTD实际完成率</div>
-                                  <Badge className="bg-purple-100 text-purple-700 text-xs px-2 py-0.5">81%</Badge>
-                                </div>
-                                <div className="space-y-1">
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-700 dark:text-slate-400 font-medium">YTD实际</span>
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdActual / 10000}万</span>
+                              {/* 总体行业分布饼图 */}
+                              <Card className="border border-slate-200">
+                                <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
+                                  <CardTitle className="text-sm flex items-center gap-2">
+                                    <PieChart className="h-4 w-4 text-purple-600" />
+                                    总体行业分布
+                                  </CardTitle>
+                                </CardHeader>
+                                <CardContent className="pt-3">
+                                  <div className="space-y-2">
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                      <div className="flex-1">
+                                        <div className="flex justify-between text-xs">
+                                          <span className="text-slate-600">K12教育</span>
+                                          <span className="text-slate-900 font-semibold">35%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
+                                          <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '35%' }}></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                      <div className="flex-1">
+                                        <div className="flex justify-between text-xs">
+                                          <span className="text-slate-600">楼宇BOT</span>
+                                          <span className="text-slate-900 font-semibold">28%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
+                                          <div className="bg-green-500 h-1.5 rounded-full" style={{ width: '28%' }}></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                      <div className="flex-1">
+                                        <div className="flex justify-between text-xs">
+                                          <span className="text-slate-600">校园BOT</span>
+                                          <span className="text-slate-900 font-semibold">20%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
+                                          <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: '20%' }}></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                                      <div className="flex-1">
+                                        <div className="flex justify-between text-xs">
+                                          <span className="text-slate-600">其他</span>
+                                          <span className="text-slate-900 font-semibold">17%</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
+                                          <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: '17%' }}></div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-slate-700 dark:text-slate-400 font-medium">YTD目标</span>
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">¥{mockKeyMetrics.ytdTarget / 10000}万</span>
-                                  </div>
-                                  <div className="flex items-center justify-between text-xs font-semibold">
-                                    <span className="text-red-600 dark:text-red-400">缺口</span>
-                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">¥{(mockKeyMetrics.ytdTarget - mockKeyMetrics.ytdActual) / 10000}万</span>
-                                  </div>
-                                  <div className="mt-2">
-                                    <Progress value={mockKeyMetrics.ytdCompletion} className="h-1.5" />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* 1-12月度趋势图 */}
-                            <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-                              <div className="flex items-center justify-between mb-3">
-                                <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">1-12月度趋势（实际完成/预测完成/目标对比）</div>
-                                <div className="flex items-center gap-3 text-xs">
-                                  <div className="flex items-center gap-1">
-                                    <div className="w-8 h-0.5 bg-blue-500 rounded"></div>
-                                    <span className="text-slate-600 dark:text-slate-400">实际完成</span>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                    <div className="w-8 h-0.5 bg-green-500 rounded"></div>
-                                    <span className="text-slate-600 dark:text-slate-400">预测完成</span>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                    <div className="w-8 h-0.5 bg-purple-500 rounded border-dashed border-purple-500"></div>
-                                    <span className="text-slate-600 dark:text-slate-400">目标</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="h-24 relative">
-                                <svg className="w-full h-full" viewBox="0 0 600 120" preserveAspectRatio="none">
-                                  {/* 网格线 */}
-                                  {[0, 25, 50, 75, 100].map((value, idx) => (
-                                    <line
-                                      key={idx}
-                                      x1="0"
-                                      y1={120 - (value / 100 * 120)}
-                                      x2="600"
-                                      y2={120 - (value / 100 * 120)}
-                                      stroke="#e2e8f0"
-                                      strokeWidth="1"
-                                      strokeDasharray="4 4"
-                                    />
-                                  ))}
-                                  
-                                  {/* Y轴标签 */}
-                                  {[0, 50, 100].map((value, idx) => (
-                                    <text
-                                      key={idx}
-                                      x="5"
-                                      y={120 - (value / 100 * 120) - 3}
-                                      className="text-[10px] fill-slate-500 dark:fill-slate-400"
-                                    >
-                                      {value}
-                                    </text>
-                                  ))}
-
-                                  {/* 目标线（虚线） - 略低于绿色预测线 */}
-                                  <polyline
-                                    points={`${50},${120 - 93} ${100},${120 - 96} ${150},${120 - 100} ${200},${120 - 103} ${250},${120 - 98} ${300},${120 - 93} ${350},${120 - 96} ${400},${120 - 100} ${450},${120 - 103} ${500},${120 - 98} ${550},${120 - 96} ${600},${120 - 93}`}
-                                    fill="none"
-                                    stroke="#a855f7"
-                                    strokeWidth="2"
-                                    strokeDasharray="6 4"
-                                  />
-
-                                  {/* 实际完成线（1月90，2月55，3-12月0） */}
-                                  <polyline
-                                    points={`${50},${120 - 90} ${100},${120 - 55} ${150},${120 - 0} ${200},${120 - 0} ${250},${120 - 0} ${300},${120 - 0} ${350},${120 - 0} ${400},${120 - 0} ${450},${120 - 0} ${500},${120 - 0} ${550},${120 - 0} ${600},${120 - 0}`}
-                                    fill="none"
-                                    stroke="#3b82f6"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  {/* 预测完成线 */}
-                                  <polyline
-                                    points={`${50},${120 - 95} ${100},${120 - 98} ${150},${120 - 102} ${200},${120 - 105} ${250},${120 - 100} ${300},${120 - 95} ${350},${120 - 98} ${400},${120 - 102} ${450},${120 - 105} ${500},${120 - 100} ${550},${120 - 98} ${600},${120 - 95}`}
-                                    fill="none"
-                                    stroke="#22c55e"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-
-                                  {/* 数据点 */}
-                                  {/* 目标点 */}
-                                  {[93, 96, 100, 103, 98, 93, 96, 100, 103, 98, 96, 93].map((y, idx) => (
-                                    <g key={`target-${idx}`}>
-                                      <circle
-                                        cx={50 + idx * 50}
-                                        cy={120 - y}
-                                        r="3"
-                                        fill="#a855f7"
-                                        className="hover:r-4 transition-all cursor-pointer"
-                                      />
-                                      <title>{`${idx + 1}月目标: ¥${y}万`}</title>
-                                    </g>
-                                  ))}
-
-                                  {/* 实际完成点 */}
-                                  {[90, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((y, idx) => (
-                                    <g key={`actual-${idx}`}>
-                                      <circle
-                                        cx={50 + idx * 50}
-                                        cy={120 - y}
-                                        r="3"
-                                        fill="#3b82f6"
-                                        className="hover:r-4 transition-all cursor-pointer"
-                                      />
-                                      <title>{`${idx + 1}月实际完成: ¥${y}万`}</title>
-                                    </g>
-                                  ))}
-
-                                  {/* 预测完成点 */}
-                                  {[95, 98, 102, 105, 100, 95, 98, 102, 105, 100, 98, 95].map((y, idx) => (
-                                    <g key={`forecast-${idx}`}>
-                                      <circle
-                                        cx={50 + idx * 50}
-                                        cy={120 - y}
-                                        r="3"
-                                        fill="#22c55e"
-                                        className="hover:r-4 transition-all cursor-pointer"
-                                      />
-                                      <title>{`${idx + 1}月预测完成: ¥${y}万`}</title>
-                                    </g>
-                                  ))}
-                                </svg>
-
-                                {/* X轴标签 */}
-                                <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1">
-                                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month) => (
-                                    <span key={month} className="text-[10px] text-slate-500 dark:text-slate-400">
-                                      {month}月
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
+                                </CardContent>
+                              </Card>
                             </div>
                           </CardContent>
                         </Card>
