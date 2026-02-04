@@ -64,22 +64,73 @@ import {
   Stethoscope,
   Briefcase,
   Key,
-  Image
+  Image,
+  CreditCard,
+  RefreshCw as RefreshIcon,
+  ArrowRightLeft,
+  FileCheck,
+  Wrench,
+  Truck,
+  Package as PackageIcon,
+  Move,
+  XCircle,
+  FileText as FileTextIcon,
+  Hammer
 } from 'lucide-react';
 
 // ==================== 菜单配置 ====================
 
-type MenuKey = 'home' | 'lease' | 'sales' | 'materials' | 'afterSales' | 'market' | 'salesNav' | 'guide';
+type MenuKey = 'home' | 'lease' | 'sales' | 'afterSales' | 'market' | 'salesNav' | 'guide';
+type SubMenuKey = 'leaseApply' | 'cardApplyRecord' | 'renewLease' | 'leaseToSale' | 'delayRecord' |
+                   'buyApply' | 'buyRecord' | 'maintenance' | 'installApply' | 'materials' |
+                   'moveApply' | 'returnApply' | 'returnRecord' | 'disassembleRecord';
 
 const menuSections = [
   {
     title: '核心功能',
     items: [
       { key: 'home' as MenuKey, icon: Home, label: '首页', description: '经营总览与决策支持' },
-      { key: 'lease' as MenuKey, icon: Key, label: '租赁业务', description: '租赁业务管理' },
-      { key: 'sales' as MenuKey, icon: DollarSign, label: '销售业务', description: '销售业务管理' },
-      { key: 'materials' as MenuKey, icon: Image, label: '宣传物料', description: '宣传物料管理' },
-      { key: 'afterSales' as MenuKey, icon: Headphones, label: '售后管理', description: '售后服务管理' }
+      {
+        key: 'lease' as MenuKey,
+        icon: Key,
+        label: '租赁业务',
+        description: '租赁业务管理',
+        hasSubmenu: true,
+        subItems: [
+          { key: 'leaseApply' as SubMenuKey, icon: Plus, label: '租赁机申请', description: '新设备租赁申请' },
+          { key: 'cardApplyRecord' as SubMenuKey, icon: CreditCard, label: '卡申请记录', description: 'SIM卡申请历史' },
+          { key: 'renewLease' as SubMenuKey, icon: RefreshIcon, label: '续租申请', description: '设备续租申请' },
+          { key: 'leaseToSale' as SubMenuKey, icon: ArrowRightLeft, label: '租转售申请', description: '租赁转销售' },
+          { key: 'delayRecord' as SubMenuKey, icon: Clock, label: '延期记录', description: '延期申请记录' }
+        ]
+      },
+      {
+        key: 'sales' as MenuKey,
+        icon: DollarSign,
+        label: '销售业务',
+        description: '销售业务管理',
+        hasSubmenu: true,
+        subItems: [
+          { key: 'buyApply' as SubMenuKey, icon: Plus, label: '购机申请', description: '设备购买申请' },
+          { key: 'buyRecord' as SubMenuKey, icon: FileCheck, label: '购机记录', description: '设备购买历史' },
+          { key: 'maintenance' as SubMenuKey, icon: Wrench, label: '维保档案', description: '设备维保记录' },
+          { key: 'installApply' as SubMenuKey, icon: Truck, label: '安装申请', description: '设备安装申请' },
+          { key: 'materials' as SubMenuKey, icon: Image, label: '宣传物料', description: '宣传物料管理' }
+        ]
+      },
+      {
+        key: 'afterSales' as MenuKey,
+        icon: Headphones,
+        label: '售后管理',
+        description: '售后服务管理',
+        hasSubmenu: true,
+        subItems: [
+          { key: 'moveApply' as SubMenuKey, icon: Move, label: '移机申请', description: '设备移机申请' },
+          { key: 'returnApply' as SubMenuKey, icon: XCircle, label: '退机申请', description: '设备退机申请' },
+          { key: 'returnRecord' as SubMenuKey, icon: FileTextIcon, label: '退货记录', description: '设备退货历史' },
+          { key: 'disassembleRecord' as SubMenuKey, icon: Hammer, label: '拆机记录', description: '设备拆机记录' }
+        ]
+      }
     ]
   },
   {
@@ -625,6 +676,8 @@ const mockMonthlyTasks = [
 
 export default function DealerPortalV2() {
   const [activeMenu, setActiveMenu] = useState<MenuKey>('home');
+  const [expandedMenus, setExpandedMenus] = useState<MenuKey[]>([]);
+  const [activeSubMenu, setActiveSubMenu] = useState<SubMenuKey | null>(null);
   const [selectedIndustry, setSelectedIndustry] = useState<number | null>(null);
   const [selectedTask, setSelectedTask] = useState<typeof mockMonthlyTasks[0] | null>(null);
   const [filterFeedbackPerson, setFilterFeedbackPerson] = useState<string>('');
@@ -633,6 +686,24 @@ export default function DealerPortalV2() {
   const [executeDialogOpen, setExecuteDialogOpen] = useState(false);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [selectedGuidance, setSelectedGuidance] = useState<typeof mockGuidance[0] | null>(null);
+
+  // 切换子菜单展开/收起
+  const toggleMenuExpansion = (menuKey: MenuKey) => {
+    setExpandedMenus(prev =>
+      prev.includes(menuKey)
+        ? prev.filter(k => k !== menuKey)
+        : [...prev, menuKey]
+    );
+  };
+
+  // 处理子菜单点击
+  const handleSubMenuClick = (subMenuKey: SubMenuKey, parentMenuKey: MenuKey) => {
+    setActiveSubMenu(subMenuKey);
+    // 如果父菜单未展开，则展开它
+    if (!expandedMenus.includes(parentMenuKey)) {
+      setExpandedMenus([...expandedMenus, parentMenuKey]);
+    }
+  };
 
   // 处理立即执行按钮点击
   const handleExecuteClick = (guide: typeof mockGuidance[0]) => {
@@ -706,25 +777,67 @@ export default function DealerPortalV2() {
                   {section.items.map((item) => {
                     const MenuIcon = item.icon;
                     const isActive = activeMenu === item.key;
+                    const hasSubmenu = 'hasSubmenu' in item && item.hasSubmenu;
+                    const isExpanded = expandedMenus.includes(item.key);
+                    const subItems = hasSubmenu ? (item as any).subItems : [];
+
                     return (
-                      <button
-                        key={item.key}
-                        onClick={() => setActiveMenu(item.key)}
-                        className={`w-full text-left px-3 py-2.5 rounded-lg transition-all ${
-                          isActive
-                            ? 'bg-gradient-to-r from-teal-500/20 to-cyan-500/20 text-teal-400 border border-teal-500/30'
-                            : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <MenuIcon className={`h-4 w-4 ${isActive ? 'text-teal-400' : 'text-slate-400'}`} />
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium">{item.label}</div>
-                            <div className="text-xs text-slate-500 truncate">{item.description}</div>
+                      <div key={item.key}>
+                        <button
+                          onClick={() => {
+                            if (hasSubmenu) {
+                              toggleMenuExpansion(item.key);
+                            }
+                            setActiveMenu(item.key);
+                          }}
+                          className={`w-full text-left px-3 py-2.5 rounded-lg transition-all ${
+                            isActive
+                              ? 'bg-gradient-to-r from-teal-500/20 to-cyan-500/20 text-teal-400 border border-teal-500/30'
+                              : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <MenuIcon className={`h-4 w-4 ${isActive ? 'text-teal-400' : 'text-slate-400'}`} />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-medium">{item.label}</div>
+                              <div className="text-xs text-slate-500 truncate">{item.description}</div>
+                            </div>
+                            {hasSubmenu ? (
+                              <ChevronRight
+                                className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-90 text-teal-400' : 'text-slate-400'}`}
+                              />
+                            ) : isActive ? (
+                              <ChevronRight className="h-4 w-4 text-teal-400" />
+                            ) : null}
                           </div>
-                          {isActive && <ChevronRight className="h-4 w-4 text-teal-400" />}
-                        </div>
-                      </button>
+                        </button>
+
+                        {/* 子菜单 */}
+                        {hasSubmenu && isExpanded && (
+                          <div className="ml-4 mt-1 space-y-1">
+                            {subItems.map((subItem: any) => {
+                              const SubIcon = subItem.icon;
+                              const isSubActive = activeSubMenu === subItem.key;
+                              return (
+                                <button
+                                  key={subItem.key}
+                                  onClick={() => handleSubMenuClick(subItem.key, item.key)}
+                                  className={`w-full text-left px-3 py-2 rounded-lg transition-all text-xs ${
+                                    isSubActive
+                                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
+                                      : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <SubIcon className={`h-3 w-3 ${isSubActive ? 'text-cyan-400' : 'text-slate-500'}`} />
+                                    <span className="font-medium">{subItem.label}</span>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
@@ -2112,8 +2225,303 @@ export default function DealerPortalV2() {
                   </div>
                 )}
 
+                {/* 租赁业务子菜单 */}
+                {activeMenu === 'lease' && (
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">租赁业务</h2>
+                      <p className="text-sm text-amber-100">设备租赁业务管理</p>
+                    </div>
+
+                    {activeSubMenu === 'leaseApply' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Plus className="h-5 w-5 text-amber-600" />
+                            租赁机申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Plus className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>租赁机申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'cardApplyRecord' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <CreditCard className="h-5 w-5 text-amber-600" />
+                            卡申请记录
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <CreditCard className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>卡申请记录功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'renewLease' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <RefreshIcon className="h-5 w-5 text-amber-600" />
+                            续租申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <RefreshIcon className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>续租申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'leaseToSale' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <ArrowRightLeft className="h-5 w-5 text-amber-600" />
+                            租转售申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <ArrowRightLeft className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>租转售申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'delayRecord' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Clock className="h-5 w-5 text-amber-600" />
+                            延期记录
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Clock className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>延期记录功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {!activeSubMenu && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base">请选择功能</CardTitle>
+                          <CardDescription>选择左侧菜单中的子功能进行操作</CardDescription>
+                        </CardHeader>
+                      </Card>
+                    )}
+                  </div>
+                )}
+
+                {/* 销售业务子菜单 */}
+                {activeMenu === 'sales' && (
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">销售业务</h2>
+                      <p className="text-sm text-green-100">设备销售业务管理</p>
+                    </div>
+
+                    {activeSubMenu === 'buyApply' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Plus className="h-5 w-5 text-green-600" />
+                            购机申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Plus className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>购机申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'buyRecord' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <FileCheck className="h-5 w-5 text-green-600" />
+                            购机记录
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <FileCheck className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>购机记录功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'maintenance' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Wrench className="h-5 w-5 text-green-600" />
+                            维保档案
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Wrench className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>维保档案功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'installApply' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Truck className="h-5 w-5 text-green-600" />
+                            安装申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Truck className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>安装申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'materials' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Image className="h-5 w-5 text-green-600" />
+                            宣传物料
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Image className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>宣传物料功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {!activeSubMenu && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base">请选择功能</CardTitle>
+                          <CardDescription>选择左侧菜单中的子功能进行操作</CardDescription>
+                        </CardHeader>
+                      </Card>
+                    )}
+                  </div>
+                )}
+
+                {/* 售后管理子菜单 */}
+                {activeMenu === 'afterSales' && (
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-4 text-white">
+                      <h2 className="text-xl font-bold mb-1">售后管理</h2>
+                      <p className="text-sm text-blue-100">售后服务管理</p>
+                    </div>
+
+                    {activeSubMenu === 'moveApply' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Move className="h-5 w-5 text-blue-600" />
+                            移机申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Move className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>移机申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'returnApply' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <XCircle className="h-5 w-5 text-blue-600" />
+                            退机申请
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <XCircle className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>退机申请功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'returnRecord' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <FileTextIcon className="h-5 w-5 text-blue-600" />
+                            退货记录
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <FileTextIcon className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>退货记录功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {activeSubMenu === 'disassembleRecord' && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <Hammer className="h-5 w-5 text-blue-600" />
+                            拆机记录
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center py-12 text-slate-500">
+                            <Hammer className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                            <p>拆机记录功能开发中...</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {!activeSubMenu && (
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base">请选择功能</CardTitle>
+                          <CardDescription>选择左侧菜单中的子功能进行操作</CardDescription>
+                        </CardHeader>
+                      </Card>
+                    )}
+                  </div>
+                )}
+
                 {/* 其他菜单 - 默认占位符 */}
-                {activeMenu !== 'home' && activeMenu !== 'project' && activeMenu !== 'node' && (
+                {activeMenu !== 'home' && activeMenu !== 'project' && activeMenu !== 'node' && activeMenu !== 'lease' && activeMenu !== 'sales' && activeMenu !== 'afterSales' && (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
                     <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 shadow-lg">
                       <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center mb-6">
