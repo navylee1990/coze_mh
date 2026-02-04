@@ -1078,58 +1078,120 @@ export default function DealerPortalV2() {
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-2 pb-3">
-                                  <div className="flex flex-col items-center gap-1">
-                                    {/* 线索阶段 */}
-                                    <div className="w-full flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
-                                      <div className="w-full bg-gradient-to-r from-blue-400 to-blue-500 h-8 flex items-center justify-between px-6">
-                                        <span className="text-xs font-semibold text-white">线索</span>
-                                        <div className="flex items-center gap-3 text-xs text-white">
-                                          <span>20个</span>
-                                          <span>¥2000万</span>
+                                  <div className="relative">
+                                    {/* 上半部分：漏斗图 + 右侧数据 */}
+                                    <div className="flex gap-2">
+                                      {/* 左侧漏斗图 */}
+                                      <div className="relative" style={{ width: '90px' }}>
+                                        <svg viewBox="0 0 90 140" className="w-full h-auto">
+                                          {/* 线索 - 顶部 */}
+                                          <path
+                                            d="M5,5 L85,5 L70,30 L20,30 Z"
+                                            fill="#60a5fa"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>线索: 20个</title>
+                                          </path>
+                                          <text x="45" y="20" className="text-[8px] fill-white font-semibold" textAnchor="middle">线索</text>
+                                          
+                                          {/* 初步接触 */}
+                                          <path
+                                            d="M22,30 L68,30 L55,55 L35,55 Z"
+                                            fill="#3b82f6"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>初步接触: 15个</title>
+                                          </path>
+                                          <text x="45" y="45" className="text-[8px] fill-white font-semibold" textAnchor="middle">初步接触</text>
+                                          
+                                          {/* 方案阶段 */}
+                                          <path
+                                            d="M37,55 L53,55 L43,80 L47,80 Z"
+                                            fill="#2563eb"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>方案阶段: 10个</title>
+                                          </path>
+                                          <text x="45" y="70" className="text-[7px] fill-white font-semibold" textAnchor="middle">方案</text>
+                                          
+                                          {/* 商务谈判 */}
+                                          <path
+                                            d="M42,80 L48,80 L45,105 Z"
+                                            fill="#a855f7"
+                                            className="hover:opacity-80 transition-opacity cursor-pointer"
+                                          >
+                                            <title>商务谈判: 5个</title>
+                                          </path>
+                                          
+                                          {/* 成交 - 底部 */}
+                                          <circle cx="45" cy="120" r="6" fill="#22c55e" className="hover:opacity-80 transition-opacity cursor-pointer">
+                                            <title>成交: 3个</title>
+                                          </circle>
+                                          <text x="45" y="123" className="text-[6px] fill-white font-semibold" textAnchor="middle">成</text>
+                                          
+                                          {/* 细线连接到右侧数据 */}
+                                          <line x1="85" y1="17" x2="95" y2="17" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="68" y1="42" x2="95" y2="42" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="53" y1="67" x2="95" y2="67" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="48" y1="92" x2="95" y2="92" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="51" y1="120" x2="95" y2="120" stroke="#94a3b8" strokeWidth="1" />
+                                        </svg>
+                                      </div>
+                                      
+                                      {/* 右侧数据 */}
+                                      <div className="flex-1 space-y-1.5 py-1">
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex-1">
+                                            <div className="text-xs font-semibold text-slate-700">线索</div>
+                                            <div className="text-[10px] text-slate-500">20个</div>
+                                          </div>
+                                          <div className="text-xs font-bold text-slate-900">¥2000万</div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex-1">
+                                            <div className="text-xs font-semibold text-slate-700">初步接触</div>
+                                            <div className="text-[10px] text-slate-500">15个</div>
+                                          </div>
+                                          <div className="text-xs font-bold text-slate-900">¥1500万</div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex-1">
+                                            <div className="text-xs font-semibold text-slate-700">方案阶段</div>
+                                            <div className="text-[10px] text-slate-500">10个</div>
+                                          </div>
+                                          <div className="text-xs font-bold text-slate-900">¥1000万</div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex-1">
+                                            <div className="text-xs font-semibold text-slate-700">商务谈判</div>
+                                            <div className="text-[10px] text-slate-500">5个</div>
+                                          </div>
+                                          <div className="text-xs font-bold text-slate-900">¥500万</div>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex-1">
+                                            <div className="text-xs font-semibold text-slate-700">成交</div>
+                                            <div className="text-[10px] text-slate-500">3个</div>
+                                          </div>
+                                          <div className="text-xs font-bold text-green-600">¥300万</div>
                                         </div>
                                       </div>
                                     </div>
                                     
-                                    {/* 初步接触 */}
-                                    <div className="w-[85%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
-                                      <div className="w-full bg-gradient-to-r from-blue-300 to-blue-400 h-7 flex items-center justify-between px-5">
-                                        <span className="text-xs font-semibold text-white">初步接触</span>
-                                        <div className="flex items-center gap-3 text-xs text-white">
-                                          <span>15个</span>
-                                          <span>¥1500万</span>
+                                    {/* 下半部分：指标 */}
+                                    <div className="mt-2 pt-2 border-t border-slate-200">
+                                      <div className="grid grid-cols-3 gap-1">
+                                        <div className="text-center p-1.5 bg-blue-50 rounded">
+                                          <div className="text-[10px] text-slate-600 mb-0.5">赢单转化率</div>
+                                          <div className="text-sm font-bold text-blue-600">20%</div>
                                         </div>
-                                      </div>
-                                    </div>
-
-                                    {/* 方案阶段 */}
-                                    <div className="w-[70%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
-                                      <div className="w-full bg-gradient-to-r from-blue-500 to-blue-600 h-6 flex items-center justify-between px-4">
-                                        <span className="text-xs font-semibold text-white">方案阶段</span>
-                                        <div className="flex items-center gap-3 text-xs text-white">
-                                          <span>10个</span>
-                                          <span>¥1000万</span>
+                                        <div className="text-center p-1.5 bg-green-50 rounded">
+                                          <div className="text-[10px] text-slate-600 mb-0.5">在手项目总数</div>
+                                          <div className="text-sm font-bold text-green-600">2300个</div>
                                         </div>
-                                      </div>
-                                    </div>
-
-                                    {/* 商务谈判 */}
-                                    <div className="w-[55%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
-                                      <div className="w-full bg-gradient-to-r from-purple-400 to-purple-500 h-5 flex items-center justify-between px-3">
-                                        <span className="text-xs font-semibold text-white">商务谈判</span>
-                                        <div className="flex items-center gap-3 text-xs text-white">
-                                          <span>5个</span>
-                                          <span>¥500万</span>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    {/* 成交 */}
-                                    <div className="w-[40%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
-                                      <div className="w-full bg-gradient-to-r from-green-400 to-green-500 h-5 flex items-center justify-between px-2">
-                                        <span className="text-xs font-semibold text-white">成交</span>
-                                        <div className="flex items-center gap-3 text-xs text-white">
-                                          <span>3个</span>
-                                          <span>¥300万</span>
+                                        <div className="text-center p-1.5 bg-purple-50 rounded">
+                                          <div className="text-[10px] text-slate-600 mb-0.5">储备金额</div>
+                                          <div className="text-sm font-bold text-purple-600">¥320万</div>
                                         </div>
                                       </div>
                                     </div>
@@ -1146,56 +1208,94 @@ export default function DealerPortalV2() {
                                   </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-2 pb-3">
-                                  <div className="flex items-center justify-center">
-                                    <div className="relative w-28 h-28">
+                                  <div className="flex gap-2">
+                                    {/* 左侧图例 */}
+                                    <div className="flex-1 space-y-1 py-1">
+                                      {/* K12教育 35% - 最大占比，文字最大 */}
+                                      <div className="flex items-center gap-1.5 p-1 bg-blue-50 rounded">
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-xs font-bold text-slate-900">K12教育</div>
+                                          <div className="flex items-center gap-1">
+                                            <span className="text-[10px] font-semibold text-blue-600">35%</span>
+                                            <span className="text-[9px] text-slate-500">350个</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      {/* 楼宇BOT 28% - 第二大 */}
+                                      <div className="flex items-center gap-1.5 p-1 bg-green-50 rounded">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-[11px] font-bold text-slate-900">楼宇BOT</div>
+                                          <div className="flex items-center gap-1">
+                                            <span className="text-[10px] font-semibold text-green-600">28%</span>
+                                            <span className="text-[9px] text-slate-500">280个</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      {/* 校园BOT 20% - 第三大 */}
+                                      <div className="flex items-center gap-1.5 p-1 bg-purple-50 rounded">
+                                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full flex-shrink-0"></div>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-[10px] font-semibold text-slate-900">校园BOT</div>
+                                          <div className="flex items-center gap-1">
+                                            <span className="text-[9px] text-purple-600">20%</span>
+                                            <span className="text-[8px] text-slate-500">200个</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      {/* 其他 17% - 最小，文字最小 */}
+                                      <div className="flex items-center gap-1.5 p-1 bg-orange-50 rounded">
+                                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></div>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-[9px] text-slate-900">其他</div>
+                                          <div className="flex items-center gap-1">
+                                            <span className="text-[8px] text-orange-600">17%</span>
+                                            <span className="text-[8px] text-slate-500">170个</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    {/* 右侧饼图 */}
+                                    <div className="relative" style={{ width: '100px' }}>
                                       <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                                         {/* K12教育 35% */}
                                         <path
                                           d="M50,50 L50,10 A40,40 0 0,1 83.14,26.18 Z"
                                           fill="#3b82f6"
-                                          className="hover:opacity-80 transition-opacity"
-                                        />
+                                          className="hover:opacity-80 transition-opacity cursor-pointer"
+                                        >
+                                          <title>K12教育: 35%</title>
+                                        </path>
                                         {/* 楼宇BOT 28% */}
                                         <path
                                           d="M50,50 L83.14,26.18 A40,40 0 0,1 83.14,73.82 Z"
                                           fill="#22c55e"
-                                          className="hover:opacity-80 transition-opacity"
-                                        />
+                                          className="hover:opacity-80 transition-opacity cursor-pointer"
+                                        >
+                                          <title>楼宇BOT: 28%</title>
+                                        </path>
                                         {/* 校园BOT 20% */}
                                         <path
                                           d="M50,50 L83.14,73.82 A40,40 0 0,1 26.18,83.14 Z"
                                           fill="#a855f7"
-                                          className="hover:opacity-80 transition-opacity"
-                                        />
+                                          className="hover:opacity-80 transition-opacity cursor-pointer"
+                                        >
+                                          <title>校园BOT: 20%</title>
+                                        </path>
                                         {/* 其他 17% */}
                                         <path
                                           d="M50,50 L26.18,83.14 A40,40 0 0,1 50,10 Z"
                                           fill="#f97316"
-                                          className="hover:opacity-80 transition-opacity"
-                                        />
+                                          className="hover:opacity-80 transition-opacity cursor-pointer"
+                                        >
+                                          <title>其他: 17%</title>
+                                        </path>
                                       </svg>
-                                    </div>
-                                  </div>
-                                  <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
-                                    <div className="flex items-center gap-1">
-                                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                                      <span className="text-slate-600 truncate">K12教育</span>
-                                      <span className="text-slate-900 font-semibold ml-auto">35%</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                      <span className="text-slate-600 truncate">楼宇BOT</span>
-                                      <span className="text-slate-900 font-semibold ml-auto">28%</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
-                                      <span className="text-slate-600 truncate">校园BOT</span>
-                                      <span className="text-slate-900 font-semibold ml-auto">20%</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
-                                      <span className="text-slate-600 truncate">其他</span>
-                                      <span className="text-slate-900 font-semibold ml-auto">17%</span>
                                     </div>
                                   </div>
                                 </CardContent>
