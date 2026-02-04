@@ -88,7 +88,7 @@ type SubMenuKey = 'leaseApply' | 'cardApplyRecord' | 'renewLease' | 'leaseToSale
 
 const menuSections = [
   {
-    title: '核心功能',
+    title: '销售导航',
     items: [
       { key: 'home' as MenuKey, icon: Home, label: '首页', description: '经营总览与决策支持' },
       {
@@ -138,7 +138,6 @@ const menuSections = [
     title: '销售赋能',
     items: [
       { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '行业分析与产品推荐' },
-      { key: 'salesNav' as MenuKey, icon: Navigation, label: '销售导航', description: '销售工具与资源' },
       { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '最佳实践与培训' }
     ]
   }
@@ -1778,7 +1777,7 @@ export default function DealerPortalV2() {
                     {/* 页面标题 */}
                     <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4 text-white">
                       <h2 className="text-xl font-bold mb-1">运营指南</h2>
-                      <p className="text-sm text-indigo-100">最佳实践与培训</p>
+                      <p className="text-sm text-indigo-100">政策、案例与培训</p>
                     </div>
 
                     {/* 最佳实践 */}
