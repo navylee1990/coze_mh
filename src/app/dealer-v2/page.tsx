@@ -1062,6 +1062,23 @@ export default function DealerPortalV2() {
                                             strokeWidth="12"
                                             strokeLinecap="round"
                                           />
+                                          {/* 指针 - 90% */}
+                                          <line
+                                            x1="56"
+                                            y1="56"
+                                            x2="94"
+                                            y2="44"
+                                            stroke="#1e293b"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                          />
+                                          {/* 指针基座 */}
+                                          <circle
+                                            cx="56"
+                                            cy="56"
+                                            r="4"
+                                            fill="#1e293b"
+                                          />
                                         </svg>
                                         {/* 中心文字 */}
                                         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
@@ -1097,6 +1114,23 @@ export default function DealerPortalV2() {
                                             stroke="url(#predictGradient)"
                                             strokeWidth="12"
                                             strokeLinecap="round"
+                                          />
+                                          {/* 指针 - 104% */}
+                                          <line
+                                            x1="56"
+                                            y1="56"
+                                            x2="96"
+                                            y2="61"
+                                            stroke="#1e293b"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                          />
+                                          {/* 指针基座 */}
+                                          <circle
+                                            cx="56"
+                                            cy="56"
+                                            r="4"
+                                            fill="#1e293b"
                                           />
                                         </svg>
                                         {/* 中心文字 */}
@@ -1165,16 +1199,16 @@ export default function DealerPortalV2() {
                                     </div>
                                   </div>
                                 </CardHeader>
-                                <CardContent className="pt-1.5 pb-2">
+                                <CardContent className="pt-2 pb-2.5">
                                   <div className="relative">
                                     {/* 上半部分：漏斗图 + 右侧数据 */}
-                                    <div className="flex gap-3">
+                                    <div className="flex gap-4">
                                       {/* 左侧漏斗图 */}
-                                      <div className="relative" style={{ width: '120px' }}>
-                                        <svg viewBox="0 0 120 160" className="w-full h-auto">
+                                      <div className="relative" style={{ width: '180px' }}>
+                                        <svg viewBox="0 0 180 240" className="w-full h-auto">
                                           {/* 初步接触 - 顶部最大 */}
                                           <path
-                                            d="M2,2 L118,2 L105,25 L15,25 Z"
+                                            d="M3,3 L177,3 L158,38 L22,38 Z"
                                             fill="#60a5fa"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1183,7 +1217,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 现场勘察 */}
                                           <path
-                                            d="M16,25 L104,25 L92,48 L28,48 Z"
+                                            d="M24,38 L156,38 L138,73 L42,73 Z"
                                             fill="#3b82f6"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1192,7 +1226,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 需求意向 */}
                                           <path
-                                            d="M29,48 L91,48 L80,71 L40,71 Z"
+                                            d="M44,73 L136,73 L121,108 L59,108 Z"
                                             fill="#2563eb"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1201,7 +1235,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 方案设计 */}
                                           <path
-                                            d="M41,71 L79,71 L69,94 L51,94 Z"
+                                            d="M62,108 L118,108 L105,143 L75,143 Z"
                                             fill="#1d4ed8"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1210,7 +1244,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 项目采购 */}
                                           <path
-                                            d="M52,94 L68,94 L60,117 L60,117 Z"
+                                            d="M78,143 L102,143 L91,178 L91,178 Z"
                                             fill="#8b5cf6"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1219,7 +1253,7 @@ export default function DealerPortalV2() {
                                           
                                           {/* 项目合同 - 底部 */}
                                           <path
-                                            d="M56,117 L64,117 L60,142 Z"
+                                            d="M85,178 L95,178 L90,213 Z"
                                             fill="#22c55e"
                                             className="hover:opacity-70 transition-opacity cursor-pointer"
                                           >
@@ -1227,19 +1261,19 @@ export default function DealerPortalV2() {
                                           </path>
                                           
                                           {/* 细线连接到右侧数据 */}
-                                          <line x1="118" y1="13" x2="125" y2="13" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="104" y1="36" x2="125" y2="36" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="91" y1="59" x2="125" y2="59" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="79" y1="82" x2="125" y2="82" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="68" y1="105" x2="125" y2="105" stroke="#94a3b8" strokeWidth="1" />
-                                          <line x1="64" y1="130" x2="125" y2="130" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="177" y1="20" x2="188" y2="20" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="156" y1="55" x2="188" y2="55" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="136" y1="90" x2="188" y2="90" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="118" y1="125" x2="188" y2="125" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="102" y1="160" x2="188" y2="160" stroke="#94a3b8" strokeWidth="1" />
+                                          <line x1="95" y1="195" x2="188" y2="195" stroke="#94a3b8" strokeWidth="1" />
                                         </svg>
                                       </div>
                                       
                                       {/* 右侧数据 */}
-                                      <div className="flex-1 space-y-2 py-1">
+                                      <div className="flex-1 space-y-2.5 py-1">
                                         <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"></div>
+                                          <div className="w-2.5 h-2.5 bg-blue-400 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
                                             <div className="text-xs font-bold text-slate-800">初步接触</div>
                                           </div>
@@ -1249,7 +1283,7 @@ export default function DealerPortalV2() {
                                           </div>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                          <div className="w-2.5 h-2.5 bg-blue-500 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
                                             <div className="text-xs font-bold text-slate-800">现场勘察</div>
                                           </div>
@@ -1259,7 +1293,7 @@ export default function DealerPortalV2() {
                                           </div>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                                          <div className="w-2.5 h-2.5 bg-blue-600 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
                                             <div className="text-xs font-bold text-slate-800">需求意向</div>
                                           </div>
@@ -1269,7 +1303,7 @@ export default function DealerPortalV2() {
                                           </div>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-700 rounded-full flex-shrink-0"></div>
+                                          <div className="w-2.5 h-2.5 bg-blue-700 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
                                             <div className="text-xs font-bold text-slate-800">方案设计</div>
                                           </div>
@@ -1279,7 +1313,7 @@ export default function DealerPortalV2() {
                                           </div>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></div>
+                                          <div className="w-2.5 h-2.5 bg-purple-500 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
                                             <div className="text-xs font-bold text-slate-800">项目采购</div>
                                           </div>
@@ -1289,7 +1323,7 @@ export default function DealerPortalV2() {
                                           </div>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+                                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0"></div>
                                           <div className="flex-1">
                                             <div className="text-xs font-bold text-slate-800">项目合同</div>
                                           </div>
@@ -1302,19 +1336,19 @@ export default function DealerPortalV2() {
                                     </div>
                                     
                                     {/* 下半部分：指标 */}
-                                    <div className="mt-2 pt-2 border-t border-slate-200">
-                                      <div className="grid grid-cols-3 gap-1">
-                                        <div className="text-center p-1.5 bg-blue-50 rounded">
+                                    <div className="mt-3 pt-3 border-t border-slate-200">
+                                      <div className="grid grid-cols-3 gap-2">
+                                        <div className="text-center p-2 bg-blue-50 rounded">
                                           <div className="text-[10px] text-slate-600 mb-0.5">赢单转化率</div>
-                                          <div className="text-sm font-bold text-blue-600">90%</div>
+                                          <div className="text-base font-bold text-blue-600">90%</div>
                                         </div>
-                                        <div className="text-center p-1.5 bg-green-50 rounded">
+                                        <div className="text-center p-2 bg-green-50 rounded">
                                           <div className="text-[10px] text-slate-600 mb-0.5">在手项目总数</div>
-                                          <div className="text-sm font-bold text-green-600">5400个</div>
+                                          <div className="text-base font-bold text-green-600">5400个</div>
                                         </div>
-                                        <div className="text-center p-1.5 bg-purple-50 rounded">
+                                        <div className="text-center p-2 bg-purple-50 rounded">
                                           <div className="text-[10px] text-slate-600 mb-0.5">储备金额</div>
-                                          <div className="text-sm font-bold text-purple-600">¥8100万</div>
+                                          <div className="text-base font-bold text-purple-600">¥8100万</div>
                                         </div>
                                       </div>
                                     </div>
@@ -1330,15 +1364,15 @@ export default function DealerPortalV2() {
                                     总体行业分布
                                   </CardTitle>
                                 </CardHeader>
-                                <CardContent className="pt-1.5 pb-2">
-                                  <div className="flex flex-col gap-2">
+                                <CardContent className="pt-2 pb-2.5">
+                                  <div className="flex flex-col gap-2.5">
                                     {/* 上方：饼图居中 */}
                                     <div className="flex justify-center py-0.5">
-                                      <div className="relative" style={{ width: '90px' }}>
+                                      <div className="relative" style={{ width: '120px' }}>
                                         <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                                           {/* K12教育 35% */}
                                           <path
-                                            d="M50,50 L50,10 A40,40 0 0,1 83.14,26.18 Z"
+                                            d="M50,50 L50,5 A45,45 0 0,1 89.24,32.64 Z"
                                             fill="#3b82f6"
                                             className="hover:opacity-80 transition-opacity cursor-pointer"
                                           >
@@ -1346,7 +1380,7 @@ export default function DealerPortalV2() {
                                           </path>
                                           {/* 楼宇BOT 28% */}
                                           <path
-                                            d="M50,50 L83.14,26.18 A40,40 0 0,1 83.14,73.82 Z"
+                                            d="M50,50 L89.24,32.64 A45,45 0 0,1 89.24,67.36 Z"
                                             fill="#22c55e"
                                             className="hover:opacity-80 transition-opacity cursor-pointer"
                                           >
@@ -1354,7 +1388,7 @@ export default function DealerPortalV2() {
                                           </path>
                                           {/* 校园BOT 20% */}
                                           <path
-                                            d="M50,50 L83.14,73.82 A40,40 0 0,1 26.18,83.14 Z"
+                                            d="M50,50 L89.24,67.36 A45,45 0 0,1 61.42,90.56 Z"
                                             fill="#a855f7"
                                             className="hover:opacity-80 transition-opacity cursor-pointer"
                                           >
@@ -1362,61 +1396,61 @@ export default function DealerPortalV2() {
                                           </path>
                                           {/* 其他 17% */}
                                           <path
-                                            d="M50,50 L26.18,83.14 A40,40 0 0,1 50,10 Z"
+                                            d="M50,50 L61.42,90.56 A45,45 0 0,1 50,5 Z"
                                             fill="#f97316"
                                             className="hover:opacity-80 transition-opacity cursor-pointer"
                                           >
                                             <title>其他: 17%</title>
                                           </path>
-                                          {/* 甜甜圈图中间的白色圆形 */}
-                                          <circle cx="50" cy="50" r="24" fill="white" />
+                                          {/* 甜甜圈图中间的白色圆形 - 增大内径 */}
+                                          <circle cx="50" cy="50" r="28" fill="white" />
                                         </svg>
                                       </div>
                                     </div>
                                     
                                     {/* 下方：说明 - 一行一个 */}
-                                    <div className="space-y-1">
+                                    <div className="space-y-1.5">
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[10px]">K12教育</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">K12教育</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <span className="text-[10px] font-bold text-blue-600">35%</span>
-                                          <span className="text-[10px] text-slate-500">350个</span>
+                                          <span className="text-[11px] font-bold text-blue-600">35%</span>
+                                          <span className="text-[11px] text-slate-500">350个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[10px]">楼宇BOT</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">楼宇BOT</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <span className="text-[10px] font-bold text-green-600">28%</span>
-                                          <span className="text-[10px] text-slate-500">280个</span>
+                                          <span className="text-[11px] font-bold text-green-600">28%</span>
+                                          <span className="text-[11px] text-slate-500">280个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[10px]">校园BOT</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-3 h-3 bg-purple-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">校园BOT</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <span className="text-[10px] font-bold text-purple-600">20%</span>
-                                          <span className="text-[10px] text-slate-500">200个</span>
+                                          <span className="text-[11px] font-bold text-purple-600">20%</span>
+                                          <span className="text-[11px] text-slate-500">200个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-1.5">
-                                          <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[10px]">其他</span>
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-3 h-3 bg-orange-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[11px]">其他</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                          <span className="text-[10px] font-bold text-orange-600">17%</span>
-                                          <span className="text-[10px] text-slate-500">170个</span>
+                                          <span className="text-[11px] font-bold text-orange-600">17%</span>
+                                          <span className="text-[11px] text-slate-500">170个</span>
                                         </div>
                                       </div>
                                     </div>
