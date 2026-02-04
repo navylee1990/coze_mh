@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import {
   Building2,
@@ -687,6 +688,13 @@ export default function DealerPortalV2() {
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [selectedGuidance, setSelectedGuidance] = useState<typeof mockGuidance[0] | null>(null);
 
+  // 行业分析标记状态
+  const [advantageIndustries, setAdvantageIndustries] = useState<Set<number>>(new Set());
+  const [potentialIndustries, setPotentialIndustries] = useState<Set<number>>(new Set());
+  const [developmentDialogOpen, setDevelopmentDialogOpen] = useState(false);
+  const [developmentIndustry, setDevelopmentIndustry] = useState<number | null>(null);
+  const [developmentPlan, setDevelopmentPlan] = useState('');
+
   // 切换子菜单展开/收起
   const toggleMenuExpansion = (menuKey: MenuKey) => {
     setExpandedMenus(prev =>
@@ -715,6 +723,45 @@ export default function DealerPortalV2() {
   const handleDetailClick = (guide: typeof mockGuidance[0]) => {
     setSelectedGuidance(guide);
     setDetailDialogOpen(true);
+  };
+
+  // 切换优势行业标记
+  const toggleAdvantageIndustry = (industryId: number) => {
+    setAdvantageIndustries(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(industryId)) {
+        newSet.delete(industryId);
+      } else {
+        newSet.add(industryId);
+      }
+      return newSet;
+    });
+  };
+
+  // 切换潜力行业标记
+  const togglePotentialIndustry = (industryId: number) => {
+    setPotentialIndustries(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(industryId)) {
+        newSet.delete(industryId);
+      } else {
+        newSet.add(industryId);
+      }
+      return newSet;
+    });
+  };
+
+  // 打开发展思路对话框
+  const openDevelopmentDialog = (industryId: number) => {
+    setDevelopmentIndustry(industryId);
+    setDevelopmentDialogOpen(true);
+  };
+
+  // 保存发展思路
+  const saveDevelopmentPlan = () => {
+    setDevelopmentDialogOpen(false);
+    setDevelopmentIndustry(null);
+    setDevelopmentPlan('');
   };
 
   const activeMenuItem = menuItems.find(item => item.key === activeMenu);
@@ -918,7 +965,7 @@ export default function DealerPortalV2() {
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                       {/* 关键指标仪表盘 - 缩小 */}
                       <div className="lg:col-span-3">
-                        <Card className="border-2 border-teal-200 dark:border-teal-800">
+                        <Card className="border-2 border-teal-200 dark:border-teal-800 h-full">
                           <CardHeader className="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 py-3">
                             <div className="flex items-center justify-between">
                               <CardTitle className="text-base flex items-center gap-2">
@@ -926,7 +973,7 @@ export default function DealerPortalV2() {
                                 关键指标
                               </CardTitle>
                               <Button variant="outline" size="sm" className="text-xs">
-                                更多
+                                查看经营驾驶舱
                                 <ArrowRight className="ml-1 h-3 w-3" />
                               </Button>
                             </div>
@@ -1257,6 +1304,8 @@ export default function DealerPortalV2() {
                             const progressPeer = (industry.peerAvg / 2000000) * 100;
                             const diffPercent = ((industry.own - industry.peerAvg) / industry.peerAvg * 100).toFixed(0);
                             const isPositive = parseFloat(diffPercent) > 0;
+                            const isAdvantage = advantageIndustries.has(industry.id);
+                            const isPotential = potentialIndustries.has(industry.id);
                             
                             return (
                               <div key={industry.id} className="p-3 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
@@ -1285,13 +1334,36 @@ export default function DealerPortalV2() {
                                     同比增长 {industry.yoyGrowth > 0 ? '+' : ''}{industry.yoyGrowth}%，{isPositive ? '高于' : '低于'}平均 {Math.abs(parseFloat(diffPercent))}个百分点
                                   </div>
                                 </div>
-                                {/* 只有自己低于同规模平均时才显示"交流反馈"按钮 */}
-                                {!isAboveAverage && (
-                                  <Button size="sm" variant="outline" className="w-full h-7 text-xs mt-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900/30">
-                                    交流反馈
-                                    <MessageSquare className="ml-1 h-3 w-3" />
+                                {/* 标记按钮 */}
+                                <div className="flex gap-2 mt-3">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className={`flex-1 h-7 text-xs border-amber-300 hover:bg-amber-50 dark:border-amber-700 dark:hover:bg-amber-900/30 ${isAdvantage ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' : 'text-amber-700 dark:text-amber-300'}`}
+                                    onClick={() => toggleAdvantageIndustry(industry.id)}
+                                  >
+                                    <Star className={`mr-1 h-3 w-3 ${isAdvantage ? 'fill-current' : ''}`} />
+                                    优势
                                   </Button>
-                                )}
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className={`flex-1 h-7 text-xs border-green-300 hover:bg-green-50 dark:border-green-700 dark:hover:bg-green-900/30 ${isPotential ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'text-green-700 dark:text-green-300'}`}
+                                    onClick={() => togglePotentialIndustry(industry.id)}
+                                  >
+                                    <Target className={`mr-1 h-3 w-3 ${isPotential ? 'fill-current' : ''}`} />
+                                    潜力
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="flex-1 h-7 text-xs border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900/30"
+                                    onClick={() => openDevelopmentDialog(industry.id)}
+                                  >
+                                    <Lightbulb className="mr-1 h-3 w-3" />
+                                    发展
+                                  </Button>
+                                </div>
                               </div>
                             );
                           })}
@@ -2610,6 +2682,61 @@ export default function DealerPortalV2() {
                         onClick={() => setDetailDialogOpen(false)}
                       >
                         关闭
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 发展思路对话框 */}
+            {developmentDialogOpen && developmentIndustry !== null && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-[500px] max-w-[90vw] max-h-[90vh] overflow-auto">
+                  <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4 rounded-t-xl">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-bold text-white">填写发展思路</h3>
+                      <button
+                        onClick={() => setDevelopmentDialogOpen(false)}
+                        className="text-white hover:text-slate-200"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">
+                        行业
+                      </label>
+                      <div className="text-sm text-slate-700 dark:text-slate-300">
+                        {mockIndustryTracks.find(i => i.id === developmentIndustry)?.name}
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">
+                        发展思路
+                      </label>
+                      <Textarea
+                        placeholder="请填写您对该行业的发展思路和计划..."
+                        value={developmentPlan}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDevelopmentPlan(e.target.value)}
+                        rows={6}
+                        className="w-full"
+                      />
+                    </div>
+                    <div className="flex gap-3 justify-end">
+                      <Button
+                        variant="outline"
+                        onClick={() => setDevelopmentDialogOpen(false)}
+                      >
+                        取消
+                      </Button>
+                      <Button
+                        onClick={saveDevelopmentPlan}
+                        className="bg-purple-600 hover:bg-purple-700 text-white"
+                      >
+                        保存
                       </Button>
                     </div>
                   </div>
