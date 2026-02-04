@@ -927,7 +927,7 @@ export default function DealerPortalV2() {
         {/* 主内容区 */}
         <main className="flex-1 flex flex-col overflow-hidden">
           {/* 顶部工具栏 - 整合欢迎信息、消息提醒、用户信息 */}
-          <header className="bg-white border-b border-slate-200 px-6 py-3">
+          <header className="bg-white border-b border-slate-200 px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-6 flex-1">
                 {/* 欢迎信息 */}
@@ -967,26 +967,26 @@ export default function DealerPortalV2() {
                   {/* 关键指标仪表盘 - 占满整行 */}
                   <div>
                     <Card className="border border-slate-200">
-                          <CardHeader className="bg-white py-3">
-                            <CardTitle className="text-base flex items-center gap-2">
+                          <CardHeader className="bg-white py-2 px-4">
+                            <CardTitle className="text-sm flex items-center gap-2">
                               <Activity className="h-4 w-4 text-slate-600" />
                               关键指标
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="pt-4">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <CardContent className="pt-3">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                               {/* 当月任务情况 */}
                               <Card className="border border-slate-200">
-                                <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
+                                <CardHeader className="bg-white py-1.5 px-3 border-b border-slate-200">
                                   <div className="flex items-center justify-between">
-                                    <CardTitle className="text-sm flex items-center gap-2">
-                                      <Activity className="h-4 w-4 text-blue-600" />
+                                    <CardTitle className="text-xs flex items-center gap-2">
+                                      <Activity className="h-3.5 w-3.5 text-blue-600" />
                                       当月任务情况
                                     </CardTitle>
                                     <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
                                       <button
                                         onClick={() => setTimePeriod('month')}
-                                        className={`px-2 py-0.5 text-xs rounded-md transition-all ${
+                                        className={`px-1.5 py-0.5 text-xs rounded-md transition-all ${
                                           timePeriod === 'month'
                                             ? 'bg-white text-blue-700 shadow-sm font-medium'
                                             : 'text-slate-600 hover:text-slate-900'
@@ -996,7 +996,7 @@ export default function DealerPortalV2() {
                                       </button>
                                       <button
                                         onClick={() => setTimePeriod('quarter')}
-                                        className={`px-2 py-0.5 text-xs rounded-md transition-all ${
+                                        className={`px-1.5 py-0.5 text-xs rounded-md transition-all ${
                                           timePeriod === 'quarter'
                                             ? 'bg-white text-blue-700 shadow-sm font-medium'
                                             : 'text-slate-600 hover:text-slate-900'
@@ -1006,7 +1006,7 @@ export default function DealerPortalV2() {
                                       </button>
                                       <button
                                         onClick={() => setTimePeriod('year')}
-                                        className={`px-2 py-0.5 text-xs rounded-md transition-all ${
+                                        className={`px-1.5 py-0.5 text-xs rounded-md transition-all ${
                                           timePeriod === 'year'
                                             ? 'bg-white text-blue-700 shadow-sm font-medium'
                                             : 'text-slate-600 hover:text-slate-900'
@@ -1017,8 +1017,8 @@ export default function DealerPortalV2() {
                                     </div>
                                   </div>
                                 </CardHeader>
-                                <CardContent className="pt-3">
-                                  <div className="space-y-3">
+                                <CardContent className="pt-2 pb-3">
+                                  <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                       <div className="text-xs text-slate-600">完成率</div>
                                       <Badge className="bg-blue-100 text-blue-700 text-xs">82%</Badge>
@@ -1033,15 +1033,15 @@ export default function DealerPortalV2() {
                                     </div>
                                     
                                     {/* 风险提醒 */}
-                                    <div className="mt-3 pt-3 border-t border-slate-200">
-                                      <div className="text-xs font-semibold text-slate-700 mb-2">风险</div>
-                                      <div className="space-y-2">
+                                    <div className="mt-2 pt-2 border-t border-slate-200">
+                                      <div className="text-xs font-semibold text-slate-700 mb-1.5">风险</div>
+                                      <div className="space-y-1.5">
                                         <div className="flex items-center justify-between">
                                           <div className="flex items-center gap-2">
                                             <div className="text-xs text-slate-600">缺口</div>
                                             <span className="text-xs font-bold text-red-600">22万</span>
                                           </div>
-                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-7 px-2">
+                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-6 px-2">
                                             补预测
                                           </Button>
                                         </div>
@@ -1050,7 +1050,7 @@ export default function DealerPortalV2() {
                                             <div className="text-xs text-slate-600">未按时间下单</div>
                                             <span className="text-xs font-bold text-orange-600">2个</span>
                                           </div>
-                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-7 px-2">
+                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-6 px-2">
                                             去下单
                                           </Button>
                                         </div>
@@ -1059,7 +1059,7 @@ export default function DealerPortalV2() {
                                             <div className="text-xs text-slate-600">大项目依赖</div>
                                             <span className="text-xs font-bold text-orange-600">1个</span>
                                           </div>
-                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-7 px-2">
+                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-6 px-2">
                                             去确认
                                           </Button>
                                         </div>
@@ -1071,87 +1071,67 @@ export default function DealerPortalV2() {
 
                               {/* 销售漏斗 */}
                               <Card className="border border-slate-200">
-                                <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
-                                  <CardTitle className="text-sm flex items-center gap-2">
-                                    <Target className="h-4 w-4 text-orange-600" />
+                                <CardHeader className="bg-white py-1.5 px-3 border-b border-slate-200">
+                                  <CardTitle className="text-xs flex items-center gap-2">
+                                    <Target className="h-3.5 w-3.5 text-orange-600" />
                                     销售漏斗
                                   </CardTitle>
                                 </CardHeader>
-                                <CardContent className="pt-3">
-                                  <div className="space-y-2">
+                                <CardContent className="pt-2 pb-3">
+                                  <div className="flex flex-col items-center gap-1">
                                     {/* 线索阶段 */}
-                                    <div className="relative">
-                                      <div className="flex items-center justify-between text-xs mb-1">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                          <span className="text-slate-700 font-medium">线索</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-slate-900 font-semibold">20个</span>
-                                          <span className="text-slate-600">¥2000万</span>
+                                    <div className="w-full flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
+                                      <div className="w-full bg-gradient-to-r from-blue-400 to-blue-500 h-8 flex items-center justify-between px-6">
+                                        <span className="text-xs font-semibold text-white">线索</span>
+                                        <div className="flex items-center gap-3 text-xs text-white">
+                                          <span>20个</span>
+                                          <span>¥2000万</span>
                                         </div>
                                       </div>
-                                      <div className="w-full bg-blue-200 h-5 rounded-t-sm"></div>
                                     </div>
                                     
                                     {/* 初步接触 */}
-                                    <div className="relative ml-4">
-                                      <div className="flex items-center justify-between text-xs mb-1">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                          <span className="text-slate-700 font-medium">初步接触</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-slate-900 font-semibold">15个</span>
-                                          <span className="text-slate-600">¥1500万</span>
+                                    <div className="w-[85%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
+                                      <div className="w-full bg-gradient-to-r from-blue-300 to-blue-400 h-7 flex items-center justify-between px-5">
+                                        <span className="text-xs font-semibold text-white">初步接触</span>
+                                        <div className="flex items-center gap-3 text-xs text-white">
+                                          <span>15个</span>
+                                          <span>¥1500万</span>
                                         </div>
                                       </div>
-                                      <div className="w-full bg-blue-300 h-5 rounded-t-sm"></div>
                                     </div>
 
                                     {/* 方案阶段 */}
-                                    <div className="relative ml-8">
-                                      <div className="flex items-center justify-between text-xs mb-1">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                                          <span className="text-slate-700 font-medium">方案阶段</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-slate-900 font-semibold">10个</span>
-                                          <span className="text-slate-600">¥1000万</span>
+                                    <div className="w-[70%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
+                                      <div className="w-full bg-gradient-to-r from-blue-500 to-blue-600 h-6 flex items-center justify-between px-4">
+                                        <span className="text-xs font-semibold text-white">方案阶段</span>
+                                        <div className="flex items-center gap-3 text-xs text-white">
+                                          <span>10个</span>
+                                          <span>¥1000万</span>
                                         </div>
                                       </div>
-                                      <div className="w-full bg-blue-500 h-5 rounded-t-sm"></div>
                                     </div>
 
                                     {/* 商务谈判 */}
-                                    <div className="relative ml-12">
-                                      <div className="flex items-center justify-between text-xs mb-1">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                                          <span className="text-slate-700 font-medium">商务谈判</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-slate-900 font-semibold">5个</span>
-                                          <span className="text-slate-600">¥500万</span>
+                                    <div className="w-[55%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
+                                      <div className="w-full bg-gradient-to-r from-purple-400 to-purple-500 h-5 flex items-center justify-between px-3">
+                                        <span className="text-xs font-semibold text-white">商务谈判</span>
+                                        <div className="flex items-center gap-3 text-xs text-white">
+                                          <span>5个</span>
+                                          <span>¥500万</span>
                                         </div>
                                       </div>
-                                      <div className="w-full bg-purple-400 h-5 rounded-t-sm"></div>
                                     </div>
 
                                     {/* 成交 */}
-                                    <div className="relative ml-16">
-                                      <div className="flex items-center justify-between text-xs mb-1">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                          <span className="text-slate-700 font-medium">成交</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-slate-900 font-semibold">3个</span>
-                                          <span className="text-slate-600">¥300万</span>
+                                    <div className="w-[40%] flex items-center justify-center" style={{ clipPath: 'polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%)' }}>
+                                      <div className="w-full bg-gradient-to-r from-green-400 to-green-500 h-5 flex items-center justify-between px-2">
+                                        <span className="text-xs font-semibold text-white">成交</span>
+                                        <div className="flex items-center gap-3 text-xs text-white">
+                                          <span>3个</span>
+                                          <span>¥300万</span>
                                         </div>
                                       </div>
-                                      <div className="w-full bg-green-400 h-5 rounded-t-sm"></div>
                                     </div>
                                   </div>
                                 </CardContent>
@@ -1159,15 +1139,15 @@ export default function DealerPortalV2() {
 
                               {/* 总体行业分布饼图 */}
                               <Card className="border border-slate-200">
-                                <CardHeader className="bg-white py-2 px-3 border-b border-slate-200">
-                                  <CardTitle className="text-sm flex items-center gap-2">
-                                    <PieChart className="h-4 w-4 text-purple-600" />
+                                <CardHeader className="bg-white py-1.5 px-3 border-b border-slate-200">
+                                  <CardTitle className="text-xs flex items-center gap-2">
+                                    <PieChart className="h-3.5 w-3.5 text-purple-600" />
                                     总体行业分布
                                   </CardTitle>
                                 </CardHeader>
-                                <CardContent className="pt-3">
+                                <CardContent className="pt-2 pb-3">
                                   <div className="flex items-center justify-center">
-                                    <div className="relative w-40 h-40">
+                                    <div className="relative w-28 h-28">
                                       <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                                         {/* K12教育 35% */}
                                         <path
@@ -1196,25 +1176,25 @@ export default function DealerPortalV2() {
                                       </svg>
                                     </div>
                                   </div>
-                                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                                  <div className="mt-2 grid grid-cols-2 gap-1 text-xs">
                                     <div className="flex items-center gap-1">
-                                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                      <span className="text-slate-600">K12教育</span>
+                                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                                      <span className="text-slate-600 truncate">K12教育</span>
                                       <span className="text-slate-900 font-semibold ml-auto">35%</span>
                                     </div>
                                     <div className="flex items-center gap-1">
-                                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                      <span className="text-slate-600">楼宇BOT</span>
+                                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                      <span className="text-slate-600 truncate">楼宇BOT</span>
                                       <span className="text-slate-900 font-semibold ml-auto">28%</span>
                                     </div>
                                     <div className="flex items-center gap-1">
-                                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                                      <span className="text-slate-600">校园BOT</span>
+                                      <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                                      <span className="text-slate-600 truncate">校园BOT</span>
                                       <span className="text-slate-900 font-semibold ml-auto">20%</span>
                                     </div>
                                     <div className="flex items-center gap-1">
-                                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                                      <span className="text-slate-600">其他</span>
+                                      <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                                      <span className="text-slate-600 truncate">其他</span>
                                       <span className="text-slate-900 font-semibold ml-auto">17%</span>
                                     </div>
                                   </div>
