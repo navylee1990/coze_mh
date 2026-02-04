@@ -958,35 +958,43 @@ export default function DealerPortalV2() {
           </header>
 
           {/* 内容滚动区 */}
-          <div className="flex-1 overflow-auto p-6">
+          <div className="flex-1 overflow-auto p-5">
             {/* 首页内容 */}
             {activeMenu === 'home' && (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* 关键指标仪表盘 */}
-                <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
                   {/* 关键指标仪表盘 - 占满整行 */}
                   <div>
                     <Card className="border border-slate-200">
-                          <CardHeader className="bg-white py-2 px-4">
+                          <CardHeader className="bg-white py-1.5 px-3 flex items-center justify-between">
                             <CardTitle className="text-sm flex items-center gap-2">
                               <Activity className="h-4 w-4 text-slate-600" />
                               关键指标
                             </CardTitle>
+                            <Badge className="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-0.5">
+                              履约率 90%
+                            </Badge>
                           </CardHeader>
-                          <CardContent className="pt-3">
+                          <CardContent className="pt-2 pb-2.5">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                               {/* 当月任务情况 */}
                               <Card className="border border-slate-200">
-                                <CardHeader className="bg-white py-1.5 px-3 border-b border-slate-200">
+                                <CardHeader className="bg-white py-1 px-2.5 border-b border-slate-200">
                                   <div className="flex items-center justify-between">
-                                    <CardTitle className="text-xs flex items-center gap-2">
-                                      <Activity className="h-3.5 w-3.5 text-blue-600" />
-                                      当月任务情况
-                                    </CardTitle>
+                                    <div className="flex items-center gap-2">
+                                      <CardTitle className="text-xs flex items-center gap-2">
+                                        <Activity className="h-3.5 w-3.5 text-blue-600" />
+                                        当月任务情况
+                                      </CardTitle>
+                                      <Badge className="bg-yellow-100 text-yellow-700 text-[10px] font-medium px-1.5 py-0.5">
+                                        有风险
+                                      </Badge>
+                                    </div>
                                     <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
                                       <button
                                         onClick={() => setTimePeriod('month')}
-                                        className={`px-1.5 py-0.5 text-xs rounded-md transition-all ${
+                                        className={`px-1 py-0.5 text-xs rounded-md transition-all ${
                                           timePeriod === 'month'
                                             ? 'bg-white text-blue-700 shadow-sm font-medium'
                                             : 'text-slate-600 hover:text-slate-900'
@@ -996,7 +1004,7 @@ export default function DealerPortalV2() {
                                       </button>
                                       <button
                                         onClick={() => setTimePeriod('quarter')}
-                                        className={`px-1.5 py-0.5 text-xs rounded-md transition-all ${
+                                        className={`px-1 py-0.5 text-xs rounded-md transition-all ${
                                           timePeriod === 'quarter'
                                             ? 'bg-white text-blue-700 shadow-sm font-medium'
                                             : 'text-slate-600 hover:text-slate-900'
@@ -1006,7 +1014,7 @@ export default function DealerPortalV2() {
                                       </button>
                                       <button
                                         onClick={() => setTimePeriod('year')}
-                                        className={`px-1.5 py-0.5 text-xs rounded-md transition-all ${
+                                        className={`px-1 py-0.5 text-xs rounded-md transition-all ${
                                           timePeriod === 'year'
                                             ? 'bg-white text-blue-700 shadow-sm font-medium'
                                             : 'text-slate-600 hover:text-slate-900'
@@ -1017,8 +1025,8 @@ export default function DealerPortalV2() {
                                     </div>
                                   </div>
                                 </CardHeader>
-                                <CardContent className="pt-2 pb-3">
-                                  <div className="space-y-2">
+                                <CardContent className="pt-1.5 pb-2">
+                                  <div className="space-y-1.5">
                                     <div className="flex items-center justify-between">
                                       <div className="text-xs text-slate-600">完成率</div>
                                       <Badge className="bg-blue-100 text-blue-700 text-xs">82%</Badge>
@@ -1033,15 +1041,15 @@ export default function DealerPortalV2() {
                                     </div>
                                     
                                     {/* 风险提醒 */}
-                                    <div className="mt-2 pt-2 border-t border-slate-200">
-                                      <div className="text-xs font-semibold text-slate-700 mb-1.5">风险</div>
-                                      <div className="space-y-1.5">
+                                    <div className="mt-1.5 pt-1.5 border-t border-slate-200">
+                                      <div className="text-xs font-semibold text-slate-700 mb-1">风险</div>
+                                      <div className="space-y-1">
                                         <div className="flex items-center justify-between">
                                           <div className="flex items-center gap-2">
                                             <div className="text-xs text-slate-600">缺口</div>
                                             <span className="text-xs font-bold text-red-600">22万</span>
                                           </div>
-                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-6 px-2">
+                                          <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
                                             补预测
                                           </Button>
                                         </div>
@@ -1050,7 +1058,7 @@ export default function DealerPortalV2() {
                                             <div className="text-xs text-slate-600">未按时间下单</div>
                                             <span className="text-xs font-bold text-orange-600">2个</span>
                                           </div>
-                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-6 px-2">
+                                          <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
                                             去下单
                                           </Button>
                                         </div>
@@ -1059,7 +1067,7 @@ export default function DealerPortalV2() {
                                             <div className="text-xs text-slate-600">大项目依赖</div>
                                             <span className="text-xs font-bold text-orange-600">1个</span>
                                           </div>
-                                          <Button variant="outline" size="sm" className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50 h-6 px-2">
+                                          <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
                                             去确认
                                           </Button>
                                         </div>
@@ -1071,13 +1079,20 @@ export default function DealerPortalV2() {
 
                               {/* 销售漏斗 */}
                               <Card className="border border-slate-200">
-                                <CardHeader className="bg-white py-1.5 px-3 border-b border-slate-200">
-                                  <CardTitle className="text-xs flex items-center gap-2">
-                                    <Target className="h-3.5 w-3.5 text-orange-600" />
-                                    销售漏斗
-                                  </CardTitle>
+                                <CardHeader className="bg-white py-1 px-2.5 border-b border-slate-200">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <CardTitle className="text-xs flex items-center gap-2">
+                                        <Target className="h-3.5 w-3.5 text-orange-600" />
+                                        销售漏斗
+                                      </CardTitle>
+                                      <Badge className="bg-green-100 text-green-700 text-[10px] font-medium px-1.5 py-0.5">
+                                        储备量达标
+                                      </Badge>
+                                    </div>
+                                  </div>
                                 </CardHeader>
-                                <CardContent className="pt-2 pb-3">
+                                <CardContent className="pt-1.5 pb-2">
                                   <div className="relative">
                                     {/* 上半部分：漏斗图 + 右侧数据 */}
                                     <div className="flex gap-3">
@@ -1236,17 +1251,17 @@ export default function DealerPortalV2() {
 
                               {/* 总体行业分布饼图 */}
                               <Card className="border border-slate-200">
-                                <CardHeader className="bg-white py-1.5 px-3 border-b border-slate-200">
+                                <CardHeader className="bg-white py-1 px-2.5 border-b border-slate-200">
                                   <CardTitle className="text-xs flex items-center gap-2">
                                     <PieChart className="h-3.5 w-3.5 text-purple-600" />
                                     总体行业分布
                                   </CardTitle>
                                 </CardHeader>
-                                <CardContent className="pt-2 pb-3">
-                                  <div className="flex flex-col gap-3">
+                                <CardContent className="pt-1.5 pb-2">
+                                  <div className="flex flex-col gap-2">
                                     {/* 上方：饼图居中 */}
-                                    <div className="flex justify-center">
-                                      <div className="relative" style={{ width: '100px' }}>
+                                    <div className="flex justify-center py-0.5">
+                                      <div className="relative" style={{ width: '90px' }}>
                                         <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                                           {/* K12教育 35% */}
                                           <path
@@ -1280,53 +1295,55 @@ export default function DealerPortalV2() {
                                           >
                                             <title>其他: 17%</title>
                                           </path>
+                                          {/* 甜甜圈图中间的白色圆形 */}
+                                          <circle cx="50" cy="50" r="24" fill="white" />
                                         </svg>
                                       </div>
                                     </div>
                                     
                                     {/* 下方：说明 - 一行一个 */}
-                                    <div className="space-y-1.5 py-1">
+                                    <div className="space-y-1">
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2.5 h-2.5 bg-blue-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[11px]">K12教育</span>
+                                        <div className="flex items-center gap-1.5">
+                                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[10px]">K12教育</span>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-[11px] font-bold text-blue-600">35%</span>
-                                          <span className="text-[11px] text-slate-500">350个</span>
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-[10px] font-bold text-blue-600">35%</span>
+                                          <span className="text-[10px] text-slate-500">350个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[11px]">楼宇BOT</span>
+                                        <div className="flex items-center gap-1.5">
+                                          <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[10px]">楼宇BOT</span>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-[11px] font-bold text-green-600">28%</span>
-                                          <span className="text-[11px] text-slate-500">280个</span>
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-[10px] font-bold text-green-600">28%</span>
+                                          <span className="text-[10px] text-slate-500">280个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2.5 h-2.5 bg-purple-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[11px]">校园BOT</span>
+                                        <div className="flex items-center gap-1.5">
+                                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[10px]">校园BOT</span>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-[11px] font-bold text-purple-600">20%</span>
-                                          <span className="text-[11px] text-slate-500">200个</span>
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-[10px] font-bold text-purple-600">20%</span>
+                                          <span className="text-[10px] text-slate-500">200个</span>
                                         </div>
                                       </div>
                                       
                                       <div className="flex items-center justify-between gap-2 text-xs">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-2.5 h-2.5 bg-orange-500 rounded-full flex-shrink-0"></div>
-                                          <span className="font-bold text-slate-900 text-[11px]">其他</span>
+                                        <div className="flex items-center gap-1.5">
+                                          <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0"></div>
+                                          <span className="font-bold text-slate-900 text-[10px]">其他</span>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                          <span className="text-[11px] font-bold text-orange-600">17%</span>
-                                          <span className="text-[11px] text-slate-500">170个</span>
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-[10px] font-bold text-orange-600">17%</span>
+                                          <span className="text-[10px] text-slate-500">170个</span>
                                         </div>
                                       </div>
                                     </div>
@@ -1340,29 +1357,29 @@ export default function DealerPortalV2() {
                 </div>
 
                 {/* 消息提醒 + 关键待办 */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {/* 消息提醒栏 */}
                   <div>
                     <Card className="border border-slate-200 h-full">
-                          <CardHeader className="bg-white py-3">
-                            <CardTitle className="text-base flex items-center gap-2">
+                          <CardHeader className="bg-white py-2 px-4">
+                            <CardTitle className="text-sm flex items-center gap-2">
                               <MessageSquare className="h-4 w-4 text-slate-600" />
                               消息提醒
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="pt-4">
-                            <div className="space-y-3">
+                          <CardContent className="pt-3 pb-3">
+                            <div className="space-y-2.5">
                               {mockMessages.map((message) => (
-                                <div key={message.id} className={`p-3 rounded-lg border ${
+                                <div key={message.id} className={`p-2.5 rounded-lg border ${
                                   message.priority === 'high'
                                     ? 'border-red-200 bg-white'
                                     : message.priority === 'medium'
                                     ? 'border-amber-200 bg-white'
                                     : 'border-slate-200 bg-white'
                                 }`}>
-                                  <div className="flex items-start justify-between mb-2">
+                                  <div className="flex items-start justify-between mb-1.5">
                                     <span className="text-xs font-semibold text-slate-900 dark:text-white">{message.title}</span>
-                                    <Badge className={`text-xs ${
+                                    <Badge className={`text-[10px] px-1.5 py-0.5 ${
                                       message.priority === 'high'
                                         ? 'bg-red-100 text-red-700'
                                         : message.priority === 'medium'
@@ -1372,10 +1389,10 @@ export default function DealerPortalV2() {
                                       {message.priority === 'high' ? '紧急' : message.priority === 'medium' ? '重要' : '普通'}
                                     </Badge>
                                   </div>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300 mb-2">{message.content}</p>
+                                  <p className="text-[11px] text-slate-700 dark:text-slate-300 mb-1.5">{message.content}</p>
                                   <div className="flex items-center justify-between">
-                                    <span className="text-xs text-slate-500 dark:text-slate-400">{message.time}</span>
-                                    <Button size="sm" variant="ghost" className="h-7 text-xs">
+                                    <span className="text-[10px] text-slate-500 dark:text-slate-400">{message.time}</span>
+                                    <Button size="sm" variant="ghost" className="h-6 text-[10px]">
                                       查看
                                     </Button>
                                   </div>
@@ -1389,80 +1406,80 @@ export default function DealerPortalV2() {
                   {/* 关键待办栏 */}
                   <div>
                     <Card className="border border-slate-200 h-full">
-                          <CardHeader className="bg-white py-3">
-                            <CardTitle className="text-base flex items-center gap-2">
+                          <CardHeader className="bg-white py-2 px-4">
+                            <CardTitle className="text-sm flex items-center gap-2">
                               <Bell className="h-4 w-4 text-slate-600" />
                               关键待办
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="pt-4">
-                            <div className="grid grid-cols-1 gap-3">
+                          <CardContent className="pt-3 pb-3">
+                            <div className="grid grid-cols-1 gap-2.5">
                               {/* 第一行：1个月内将到期项目 + 1个月内未跟进项目 */}
-                              <div className="grid grid-cols-2 gap-3">
-                                <div className="p-3 rounded-lg bg-white border border-slate-200">
+                              <div className="grid grid-cols-2 gap-2.5">
+                                <div className="p-2.5 rounded-lg bg-white border border-slate-200">
                                   <div className="flex items-center justify-between mb-1">
-                                    <div className="text-xs font-semibold text-slate-700">1个月内将到期项目</div>
-                                    <AlertTriangle className="h-4 w-4 text-slate-600" />
+                                    <div className="text-[10px] font-semibold text-slate-700">1个月内将到期项目</div>
+                                    <AlertTriangle className="h-3.5 w-3.5 text-slate-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-slate-900 mb-2">{mockKeyMetrics.expiringProjects}个</div>
-                                  <Button size="sm" className="w-full h-7 text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                  <div className="text-lg font-bold text-slate-900 mb-1.5">{mockKeyMetrics.expiringProjects}个</div>
+                                  <Button size="sm" className="w-full h-6 text-[10px] bg-slate-100 text-slate-700 hover:bg-slate-200">
                                     申请延期
                                   </Button>
                                 </div>
-                                <div className="p-3 rounded-lg bg-white border border-slate-200">
+                                <div className="p-2.5 rounded-lg bg-white border border-slate-200">
                                   <div className="flex items-center justify-between mb-1">
-                                    <div className="text-xs font-semibold text-slate-700">1个月内未跟进项目</div>
-                                    <Clock className="h-4 w-4 text-slate-600" />
+                                    <div className="text-[10px] font-semibold text-slate-700">1个月内未跟进项目</div>
+                                    <Clock className="h-3.5 w-3.5 text-slate-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-slate-900 mb-2">{mockKeyMetrics.untrackedProjects}个</div>
-                                  <Button size="sm" className="w-full h-7 text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                  <div className="text-lg font-bold text-slate-900 mb-1.5">{mockKeyMetrics.untrackedProjects}个</div>
+                                  <Button size="sm" className="w-full h-6 text-[10px] bg-slate-100 text-slate-700 hover:bg-slate-200">
                                     反馈跟进
                                   </Button>
                                 </div>
                               </div>
 
                               {/* 第二行：待审订单 + 待审流程 */}
-                              <div className="grid grid-cols-2 gap-3">
-                                <div className="p-3 rounded-lg bg-white border border-slate-200">
+                              <div className="grid grid-cols-2 gap-2.5">
+                                <div className="p-2.5 rounded-lg bg-white border border-slate-200">
                                   <div className="flex items-center justify-between mb-1">
-                                    <div className="text-xs font-semibold text-slate-700">待审订单</div>
-                                    <FileText className="h-4 w-4 text-slate-600" />
+                                    <div className="text-[10px] font-semibold text-slate-700">待审订单</div>
+                                    <FileText className="h-3.5 w-3.5 text-slate-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-slate-900 mb-2">{mockKeyMetrics.pendingOrders}个</div>
-                                  <Button size="sm" className="w-full h-7 text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                  <div className="text-lg font-bold text-slate-900 mb-1.5">{mockKeyMetrics.pendingOrders}个</div>
+                                  <Button size="sm" className="w-full h-6 text-[10px] bg-slate-100 text-slate-700 hover:bg-slate-200">
                                     查看审批
                                   </Button>
                                 </div>
-                                <div className="p-3 rounded-lg bg-white border border-slate-200">
+                                <div className="p-2.5 rounded-lg bg-white border border-slate-200">
                                   <div className="flex items-center justify-between mb-1">
-                                    <div className="text-xs font-semibold text-slate-700">待审流程</div>
-                                    <RefreshCw className="h-4 w-4 text-slate-600" />
+                                    <div className="text-[10px] font-semibold text-slate-700">待审流程</div>
+                                    <RefreshCw className="h-3.5 w-3.5 text-slate-600" />
                                   </div>
-                                  <div className="text-xl font-bold text-slate-900 mb-2">{mockKeyMetrics.pendingProcesses}个</div>
-                                  <Button size="sm" className="w-full h-7 text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                  <div className="text-lg font-bold text-slate-900 mb-1.5">{mockKeyMetrics.pendingProcesses}个</div>
+                                  <Button size="sm" className="w-full h-6 text-[10px] bg-slate-100 text-slate-700 hover:bg-slate-200">
                                     查看流程
                                   </Button>
                                 </div>
                               </div>
 
                               {/* 第三行：本月预测项目数/已下订单数 */}
-                              <div className="p-3 rounded-lg bg-white border border-slate-200">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div className="text-xs font-semibold text-slate-700">本月预测项目数/已下订单数</div>
-                                  <Target className="h-4 w-4 text-slate-600" />
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <div className="flex items-center justify-between mb-1.5">
+                                  <div className="text-[10px] font-semibold text-slate-700">本月预测项目数/已下订单数</div>
+                                  <Target className="h-3.5 w-3.5 text-slate-600" />
                                 </div>
-                                <div className="flex items-center gap-4 mb-2">
+                                <div className="flex items-center gap-3 mb-1.5">
                                   <div className="flex-1">
-                                    <div className="text-xs text-slate-600 mb-1">预测项目数</div>
-                                    <div className="text-lg font-bold text-slate-900">6个</div>
+                                    <div className="text-[10px] text-slate-600 mb-0.5">预测项目数</div>
+                                    <div className="text-base font-bold text-slate-900">6个</div>
                                   </div>
-                                  <div className="w-px h-8 bg-slate-300"></div>
+                                  <div className="w-px h-6 bg-slate-300"></div>
                                   <div className="flex-1">
-                                    <div className="text-xs text-slate-600 mb-1">已下订单数</div>
-                                    <div className="text-lg font-bold text-slate-900">3个</div>
+                                    <div className="text-[10px] text-slate-600 mb-0.5">已下订单数</div>
+                                    <div className="text-base font-bold text-slate-900">3个</div>
                                   </div>
                                 </div>
-                                <Button size="sm" className="w-full h-7 text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                <Button size="sm" className="w-full h-6 text-[10px] bg-slate-100 text-slate-700 hover:bg-slate-200">
                                   查看预测项目
                                 </Button>
                               </div>
