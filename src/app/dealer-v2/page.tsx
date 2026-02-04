@@ -1088,41 +1088,44 @@ export default function DealerPortalV2() {
                                   {/* 数据点 */}
                                   {/* 目标点 */}
                                   {[93, 96, 100, 103, 98, 93, 96, 100, 103, 98, 96, 93].map((y, idx) => (
-                                    <circle
-                                      key={`target-${idx}`}
-                                      cx={50 + idx * 50}
-                                      cy={120 - y}
-                                      r="3"
-                                      fill="#a855f7"
-                                      className="hover:r-4 transition-all cursor-pointer"
-                                      title={`${idx + 1}月目标: ¥${y}万`}
-                                    />
+                                    <g key={`target-${idx}`}>
+                                      <circle
+                                        cx={50 + idx * 50}
+                                        cy={120 - y}
+                                        r="3"
+                                        fill="#a855f7"
+                                        className="hover:r-4 transition-all cursor-pointer"
+                                      />
+                                      <title>{`${idx + 1}月目标: ¥${y}万`}</title>
+                                    </g>
                                   ))}
 
                                   {/* 实际完成点 */}
                                   {[90, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((y, idx) => (
-                                    <circle
-                                      key={`actual-${idx}`}
-                                      cx={50 + idx * 50}
-                                      cy={120 - y}
-                                      r="3"
-                                      fill="#3b82f6"
-                                      className="hover:r-4 transition-all cursor-pointer"
-                                      title={`${idx + 1}月实际完成: ¥${y}万`}
-                                    />
+                                    <g key={`actual-${idx}`}>
+                                      <circle
+                                        cx={50 + idx * 50}
+                                        cy={120 - y}
+                                        r="3"
+                                        fill="#3b82f6"
+                                        className="hover:r-4 transition-all cursor-pointer"
+                                      />
+                                      <title>{`${idx + 1}月实际完成: ¥${y}万`}</title>
+                                    </g>
                                   ))}
 
                                   {/* 预测完成点 */}
                                   {[95, 98, 102, 105, 100, 95, 98, 102, 105, 100, 98, 95].map((y, idx) => (
-                                    <circle
-                                      key={`forecast-${idx}`}
-                                      cx={50 + idx * 50}
-                                      cy={120 - y}
-                                      r="3"
-                                      fill="#22c55e"
-                                      className="hover:r-4 transition-all cursor-pointer"
-                                      title={`${idx + 1}月预测完成: ¥${y}万`}
-                                    />
+                                    <g key={`forecast-${idx}`}>
+                                      <circle
+                                        cx={50 + idx * 50}
+                                        cy={120 - y}
+                                        r="3"
+                                        fill="#22c55e"
+                                        className="hover:r-4 transition-all cursor-pointer"
+                                      />
+                                      <title>{`${idx + 1}月预测完成: ¥${y}万`}</title>
+                                    </g>
                                   ))}
                                 </svg>
 
@@ -1232,7 +1235,7 @@ export default function DealerPortalV2() {
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-base flex items-center gap-2">
                             <PieChart className="h-4 w-4 text-purple-600" />
-                            行业分析 - 差异洞察
+                            行业分析 - 我的潜力与发展
                           </CardTitle>
                           <div className="flex items-center gap-2 text-xs">
                             <div className="flex items-center gap-1">
@@ -1295,153 +1298,6 @@ export default function DealerPortalV2() {
                         </div>
                       </CardContent>
                     </Card>
-
-                  {/* 协同交互 - 销售工程师评估分析 */}
-                  <Card className="border-2 border-cyan-200 dark:border-cyan-800">
-                    <CardHeader className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 py-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <MessageSquare className="h-4 w-4 text-cyan-600" />
-                          协同交互 - 销售工程师评估分析
-                        </CardTitle>
-                        <Badge variant="outline" className="text-xs">{mockEngineerAnalysis.length}份评估</Badge>
-                      </div>
-                      <CardDescription className="text-xs">
-                        基于行业分析，销售工程师进行评估分析，制定行动计划，实现双向交流和协同决策
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {mockEngineerAnalysis.map((analysis) => (
-                          <div key={analysis.id} className="p-4 rounded-lg border-2 border-cyan-200 dark:border-cyan-700 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20">
-                            {/* 头部：行业信息 + 销售工程师信息 */}
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                                  <MessageSquare className="h-5 w-5 text-white" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-slate-900 dark:text-white">{analysis.industryName}</div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400">
-                                    {analysis.engineerName} · {analysis.engineerRating} · {analysis.analysisDate}
-                                  </div>
-                                </div>
-                              </div>
-                              <Badge className={`${
-                                analysis.status === '已确认' ? 'bg-green-600' :
-                                analysis.status === '已提交' ? 'bg-blue-600' :
-                                'bg-amber-600'
-                              } text-xs`}>
-                                {analysis.status}
-                              </Badge>
-                            </div>
-
-                            {/* 评估分析 */}
-                            <div className="space-y-3 mb-4">
-                              <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <TrendingUp className="h-4 w-4 text-cyan-600" />
-                                  <div className="font-semibold text-sm text-slate-900 dark:text-white">市场机会</div>
-                                </div>
-                                <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.marketOpportunity}</p>
-                              </div>
-
-                              <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <Star className="h-3 w-3 text-green-600" />
-                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">优势</div>
-                                  </div>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.strength}</p>
-                                </div>
-                                <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-3">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <AlertTriangle className="h-3 w-3 text-red-600" />
-                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">不足</div>
-                                  </div>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.weakness}</p>
-                                </div>
-                              </div>
-
-                              <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <Lightbulb className="h-3 w-3 text-amber-600" />
-                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">机会</div>
-                                  </div>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.opportunities}</p>
-                                </div>
-                                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <ShieldAlert className="h-3 w-3 text-purple-600" />
-                                    <div className="font-semibold text-xs text-slate-900 dark:text-white">风险</div>
-                                  </div>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.assessment.risks}</p>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* 行动计划 */}
-                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-3 mb-3">
-                              <div className="flex items-center gap-2 mb-2">
-                                <Target className="h-4 w-4 text-blue-600" />
-                                <div className="font-semibold text-sm text-slate-900 dark:text-white">行动计划</div>
-                              </div>
-                              <div className="space-y-2">
-                                <div className="flex items-start gap-2">
-                                  <Badge className="bg-teal-600 text-xs flex-shrink-0 mt-0.5">短期</Badge>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.actionPlan.shortTerm}</p>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                  <Badge className="bg-blue-600 text-xs flex-shrink-0 mt-0.5">中期</Badge>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.actionPlan.mediumTerm}</p>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                  <Badge className="bg-purple-600 text-xs flex-shrink-0 mt-0.5">长期</Badge>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">{analysis.actionPlan.longTerm}</p>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* 交互反馈 */}
-                            <div className="space-y-3">
-                              {/* 销售工程师反馈 */}
-                              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-lg p-3">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <MessageSquare className="h-4 w-4 text-amber-600" />
-                                  <div className="font-semibold text-sm text-slate-900 dark:text-white">销售工程师反馈</div>
-                                </div>
-                                <p className="text-xs text-slate-700 dark:text-slate-300 italic">"{analysis.feedback}"</p>
-                              </div>
-
-                              {/* 经销商响应 */}
-                              {analysis.dealerResponse ? (
-                                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-3">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <CheckCircle2 className="h-4 w-4 text-green-600" />
-                                    <div className="font-semibold text-sm text-slate-900 dark:text-white">经销商响应</div>
-                                  </div>
-                                  <p className="text-xs text-slate-700 dark:text-slate-300">"{analysis.dealerResponse}"</p>
-                                </div>
-                              ) : (
-                                <div className="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 rounded-lg p-3">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <Clock className="h-4 w-4 text-slate-400" />
-                                    <div className="font-semibold text-sm text-slate-600 dark:text-slate-400">待响应</div>
-                                  </div>
-                                  <p className="text-xs text-slate-500 dark:text-slate-500">经销商正在评估销售工程师的反馈，请耐心等待...</p>
-                                  <Button size="sm" variant="outline" className="w-full mt-2 text-xs">
-                                    立即响应
-                                    <ArrowRight className="ml-1 h-3 w-3" />
-                                  </Button>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
 
                   {/* 业务指引 - 基于行业分析的推荐 */}
                   <Card className="border-2 border-amber-200 dark:border-amber-800">
@@ -1529,95 +1385,6 @@ export default function DealerPortalV2() {
                   </CardContent>
                 </Card>
 
-                {/* 消息提醒 + 待办事项 - 下面并排 */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* 消息提醒 */}
-                  <Card>
-                    <CardHeader className="py-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-sm flex items-center gap-2">
-                          <Bell className="h-4 w-4" />
-                          消息提醒
-                        </CardTitle>
-                        <Badge variant="outline" className="text-xs">{mockMessages.length}条</Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {mockMessages.map((message) => (
-                          <div key={message.id} className={`p-3 rounded-lg border ${
-                            message.type === 'warning' ? 'border-red-200 bg-red-50 dark:bg-red-900/20' :
-                            message.type === 'success' ? 'border-green-200 bg-green-50 dark:bg-green-900/20' :
-                            'border-blue-200 bg-blue-50 dark:bg-blue-900/20'
-                          }`}>
-                            <div className="flex items-start gap-2">
-                              <div className={`mt-0.5 ${
-                                message.type === 'warning' ? 'text-red-600' :
-                                message.type === 'success' ? 'text-green-600' :
-                                'text-blue-600'
-                              }`}>
-                                {message.type === 'warning' && <AlertCircle className="h-4 w-4" />}
-                                {message.type === 'success' && <CheckCircle2 className="h-4 w-4" />}
-                                {message.type === 'info' && <MessageSquare className="h-4 w-4" />}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                                  {message.title}
-                                </div>
-                                <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">
-                                  {message.content}
-                                </div>
-                                <div className="text-xs text-slate-500 dark:text-slate-500">
-                                  {message.time}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* 待办事项 */}
-                  <Card>
-                    <CardHeader className="py-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-sm flex items-center gap-2">
-                          <Clock className="h-4 w-4" />
-                          待办事项
-                        </CardTitle>
-                        <Badge variant="outline" className="text-xs">{mockTodos.length}项</Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {mockTodos.map((todo) => (
-                          <div key={todo.id} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
-                            <div className="flex items-start justify-between mb-1">
-                              <div className="text-sm font-semibold text-slate-900 dark:text-white flex-1">
-                                {todo.title}
-                              </div>
-                              <Badge className={`ml-2 ${
-                                todo.priority === 'high' ? 'bg-red-600' :
-                                todo.priority === 'medium' ? 'bg-orange-600' :
-                                'bg-slate-600'
-                              }`}>
-                                {todo.priority === 'high' ? '高' : todo.priority === 'medium' ? '中' : '低'}
-                              </Badge>
-                            </div>
-                            <div className="text-xs text-slate-600 dark:text-slate-400 mb-2">
-                              {todo.description}
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-500">
-                              <Clock className="h-3 w-3" />
-                              <span>截止: {todo.deadline}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
               </div>
             )}
 
@@ -1625,7 +1392,7 @@ export default function DealerPortalV2() {
             {activeMenu !== 'home' && (
               <div className="flex-1 overflow-auto">
                 {/* 项目开发 - 项目储备 */}
-                {activeMenu === 'project' && (
+                {false && (
                   <div className="space-y-6">
                     {/* 页面标题 */}
                     <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl p-4 text-white">
@@ -2142,7 +1909,7 @@ export default function DealerPortalV2() {
                 )}
 
                 {/* 节点推进 - 销售漏斗和项目周期管理 */}
-                {activeMenu === 'node' && (
+                {false && (
                   <div className="space-y-6">
                     {/* 页面标题 */}
                     <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl p-4 text-white">
@@ -2521,7 +2288,7 @@ export default function DealerPortalV2() {
                 )}
 
                 {/* 其他菜单 - 默认占位符 */}
-                {activeMenu !== 'home' && activeMenu !== 'project' && activeMenu !== 'node' && activeMenu !== 'lease' && activeMenu !== 'sales' && activeMenu !== 'afterSales' && (
+                {(activeMenu as string) !== 'home' && activeMenu !== 'lease' && activeMenu !== 'sales' && activeMenu !== 'afterSales' && (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
                     <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 shadow-lg">
                       <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center mb-6">
