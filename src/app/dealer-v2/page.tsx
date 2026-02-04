@@ -1025,77 +1025,125 @@ export default function DealerPortalV2() {
                                     </div>
                                   </div>
                                 </CardHeader>
-                                <CardContent className="pt-1.5 pb-2">
-                                  <div className="space-y-1.5">
-                                    {/* 实际完成 */}
-                                    <div className="p-2 bg-slate-50 rounded-lg">
-                                      <div className="text-xs font-semibold text-slate-700 mb-1.5">实际完成</div>
-                                      <div className="grid grid-cols-3 gap-2">
-                                        <div>
-                                          <div className="text-[10px] text-slate-600 mb-0.5">完成金额</div>
-                                          <div className="text-xs font-bold text-slate-900">450万</div>
-                                        </div>
-                                        <div>
-                                          <div className="text-[10px] text-slate-600 mb-0.5">目标金额</div>
-                                          <div className="text-xs font-bold text-slate-900">500万</div>
-                                        </div>
-                                        <div>
-                                          <div className="text-[10px] text-slate-600 mb-0.5">实际完成率</div>
-                                          <div className="text-xs font-bold text-blue-600">90%</div>
+                                <CardContent className="pt-2 pb-2.5">
+                                  {/* 渐变定义 */}
+                                  <svg className="hidden">
+                                    <defs>
+                                      <linearGradient id="actualGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#3b82f6" />
+                                        <stop offset="100%" stopColor="#60a5fa" />
+                                      </linearGradient>
+                                      <linearGradient id="predictGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#22c55e" />
+                                        <stop offset="100%" stopColor="#4ade80" />
+                                      </linearGradient>
+                                    </defs>
+                                  </svg>
+
+                                  <div className="grid grid-cols-2 gap-3">
+                                    {/* 实际完成仪表盘 */}
+                                    <div className="flex flex-col items-center">
+                                      <div className="relative w-28 h-16">
+                                        {/* 仪表盘背景 */}
+                                        <svg viewBox="0 0 112 56" className="w-full h-full">
+                                          {/* 背景弧线 */}
+                                          <path
+                                            d="M 10 56 A 46 46 0 0 1 102 56"
+                                            fill="none"
+                                            stroke="#e2e8f0"
+                                            strokeWidth="12"
+                                            strokeLinecap="round"
+                                          />
+                                          {/* 进度弧线 - 90% */}
+                                          <path
+                                            d="M 10 56 A 46 46 0 0 1 98 18"
+                                            fill="none"
+                                            stroke="url(#actualGradient)"
+                                            strokeWidth="12"
+                                            strokeLinecap="round"
+                                          />
+                                        </svg>
+                                        {/* 中心文字 */}
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+                                          <div className="text-2xl font-bold text-blue-600">90%</div>
                                         </div>
                                       </div>
-                                    </div>
-                                    
-                                    {/* 预测完成 */}
-                                    <div className="p-2 bg-slate-50 rounded-lg">
-                                      <div className="text-xs font-semibold text-slate-700 mb-1.5">预测完成</div>
-                                      <div className="grid grid-cols-3 gap-2">
-                                        <div>
-                                          <div className="text-[10px] text-slate-600 mb-0.5">预测金额</div>
-                                          <div className="text-xs font-bold text-slate-900">520万</div>
-                                        </div>
-                                        <div>
-                                          <div className="text-[10px] text-slate-600 mb-0.5">目标金额</div>
-                                          <div className="text-xs font-bold text-slate-900">500万</div>
-                                        </div>
-                                        <div>
-                                          <div className="text-[10px] text-slate-600 mb-0.5">预测完成率</div>
-                                          <div className="text-xs font-bold text-green-600">104%</div>
-                                        </div>
+                                      <div className="mt-2 text-center">
+                                        <div className="text-xs font-semibold text-slate-700 mb-1">实际完成</div>
+                                        <div className="text-[10px] text-slate-600 mb-0.5">完成金额</div>
+                                        <div className="text-sm font-bold text-slate-900">450万</div>
+                                        <div className="text-[10px] text-slate-600 mb-0.5 mt-1">目标金额</div>
+                                        <div className="text-sm font-bold text-slate-900">500万</div>
                                       </div>
                                     </div>
-                                    
-                                    {/* 风险提醒 */}
-                                    <div className="mt-1.5 pt-1.5 border-t border-slate-200">
-                                      <div className="text-xs font-semibold text-slate-700 mb-1">风险</div>
-                                      <div className="space-y-1">
-                                        <div className="flex items-center justify-between">
-                                          <div className="flex items-center gap-2">
-                                            <div className="text-xs text-slate-600">缺口</div>
-                                            <span className="text-xs font-bold text-red-600">22万</span>
-                                          </div>
-                                          <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
-                                            补预测
-                                          </Button>
+
+                                    {/* 预测完成仪表盘 */}
+                                    <div className="flex flex-col items-center">
+                                      <div className="relative w-28 h-16">
+                                        {/* 仪表盘背景 */}
+                                        <svg viewBox="0 0 112 56" className="w-full h-full">
+                                          {/* 背景弧线 */}
+                                          <path
+                                            d="M 10 56 A 46 46 0 0 1 102 56"
+                                            fill="none"
+                                            stroke="#e2e8f0"
+                                            strokeWidth="12"
+                                            strokeLinecap="round"
+                                          />
+                                          {/* 进度弧线 - 104% */}
+                                          <path
+                                            d="M 10 56 A 46 46 0 0 1 102 10"
+                                            fill="none"
+                                            stroke="url(#predictGradient)"
+                                            strokeWidth="12"
+                                            strokeLinecap="round"
+                                          />
+                                        </svg>
+                                        {/* 中心文字 */}
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+                                          <div className="text-2xl font-bold text-green-600">104%</div>
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                          <div className="flex items-center gap-2">
-                                            <div className="text-xs text-slate-600">未按时间下单</div>
-                                            <span className="text-xs font-bold text-orange-600">2个</span>
-                                          </div>
-                                          <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
-                                            去下单
-                                          </Button>
+                                      </div>
+                                      <div className="mt-2 text-center">
+                                        <div className="text-xs font-semibold text-slate-700 mb-1">预测完成</div>
+                                        <div className="text-[10px] text-slate-600 mb-0.5">预测金额</div>
+                                        <div className="text-sm font-bold text-slate-900">520万</div>
+                                        <div className="text-[10px] text-slate-600 mb-0.5 mt-1">目标金额</div>
+                                        <div className="text-sm font-bold text-slate-900">500万</div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* 风险提醒 */}
+                                  <div className="mt-2 pt-2 border-t border-slate-200">
+                                    <div className="text-xs font-semibold text-slate-700 mb-1">风险</div>
+                                    <div className="space-y-1">
+                                      <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                          <div className="text-xs text-slate-600">缺口</div>
+                                          <span className="text-xs font-bold text-red-600">22万</span>
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                          <div className="flex items-center gap-2">
-                                            <div className="text-xs text-slate-600">大项目依赖</div>
-                                            <span className="text-xs font-bold text-orange-600">1个</span>
-                                          </div>
-                                          <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
-                                            去确认
-                                          </Button>
+                                        <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
+                                          补预测
+                                        </Button>
+                                      </div>
+                                      <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                          <div className="text-xs text-slate-600">未按时间下单</div>
+                                          <span className="text-xs font-bold text-orange-600">2个</span>
                                         </div>
+                                        <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
+                                          去下单
+                                        </Button>
+                                      </div>
+                                      <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                          <div className="text-xs text-slate-600">大项目依赖</div>
+                                          <span className="text-xs font-bold text-orange-600">1个</span>
+                                        </div>
+                                        <Button variant="outline" size="sm" className="text-[10px] border-blue-300 text-blue-700 hover:bg-blue-50 h-5 px-1.5">
+                                          去确认
+                                        </Button>
                                       </div>
                                     </div>
                                   </div>
