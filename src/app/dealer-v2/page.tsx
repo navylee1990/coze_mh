@@ -1780,15 +1780,107 @@ export default function DealerPortalV2() {
                       <p className="text-sm text-indigo-100">政策、案例与培训</p>
                     </div>
 
-                    {/* 政策、案例与培训 */}
+                    {/* 政策 */}
                     <Card>
                       <CardHeader>
                         <CardTitle className="text-base flex items-center gap-2">
-                          <Star className="h-5 w-5 text-amber-500" />
-                          政策、案例与培训
+                          <Newspaper className="h-5 w-5 text-red-600" />
+                          政策
                         </CardTitle>
                         <CardDescription className="text-xs">
-                          最新政策解读、成功案例分享与专业培训资源
+                          最新行业政策解读与合规指引
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-orange-500 rounded-lg flex items-center justify-center">
+                                <Newspaper className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">政府采购政策解读</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">2024年最新版</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              政府采购法实施条例、投标流程、资质要求等政策解读
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-pink-400 to-rose-500 rounded-lg flex items-center justify-center">
+                                <Stethoscope className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">医疗行业政策</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">医疗器械管理条例</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              医疗器械分类管理、注册备案、质量管理体系等政策要求
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center">
+                                <GraduationCap className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">教育行业政策</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">校园直饮水改造</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              中小学直饮水系统改造政策、补贴标准、实施指南
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center">
+                                <FileText className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-900 dark:text-white">环保政策</div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">节能减排要求</div>
+                              </div>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+                              节能减排政策、环保标准、绿色采购要求等
+                            </p>
+                            <Button size="sm" variant="outline" className="w-full text-xs">
+                              查看详情
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* 成功案例 */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Award className="h-5 w-5 text-amber-600" />
+                          成功案例
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          行业领先者的成功经验和最佳实践
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
