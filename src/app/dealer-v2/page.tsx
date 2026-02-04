@@ -62,28 +62,31 @@ import {
   School,
   GraduationCap,
   Stethoscope,
-  Briefcase
+  Briefcase,
+  Key,
+  Image
 } from 'lucide-react';
 
 // ==================== 菜单配置 ====================
 
-type MenuKey = 'home' | 'market' | 'project' | 'node' | 'risk' | 'sales' | 'guide';
+type MenuKey = 'home' | 'lease' | 'sales' | 'materials' | 'afterSales' | 'market' | 'salesNav' | 'guide';
 
 const menuSections = [
   {
     title: '核心功能',
     items: [
       { key: 'home' as MenuKey, icon: Home, label: '首页', description: '经营总览与决策支持' },
-      { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '行业分析与产品推荐' },
-      { key: 'project' as MenuKey, icon: Database, label: '项目开发', description: '项目储备与跟踪' },
-      { key: 'node' as MenuKey, icon: GitBranch, label: '节点推进', description: '项目周期管理' },
-      { key: 'risk' as MenuKey, icon: AlertTriangle, label: '风险分析', description: '风险预警与监控' }
+      { key: 'lease' as MenuKey, icon: Key, label: '租赁业务', description: '租赁业务管理' },
+      { key: 'sales' as MenuKey, icon: DollarSign, label: '销售业务', description: '销售业务管理' },
+      { key: 'materials' as MenuKey, icon: Image, label: '宣传物料', description: '宣传物料管理' },
+      { key: 'afterSales' as MenuKey, icon: Headphones, label: '售后管理', description: '售后服务管理' }
     ]
   },
   {
-    title: '辅助功能',
+    title: '销售赋能',
     items: [
-      { key: 'sales' as MenuKey, icon: Navigation, label: '销售导航', description: '销售工具与资源' },
+      { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '行业分析与产品推荐' },
+      { key: 'salesNav' as MenuKey, icon: Navigation, label: '销售导航', description: '销售工具与资源' },
       { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '最佳实践与培训' }
     ]
   }
@@ -667,8 +670,11 @@ export default function DealerPortalV2() {
             </h1>
           </div>
 
-          {/* 快捷功能按钮 */}
+          {/* 快捷工具 */}
           <div className="p-4 border-b border-slate-700/50">
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+              快捷工具
+            </div>
             <div className="grid grid-cols-2 gap-2">
               <Button className="h-auto flex-col gap-1.5 bg-teal-600 hover:bg-teal-700 text-white">
                 <Plus className="h-5 w-5" />
