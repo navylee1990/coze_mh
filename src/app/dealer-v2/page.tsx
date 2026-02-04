@@ -137,8 +137,8 @@ const menuSections = [
   {
     title: '销售赋能',
     items: [
-      { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '行业分析与产品推荐' },
-      { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '政策、案例与培训' }
+      { key: 'market' as MenuKey, icon: Target, label: '市场规划', description: '指导、行动方案及闭环跟进' },
+      { key: 'guide' as MenuKey, icon: BookOpen, label: '运营指南', description: '政策、案例、培训与产品' }
     ]
   }
 ];
@@ -1777,7 +1777,7 @@ export default function DealerPortalV2() {
                     {/* 页面标题 */}
                     <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4 text-white">
                       <h2 className="text-xl font-bold mb-1">运营指南</h2>
-                      <p className="text-sm text-indigo-100">政策、案例与培训</p>
+                      <p className="text-sm text-indigo-100">政策、案例、培训与产品</p>
                     </div>
 
                     {/* 政策 */}
