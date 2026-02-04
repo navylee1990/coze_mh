@@ -1027,17 +1027,42 @@ export default function DealerPortalV2() {
                                 </CardHeader>
                                 <CardContent className="pt-1.5 pb-2">
                                   <div className="space-y-1.5">
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">完成率</div>
-                                      <Badge className="bg-blue-100 text-blue-700 text-xs">82%</Badge>
+                                    {/* 实际完成 */}
+                                    <div className="p-2 bg-slate-50 rounded-lg">
+                                      <div className="text-xs font-semibold text-slate-700 mb-1.5">实际完成</div>
+                                      <div className="grid grid-cols-3 gap-2">
+                                        <div>
+                                          <div className="text-[10px] text-slate-600 mb-0.5">完成金额</div>
+                                          <div className="text-xs font-bold text-slate-900">450万</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] text-slate-600 mb-0.5">目标金额</div>
+                                          <div className="text-xs font-bold text-slate-900">500万</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] text-slate-600 mb-0.5">实际完成率</div>
+                                          <div className="text-xs font-bold text-blue-600">90%</div>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">预测完成率</div>
-                                      <Badge className="bg-green-100 text-green-700 text-xs">96%</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                      <div className="text-xs text-slate-600">实际完成率</div>
-                                      <Badge className="bg-purple-100 text-purple-700 text-xs">81%</Badge>
+                                    
+                                    {/* 预测完成 */}
+                                    <div className="p-2 bg-slate-50 rounded-lg">
+                                      <div className="text-xs font-semibold text-slate-700 mb-1.5">预测完成</div>
+                                      <div className="grid grid-cols-3 gap-2">
+                                        <div>
+                                          <div className="text-[10px] text-slate-600 mb-0.5">预测金额</div>
+                                          <div className="text-xs font-bold text-slate-900">520万</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] text-slate-600 mb-0.5">目标金额</div>
+                                          <div className="text-xs font-bold text-slate-900">500万</div>
+                                        </div>
+                                        <div>
+                                          <div className="text-[10px] text-slate-600 mb-0.5">预测完成率</div>
+                                          <div className="text-xs font-bold text-green-600">104%</div>
+                                        </div>
+                                      </div>
                                     </div>
                                     
                                     {/* 风险提醒 */}
